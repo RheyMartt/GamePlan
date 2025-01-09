@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Communication Hub</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #F6F4F0;
+            margin: 0;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .sidebar {
+            width: 250px;
+            background-color: #001F54;
+            color: #fff;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 0; /* Ensure there’s no unnecessary padding */
+        }
+        
+        .sidebar h2 {
+            text-align: center;
+            color: #F5C414;
+            margin: 0; /* Remove default margins */
+            padding: 10px 0; /* Adjust padding to bring the title closer to the top */
+        }
+        
+        .sidebar nav {
+            display: flex;
+            flex-direction: column;
+            margin: 0; /* Remove default margins to align with title */
+            padding: 0; /* Remove padding for tight alignment */
+        }
+        
+        .sidebar nav a {
+            color: #fff;
+            text-decoration: none;
+            padding: 15px 20px; /* Consistent padding for links */
+            font-size: 18px;
+            text-align: left;
+            border-bottom: 1px solid #F5C414;
+            transition: background-color 0.3s;
+        }
+        
+        .sidebar nav a:hover {
+            background-color: #F5C414;
+            color: #001F54; /* Match the hover styling */
+        }
+        
+        .user-info {
+            text-align: center;
+            padding: 20px;
+            border-top: 1px solid #F5C414;
+            background-color: #001F54;
+        }
+        
+        .button {
+            background-color: #F5C414;
+            color: #001F54;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 16px;
+            cursor: pointer;
+            text-decoration: none;
+            margin-top: 10px;
+            display: inline-block;
+        }
+        
+        .button:hover {
+            background-color: #e0af10;
+        }
+
+        .main-content {
+            margin-left: 250px;
+            padding: 20px;
+            overflow-y: auto;
+            flex-grow: 1;
+            height: 100vh;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #001F54;
+            color: #fff;
+            padding: 15px;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            margin: 0;
+        }
+
+        .content-box {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .box {
+            width: 30%;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .box h3 {
+            color: #001F54;
+        }
+
+        .box ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .box ul li {
+            padding: 10px 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .box ul li:last-child {
+            border-bottom: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>Community Hub</h2>
+        <nav>
+            <a href="#">Dashboard</a>
+            <a href="#">Messages</a>
+            <a href="#">Notifications</a>
+            <a href="#">Settings</a>
+        </nav>
+        <div class="user-info">
+            <p>Logged in as: <strong>User Name</strong></p>
+            <a href="#" id="auth-button" class="button">Logout</a>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="header">
+            <h1>Welcome to Communication Hub</h1>
+        </div>
+
+        <div class="content-box">
+            <div class="box">
+                <h3>Recent Messages</h3>
+                <ul>
+                    <li>Message from John</li>
+                    <li>Message from Sarah</li>
+                    <li>Message from Michael</li>
+                </ul>
+                <a href="#" class="button">View All Messages</a>
+            </div>
+
+            <div class="box">
+                <h3>Recent Notifications</h3>
+                <ul>
+                    <li>New message from Emily</li>
+                    <li>System update available</li>
+                    <li>New comment on your post</li>
+                </ul>
+                <a href="#" class="button">View All Notifications</a>
+            </div>
+
+            <div class="box">
+                <h3>User Profile</h3>
+                <p>Name: User Name</p>
+                <p>Email: user@example.com</p>
+                <p>Role: Admin</p>
+                <a href="#" class="button">Edit Profile</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const authButton = document.getElementById('auth-button');
+
+        authButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            // Redirect to login page
+            if (authButton.textContent.trim() === 'Logout') {
+                window.location.href = 'Login.html'; // Replace 'login.html' with the actual login page URL.
+            }
+
+            const sidebar = document.querySelector('.sidebar');
+            const toggleButton = document.querySelector('#toggle-sidebar');
+
+            toggleButton.addEventListener('click', () => {
+            sidebar.style.display = sidebar.style.display === 'none' ? 'block' : 'none';
+});
+        });
+    </script>
+</body>
+</html>
