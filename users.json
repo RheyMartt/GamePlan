@@ -1,0 +1,21 @@
+[
+    {
+      "role": "coach",
+      "username": "coach1",
+      "password": "coach123",
+      "redirect": "Login Modal.html"
+    },
+    {
+      "role": "analyst",
+      "username": "analyst1",
+      "password": "analyst123",
+      "redirect": "analyst-dashboard.html"
+    },
+    {
+      "role": "player",
+      "username": "player1",
+      "password": "player123",
+      "redirect": "player-dashboard.html"
+    }
+  ]
+  
