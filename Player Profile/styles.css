@@ -18,7 +18,7 @@ html, body {
     width: 1920px; /* Fixed width */
     height: 1080px; /* Fixed height */
     overflow: hidden; /* Prevent scrollbars */
-    background-color: #F6F4F0; /* 60% Dominant background color */
+    background-color: #F6F4F0; /* Dominant background color */
     font-family: 'Poppins', sans-serif; /* Apply the Poppins font globally */
 }
 
@@ -33,7 +33,7 @@ body {
     align-items: center;
     justify-content: space-between;
     padding: 20px 40px;
-    background-color: #F6F4F0; /* Excluded from the 60-30-10 scheme */
+    background-color: #F6F4F0; /* Navbar background color */
     position: relative;
     height: 100px;
 }
@@ -52,6 +52,7 @@ body {
     margin-right: 15px;
 }
 
+
 /* Navigation Links */
 .nav-links ul {
     list-style-type: none;
@@ -63,14 +64,14 @@ body {
 
 .nav-links a {
     text-decoration: none;
-    color: #001F54; /* 10% Accent color */
+    color: #001F54; /* Accent color for text */
     font-size: 18px;
     padding: 10px 20px;
     transition: background-color 0.3s, color 0.3s;
 }
 
 .nav-links a:hover {
-    background-color: #F5C414; /* 30% Secondary color */
+    background-color: #555;
     color: #FFF;
 }
 
@@ -82,14 +83,14 @@ body {
     padding: 20px;
     margin: auto;
     overflow-y: auto;
-    background-color: #F6F4F0; /* 60% Dominant background color */
+    background-color: #F6F4F0; /* Background color */
 }
 
 /* Sections inside content */
 .profile-section,
 .last-games,
 .roster {
-    background-color: #FFF; /* 60% Dominant color for sections */
+    background-color: #F6F4F0;
     border-radius: 10px;
     padding: 20px;
     margin-bottom: 20px;
@@ -103,8 +104,8 @@ body {
 }
 
 .stat {
-    background-color: #F5C414; /* 30% Secondary color */
-    color: #001F54; /* 10% Accent color */
+    background-color: #F5C414; /* Secondary color */
+    color: #001F54; /* Accent color */
     padding: 15px;
     border-radius: 10px;
     text-align: center;
@@ -119,7 +120,7 @@ body {
 
 .info-group {
     padding: 10px;
-    background-color: #FFF; /* 60% Dominant color */
+    background-color: #F6F4F0;
     text-align: center;
     border-radius: 5px;
 }
@@ -137,13 +138,13 @@ body {
 }
 
 .last-games th {
-    background-color: #F5C414; /* 30% Secondary color */
-    color: #001F54; /* 10% Accent color */
+    background-color: #F5C414; /* Secondary color */
+    color: #001F54; /* Accent color */
 }
 
 /* Roster Section */
 .roster {
-    background-color: #F6F4F0; /* 60% Dominant background color */
+    background-color: #F6F4F0; /* Dominant background color */
     padding: 20px;
     border-radius: 10px;
     overflow-x: auto;
@@ -152,7 +153,7 @@ body {
 
 .roster h3 {
     font-size: 24px;
-    color: #001F54; /* 10% Accent color for text */
+    color: #001F54; /* Accent color for text */
     font-weight: 700;
     margin-bottom: 15px;
 }
@@ -187,12 +188,12 @@ body {
 .roster-item span {
     display: block;
     font-size: 14px;
-    color: #001F54; /* 10% Accent color */
+    color: #001F54; /* Accent color for text */
     font-weight: bold;
 }
 
 .roster-item span:nth-child(2) {
-    color: #F5C414; /* 30% Secondary color for highlighting */
+    color: #F5C414; /* Secondary color for highlighting */
 }
 
 /* Team Logo Styling for Profile Section */
@@ -228,7 +229,7 @@ body {
 .player-info {
     flex: 1;
     text-align: center;
-    color: #001F54; /* 10% Accent color */
+    color: #001F54;
 }
 
 .player-info h4 {
@@ -246,5 +247,5 @@ body {
 .player-info h2 {
     font-size: 32px;
     font-weight: bold;
-    color: #001F54; /* 10% Accent color */
+    color: #001F54;
 }
