@@ -241,11 +241,17 @@ body {
 .player-info p {
     font-size: 16px;
     margin-bottom: 10px;
-    color: #555;
+    color: #001F54;
 }
 
 .player-info h2 {
     font-size: 32px;
     font-weight: bold;
     color: #001F54;
+}
+.last-games h3 {
+    font-size: 24px;
+    color: #001F54; /* Set the header color to the accent color */
+    font-weight: 700;
+    margin-bottom: 15px;
 }
