@@ -15,7 +15,7 @@
       "role": "player",
       "username": "player1",
       "password": "player123",
-      "redirect": "player-dashboard.html"
+      "redirect": "Player Profile/Player.html"
     }
   ]
   
