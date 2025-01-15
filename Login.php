@@ -1,5 +1,5 @@
 <?php
-include 'connection.php'; // connection file name
+include 'connection.php'; // Connection file name
 session_start(); // Start the session
 
 // login 
@@ -13,12 +13,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
         exit;
     }
 
-    // Fetch user credentials from the database
+    // Fetch user credentials from the database based on role
     $stmt = $pdo->prepare("SELECT uc.username, uc.password, uc.role, 
                             p.playerID, p.playerFirstName, p.playerLastName, p.playerPosition,
-                            p.jerseyNumber, p.height, p.weight, p.birthdate
+                            p.jerseyNumber, p.height, p.weight, p.birthdate,
+                            c.coachID, a.analystID
                         FROM user_credentials uc
-                        JOIN player p ON uc.playerID = p.playerID
+                        LEFT JOIN player p ON uc.userID = p.playerID AND uc.role = 'player'
+                        LEFT JOIN coach c ON uc.userID = c.coachID AND uc.role = 'coach'
+                        LEFT JOIN analyst a ON uc.userID = a.analystID AND uc.role = 'analyst'
                         WHERE uc.username = :username");
     $stmt->execute(['username' => $username]);
     $user = $stmt->fetch();
@@ -26,20 +29,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     if ($user) {
         // Compare the plain text password directly
         if ($password === $user['password']) {
-            // Store playerID and role in session
-            $_SESSION['playerID'] = $user['playerID'];
+            // Store relevant user data in session
             $_SESSION['role'] = $user['role'];
-            echo json_encode([
-                'success' => true,
-                'playerID' => $user['playerID'],
-                'playerName' => $user['playerFirstName'] . ' ' . $user['playerLastName'],
-                'role' => $user['role'],
-                'playerPosition' => $user['playerPosition'],
-                'jerseyNumber' => $user['jerseyNumber'],
-                'height' => $user['height'],
-                'weight' => $user['weight'],
-                'birthdate' => $user['birthdate'],
-            ]);
+            
+            if ($user['role'] == 'player') {
+                $_SESSION['playerID'] = $user['playerID'];
+                echo json_encode([
+                    'success' => true,
+                    'playerID' => $user['playerID'],
+                    'playerName' => $user['playerFirstName'] . ' ' . $user['playerLastName'],
+                    'role' => $user['role'],
+                    'playerPosition' => $user['playerPosition'],
+                    'jerseyNumber' => $user['jerseyNumber'],
+                    'height' => $user['height'],
+                    'weight' => $user['weight'],
+                    'birthdate' => $user['birthdate'],
+                ]);
+            } elseif ($user['role'] == 'coach') {
+                $_SESSION['coachID'] = $user['coachID'];
+                echo json_encode([
+                    'success' => true,
+                    'coachID' => $user['coachID'],
+                    'role' => $user['role'],
+                    'coachName' => $user['username'], // You can customize this based on the available fields
+                ]);
+            } elseif ($user['role'] == 'analyst') {
+                $_SESSION['analystID'] = $user['analystID'];
+                echo json_encode([
+                    'success' => true,
+                    'analystID' => $user['analystID'],
+                    'role' => $user['role'],
+                    'analystName' => $user['username'], // You can customize this based on the available fields
+                ]);
+            }
         } else {
             echo json_encode(['success' => false, 'message' => 'Invalid username or password']);
         }
@@ -50,6 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
 }
 ?>
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -58,7 +81,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     <title>NU Gameplan</title>
     <link rel="icon" type="image/png" href="NU GAMEPLAN.png">
     <style>
-        /* Your existing CSS styles */
         body {
             margin: 0;
             font-family: 'Poppins', sans-serif;
@@ -110,7 +132,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     </div>
 
     <script>
-    //Login
+    // Login
     const loginForm = document.querySelector('form');
     const loginButton = document.querySelector('button');
 
@@ -144,8 +166,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
             if (data.success) {
                 // Successful login - redirect based on role
                 if (data.role === 'coach') {
+                    localStorage.setItem('coachID', data.coachID);
                     window.location.href = 'CommHub.html'; // Redirect to CommHub.html if the user is a coach
                 } else if (data.role === 'analyst') {
+                    localStorage.setItem('analystID', data.analystID);
                     window.location.href = 'analyst-dashboard.html'; // Redirect to analyst-dashboard.html if the user is an analyst
                 } else if (data.role === 'player') {
                     localStorage.setItem('playerID', data.playerID);
