@@ -1,8 +1,34 @@
-<?php 
+<?php
+session_start(); // Start the session
+include 'C:\\xampp\\htdocs\\GamePlan\\connection.php'; // connection filepath
 
-include 'C:\\xampp\\htdocs\\GamePlan\\connection.php'; //connection filepath
+// Check if playerID is set in the session
+if (!isset($_SESSION['playerID'])) {
+    // Redirect to login page if not logged in
+    header("Location: login.php");
+    exit;
+}
 
+// Get playerID from session
+$playerID = $_SESSION['playerID'];
+
+// Fetch player details from the database
+$stmt = $pdo->prepare("SELECT * FROM player WHERE playerID = :playerID");
+$stmt->execute(['playerID' => $playerID]);
+$player = $stmt->fetch();
+
+if (!$player) {
+    // Handle case where player data is not found
+    echo "Player data not found.";
+    exit;
+}
+
+// Calculate age from birthdate
+$birthdate = new DateTime($player['birthdate']);
+$now = new DateTime();
+$age = $now->diff($birthdate)->y;
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -29,8 +55,6 @@ include 'C:\\xampp\\htdocs\\GamePlan\\connection.php'; //connection filepath
                     <li><a href="#">Title Here</a></li>
                     <li><a href="#">Title Here</a></li>
                     <li><a href="#">Title Here</a></li>
-
-
                 </ul>
             </div>
         </div>
@@ -41,9 +65,9 @@ include 'C:\\xampp\\htdocs\\GamePlan\\connection.php'; //connection filepath
                 <img src="LBJ.png" alt="Player Silhouette" class="player-image">
                 <div class="player-info">
                     <h4>NU BULLDOGS</h4>
-                    <h2>Lebron James</h2>
-                    <p># 23</p>
-                    <p>Forward</p>
+                    <h2><?php echo $player['playerFirstName'] . ' ' . $player['playerLastName']; ?></h2>
+                    <p># <?php echo $player['jerseyNumber']; ?></p>
+                    <p><?php echo $player['playerPosition']; ?></p>
                 </div>
                 <img src="Bulldog.png" alt="Team Logo" class="team-logo">
             </div>
@@ -56,123 +80,81 @@ include 'C:\\xampp\\htdocs\\GamePlan\\connection.php'; //connection filepath
                 </div>
         
                 <div class="additional-info">
-                    <div class="info-group">Height: <span>6ft 9in</span></div>
-                    <div class="info-group">Weight: <span>250lb</span></div>
-                    <div class="info-group">Age: <span>23 years</span></div>
-                    <div class="info-group">Birthdate: <span>December 30, 1984</span></div>
-                    <div class="info-group">Province: <span>Puerto Princessa, Palawan</span></div>
+                    <div class="info-group">Height: <span><?php echo $player['height']; ?></span></div>
+                    <div class="info-group">Weight: <span><?php echo $player['weight']; ?></span></div>
+                    <div class="info-group">Age: <span><?php echo $age; ?> years</span></div>
+                    <div class="info-group">Birthdate: <span><?php echo date("F j, Y", strtotime($player['birthdate'])); ?></span></div>
                 </div>
             </div>
         </section>
 
       <!-- Career Highlights Section -->
-<section class="career-highlights">
-    <h3>Career Highlights</h3>
-    <div class="highlights-content">
-        <!-- Awards and Honors -->
-        <div class="highlight-group">
-            <h4>Awards and Honors</h4>
-            <ul>
-                <li>Most Valuable Player (MVP) - 2022</li>
-                <li>All-Star Selection - 3 Times</li>
-                <li>Defensive Player of the Year - 2021</li>
-            </ul>
-        </div>
+      <section class="career-highlights">
+          <h3>Career Highlights</h3>
+          <div class="highlights-content">
+              <!-- Awards and Honors -->
+              <div class="highlight-group">
+                  <h4>Awards and Honors</h4>
+                  <ul>
+                      <li>Most Valuable Player (MVP) - 2022</li>
+                      <li>All-Star Selection - 3 Times</li>
+                      <li>Defensive Player of the Year - 2021</li>
+                  </ul>
+              </div>
 
-        <!-- Team Achievements -->
-        <div class="highlight-group">
-            <h4>Team Achievements</h4>
-            <ul>
-                <li>National Champions - 2022</li>
-                <li>Regional Champions - 2021, 2023</li>
-                <li>Best Offensive Team - 2022</li>
-            </ul>
-        </div>
+              <!-- Team Achievements -->
+              <div class="highlight-group">
+                  <h4>Team Achievements</h4>
+                  <ul>
+                      <li>National Champions - 2022</li>
+                      <li>Regional Champions - 2021, 2023</li>
+                      <li>Best Offensive Team - 2022</li>
+                  </ul>
+              </div>
 
-        <!-- Personal Records -->
-        <div class="highlight-group">
-            <h4>Personal Records</h4>
-            <ul>
-                <li>Career-High Points in a Game: 55</li>
-                <li>Triple-Doubles: 25</li>
-                <li>Consecutive Games Scoring 30+: 10</li>
-            </ul>
-        </div>
-    </div>
-</section>
+              <!-- Personal Records -->
+              <div class="highlight-group">
+                  <h4>Personal Records</h4>
+                  <ul>
+                      <li>Career-High Points in a Game: 55</li>
+                      <li>Triple-Doubles: 25</li>
+                      <li>Consecutive Games Scoring 30+: 10</li>
+                  </ul>
+              </div>
+          </div>
+      </section>
 
-       <!-- More From the Roster Section -->
-<section class="roster">
-    <h3>More From the Roster</h3>
-    <div class="roster-list">
-        <div class="roster-item">
-            <img src="Vacant Player.png" alt="Player">
-            <span>#7 | Center - Forward</span>
-            <span>PLAYER NAME</span>
-        </div>
-        <div class="roster-item">
-            <img src="Vacant Player.png" alt="Player">
-            <span>#6 | Forward</span>
-            <span>PLAYER NAME</span>
-        </div>
-        <div class="roster-item">
-            <img src="Vacant Player.png" alt="Player">
-            <span>#5 | Guard</span>
-            <span>PLAYER NAME</span>
-        </div>
-        <div class="roster-item">
-            <img src="Vacant Player.png" alt="Player">
-            <span>#8 | Guard - Forward</span>
-            <span>PLAYER NAME</span>
-        </div>
-        <div class="roster-item">
-            <img src="Vacant Player.png" alt="Player">
-            <span>#9 | Forward</span>
-            <span>PLAYER NAME</span>
-        </div>
-        <div class="roster-item">
-            <img src="Vacant Player.png" alt="Player">
-            <span>#10 | Guard</span>
-            <span>PLAYER NAME</span>
-        </div>
-        <div class="roster-item">
-            <img src="Vacant Player.png" alt="Player">
-            <span>#11 | Center</span>
-            <span>PLAYER NAME</span>
-        </div>
-        <div class="roster-item">
-            <img src="Vacant Player.png" alt="Player">
-            <span>#12 | Forward - Center</span>
-            <span>PLAYER NAME</span>
-        </div>
-        <div class="roster-item">
-            <img src="Vacant Player.png" alt="Player">
-            <span>#13 | Guard</span>
-            <span>PLAYER NAME</span>
-        </div>
-        <div class="roster-item">
-            <img src="Vacant Player.png" alt="Player">
-            <span>#14 | Guard - Forward</span>
-            <span>PLAYER NAME</span>
-        </div>
-        <!-- Added three new players -->
-        <div class="roster-item">
-            <img src="Vacant Player.png" alt="Player">
-            <span>#15 | Forward</span>
-            <span>NEW PLAYER NAME</span>
-        </div>
-        <div class="roster-item">
-            <img src="Vacant Player.png" alt="Player">
-            <span>#16 | Center</span>
-            <span>NEW PLAYER NAME</span>
-        </div>
-        <div class="roster-item">
-            <img src="Vacant Player.png" alt="Player">
-            <span>#17 | Guard</span>
-            <span>NEW PLAYER NAME</span>
-        </div>
-    </div>
-</section>
+      <!-- More From the Roster Section -->
+      <section class="roster">
+          <h3>More From the Roster</h3>
+          <div class="roster-list">
+              <div class="roster-item">
+                  <img src="Vacant Player.png" alt="Player">
+                  <span>#7 | Center - Forward</span>
+                  <span>PLAYER NAME</span>
+              </div>
+              <div class="roster-item">
+                  <img src="Vacant Player.png" alt="Player">
+                  <span>#6 | Forward</span>
+                  <span>PLAYER NAME</span>
+              </div>
+              <div class="roster-item">
+                  <img src="Vacant Player.png" alt="Player">
+                  <span>#5 | Guard</span>
+                  <span>PLAYER NAME</span>
+              </div>
+              <div class="roster-item">
+                  <img src="Vacant Player.png" alt="Player">
+                  <span>#8 | Guard - Forward</span>
+                  <span>PLAYER NAME</span>
+              </div>
+              <div class="roster-item">
+                  <img src="Vacant Player.png" alt="Player">
+                  <span>#9 | Forward</span>
+                  <span>PLAYER NAME</span>
+              </div>
+          </div>
+      </section>
     </div>
 </body>
 </html>

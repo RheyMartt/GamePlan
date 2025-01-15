@@ -1,6 +1,6 @@
 <?php
-
 include 'connection.php'; // connection file name
+session_start(); // Start the session
 
 // login 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'login') {
@@ -15,7 +15,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
 
     // Fetch user credentials from the database
     $stmt = $pdo->prepare("SELECT uc.username, uc.password, uc.role, 
-                            p.playerID, p.playerFirstName, p.playerLastName, p.playerPosition
+                            p.playerID, p.playerFirstName, p.playerLastName, p.playerPosition,
+                            p.jerseyNumber, p.height, p.weight, p.birthdate
                         FROM user_credentials uc
                         JOIN player p ON uc.playerID = p.playerID
                         WHERE uc.username = :username");
@@ -25,14 +26,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     if ($user) {
         // Compare the plain text password directly
         if ($password === $user['password']) {
-            // Send playerID and role to JavaScript
+            // Store playerID and role in session
             $_SESSION['playerID'] = $user['playerID'];
+            $_SESSION['role'] = $user['role'];
             echo json_encode([
                 'success' => true,
                 'playerID' => $user['playerID'],
                 'playerName' => $user['playerFirstName'] . ' ' . $user['playerLastName'],
                 'role' => $user['role'],
                 'playerPosition' => $user['playerPosition'],
+                'jerseyNumber' => $user['jerseyNumber'],
+                'height' => $user['height'],
+                'weight' => $user['weight'],
+                'birthdate' => $user['birthdate'],
             ]);
         } else {
             echo json_encode(['success' => false, 'message' => 'Invalid username or password']);
@@ -42,8 +48,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     }
     exit; 
 }
-
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -142,6 +148,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
                 } else if (data.role === 'analyst') {
                     window.location.href = 'analyst-dashboard.html'; // Redirect to analyst-dashboard.html if the user is an analyst
                 } else if (data.role === 'player') {
+                    localStorage.setItem('playerID', data.playerID);
                     window.location.href = 'player profile/Player.php'; // Corrected path to Player.php
                 }
             } else {
