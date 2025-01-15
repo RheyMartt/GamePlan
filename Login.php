@@ -1,6 +1,6 @@
 <?php
 
-include 'connection.php';
+include 'connection.php'; // connection file name
 
 // login 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'login') {

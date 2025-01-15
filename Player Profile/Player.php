@@ -1,5 +1,6 @@
 <?php 
-include include 'connection.php';
+
+include 'C:\\xampp\\htdocs\\GamePlan\\connection.php'; //connection filepath
 
 ?>
 <!DOCTYPE html>
