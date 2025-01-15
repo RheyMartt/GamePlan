@@ -41,8 +41,9 @@ include 'C:\\xampp\\htdocs\\GamePlan\\connection.php'; //connection filepath
                 <img src="LBJ.png" alt="Player Silhouette" class="player-image">
                 <div class="player-info">
                     <h4>NU BULLDOGS</h4>
-                    <p># 23 | Forward</p>
                     <h2>Lebron James</h2>
+                    <p># 23</p>
+                    <p>Forward</p>
                 </div>
                 <img src="Bulldog.png" alt="Team Logo" class="team-logo">
             </div>
@@ -55,7 +56,7 @@ include 'C:\\xampp\\htdocs\\GamePlan\\connection.php'; //connection filepath
                 </div>
         
                 <div class="additional-info">
-                    <div class="info-group">Height: <span>6'9"</span></div>
+                    <div class="info-group">Height: <span>6ft 9in</span></div>
                     <div class="info-group">Weight: <span>250lb</span></div>
                     <div class="info-group">Age: <span>23 years</span></div>
                     <div class="info-group">Birthdate: <span>December 30, 1984</span></div>
