@@ -12,7 +12,7 @@ if (!isset($_SESSION['playerID'])) {
 // Get playerID from session
 $playerID = $_SESSION['playerID'];
 
-// Fetch player details from the database
+// Fetch player details for the logged-in player
 $stmt = $pdo->prepare("SELECT * FROM player WHERE playerID = :playerID");
 $stmt->execute(['playerID' => $playerID]);
 $player = $stmt->fetch();
@@ -27,7 +27,14 @@ if (!$player) {
 $birthdate = new DateTime($player['birthdate']);
 $now = new DateTime();
 $age = $now->diff($birthdate)->y;
+
+// Fetch active players excluding the logged-in player
+$stmt = $pdo->prepare("SELECT playerID, playerFirstName, playerLastName, jerseyNumber, playerPosition 
+                        FROM player WHERE playerStatus = 'active' AND playerID != :playerID");
+$stmt->execute(['playerID' => $playerID]);
+$otherPlayers = $stmt->fetchAll();
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -126,35 +133,17 @@ $age = $now->diff($birthdate)->y;
 
       <!-- More From the Roster Section -->
       <section class="roster">
-          <h3>More From the Roster</h3>
-          <div class="roster-list">
-              <div class="roster-item">
-                  <img src="Vacant Player.png" alt="Player">
-                  <span>#7 | Center - Forward</span>
-                  <span>PLAYER NAME</span>
-              </div>
-              <div class="roster-item">
-                  <img src="Vacant Player.png" alt="Player">
-                  <span>#6 | Forward</span>
-                  <span>PLAYER NAME</span>
-              </div>
-              <div class="roster-item">
-                  <img src="Vacant Player.png" alt="Player">
-                  <span>#5 | Guard</span>
-                  <span>PLAYER NAME</span>
-              </div>
-              <div class="roster-item">
-                  <img src="Vacant Player.png" alt="Player">
-                  <span>#8 | Guard - Forward</span>
-                  <span>PLAYER NAME</span>
-              </div>
-              <div class="roster-item">
-                  <img src="Vacant Player.png" alt="Player">
-                  <span>#9 | Forward</span>
-                  <span>PLAYER NAME</span>
-              </div>
-          </div>
-      </section>
+            <h3>More From the Roster</h3>
+            <div class="roster-list">
+                <?php foreach ($otherPlayers as $otherPlayer): ?>
+                    <div class="roster-item">
+                        <img src="Vacant Player.png" alt="Player">
+                        <span>#<?php echo $otherPlayer['jerseyNumber']; ?> <?php echo $otherPlayer['playerPosition']; ?></span>
+                        <span><?php echo $otherPlayer['playerFirstName'] . ' ' . $otherPlayer['playerLastName']; ?></span>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </section>
     </div>
 </body>
 </html>
