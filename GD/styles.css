@@ -1,0 +1,224 @@
+/* Global Styles */
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background-color: #F6F4F0;
+    color: #001F54;
+}
+
+/* Navbar Styling */
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 40px;
+    background-color: #F6F4F0; /* Excluded from the 60-30-10 scheme */
+    position: relative;
+    height: 100px;
+}
+
+/* Logo container */
+.logo-container {
+    flex-shrink: 0;
+}
+
+/* Navbar Logo Styling */
+.navbar-logo {
+    width: 200px; /* Increase the width further for better visibility */
+    height: auto; /* Maintain the aspect ratio */
+    object-fit: contain; /* Ensure the logo scales properly */
+    display: block;
+    margin-right: 15px;
+}
+
+/* Navigation Links */
+.nav-links ul {
+    list-style-type: none;
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-grow: 1;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #001F54; /* 10% Accent color */
+    font-size: 18px;
+    padding: 10px 20px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.nav-links a:hover {
+    background-color: #F5C414; /* 30% Secondary color */
+    color: #FFF;
+}
+
+/* Dropdown Menu */
+.dropdown {
+    position: relative;
+    display: inline-block;
+    margin: 20px;
+}
+
+#dropdownButton {
+    background-color: #001F54;
+    color: #F6F4F0;
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #F6F4F0;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    min-width: 160px;
+}
+
+.dropdown-content a {
+    color: #001F54;
+    padding: 10px;
+    display: block;
+    text-decoration: none;
+}
+
+.dropdown-content a:hover {
+    background-color: #F5C414;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Court Stats Section */
+.court-stats {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: 20px;
+}
+
+.court img {
+    max-width: 100%;
+    border: 5px solid #F5C414;
+    border-radius: 10px;
+}
+
+.game-details {
+    background-color: #F5C414;
+    color: #001F54;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.game-details h1 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.score-breakdown {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* Consistent columns for 1, 2, 3, 4, T */
+    gap: 0; /* Remove extra gaps */
+    text-align: center;
+    font-size: 14px; /* Slightly larger font size */
+    margin-top: 15px;
+    line-height: 1.6; /* Better vertical spacing */
+    border-collapse: collapse; /* Table-like structure */
+}
+
+.score-breakdown div {
+    padding: 8px 0; /* Uniform padding for rows */
+    font-weight: bold;
+    color: #001F54; /* Dark blue for text */
+}
+
+.score-breakdown div:nth-child(5n) {
+    border-left: 2px solid #001F54; /* Add vertical border before "T" column */
+}
+
+.score-breakdown div:nth-child(-n+5) {
+    font-weight: bold;
+    border-bottom: 2px solid #001F54; /* Header row separation */
+}
+
+/* Top Performers */
+.top-performers {
+    margin: 20px;
+    padding: 15px;
+    background-color: #F5C414;
+    border: 2px solid #001F54;
+    border-radius: 10px;
+}
+
+.top-performers h3 {
+    margin: 0 0 10px;
+    font-size: 18px;
+    color: #001F54;
+    text-align: center;
+}
+
+.performer {
+    margin: 10px 0;
+    font-size: 14px;
+}
+
+/* Tables */
+.player-stats {
+    margin: 30px auto; /* Uniform spacing between tables */
+    overflow-x: auto; /* Enable horizontal scroll on smaller screens */
+}
+
+.player-stats h2 {
+    color: #001F54;
+    font-size: 18px;
+    text-align: center;
+}
+
+.player-stats table {
+    width: 100%;
+    max-width: 1200px; /* Set a consistent maximum width */
+    margin: 0 auto; /* Center the tables */
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 14px;
+    background-color: #F5C414;
+}
+
+.player-stats th, .player-stats td {
+    border: 1px solid #001F54;
+    padding: 8px;
+    text-align: center; /* Center-align data for consistency */
+}
+
+.player-stats th {
+    background-color: #F5C414;
+    color: #001F54;
+    font-weight: bold; /* Make headers stand out */
+}
+
+.player-stats tr:nth-child(even) {
+    background-color: #FDF1AA; /* Light yellow for alternating rows */
+}
+
+.player-stats tr:nth-child(odd) {
+    background-color: #F5C414; /* Original yellow */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .player-stats table {
+        font-size: 12px; /* Adjust font size for smaller screens */
+    }
+
+    .player-stats th, .player-stats td {
+        padding: 6px; /* Compact padding for smaller devices */
+    }
+}
+
