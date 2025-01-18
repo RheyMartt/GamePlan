@@ -124,7 +124,7 @@ body {
 
 .score-breakdown {
     display: grid;
-    grid-template-columns: repeat(5, 1fr); /* Consistent columns for 1, 2, 3, 4, T */
+    grid-template-columns: 1fr 1fr 1fr 1fr 2fr; /* Adjust the last column (T) to be wider */
     gap: 0; /* Remove extra gaps */
     text-align: center;
     font-size: 14px; /* Slightly larger font size */
@@ -148,6 +148,7 @@ body {
     border-bottom: 2px solid #001F54; /* Header row separation */
 }
 
+
 /* Top Performers */
 .top-performers {
     margin: 20px;
@@ -169,9 +170,19 @@ body {
     font-size: 14px;
 }
 
+/* Container */
+.player-stats-container {
+    background-color: #F5C414; /* Background color for the container */
+    border-radius: 12px; /* Rounded corners for the container */
+    padding: 20px; /* Space around the table */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Optional: adds a soft shadow for depth */
+    max-width: 1200px; /* Maximum width of the container */
+    margin: 20px auto; /* Center the container and add space around it */
+}
+
 /* Tables */
 .player-stats {
-    margin: 30px auto; /* Uniform spacing between tables */
+    margin: 0; /* Reset margin inside the container */
     overflow-x: auto; /* Enable horizontal scroll on smaller screens */
 }
 
@@ -183,12 +194,10 @@ body {
 
 .player-stats table {
     width: 100%;
-    max-width: 1200px; /* Set a consistent maximum width */
-    margin: 0 auto; /* Center the tables */
     border-collapse: collapse;
     text-align: left;
     font-size: 14px;
-    background-color: #F5C414;
+    background-color: #F5C414; /* Background color for the table */
 }
 
 .player-stats th, .player-stats td {
