@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Player Schedule Management</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Navigation Bar -->
+        <div class="navbar">
+            <div class="logo-container">
+                <img src="NU BULLDOG.png" alt="Logo" class="navbar-logo">
+            </div>
+            <div class="nav-links">
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Profile</a></li>
+                    <li><a href="#">Schedule</a></li>
+                    <li><a href="#">Performance</a></li>
+                    <li><a href="#">Training</a></li>
+                    <li><a href="#">Messages</a></li>
+                    <li><a href="#">Notifications</a></li>
+                    <li><a href="#">Settings</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Main Content Section -->
+        <div class="main">
+            <!-- Left Panel -->
+            <div class="panel">
+                <h2>My Events</h2>
+                <ul>
+                    <li>Practice: Jan 18, 2025</li>
+                    <li>Game: Jan 21, 2025</li>
+                    <li>Team Meeting: Jan 22, 2025</li>
+                </ul>
+            </div>
+
+            <!-- Center Panel -->
+            <div class="panel calendar-panel">
+                <h2>My Calendar</h2>
+                <div class="calendar-controls">
+                    <button id="prev-month">Previous</button>
+                    <span id="month-year"></span>
+                    <button id="next-month">Next</button>
+                </div>
+                <div id="calendar-container" class="calendar-grid"></div>
+            </div>
+
+            <!-- Right Panel -->
+            <div class="panel announcements-panel">
+                <h2>Team Schedule Announcements</h2>
+                <ul id="announcements-list"></ul>
+            </div>
+            
+    <script src="script.js"></script>
+</body>
+</html>
