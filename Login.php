@@ -167,7 +167,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
                 // Successful login - redirect based on role
                 if (data.role === 'coach') {
                     localStorage.setItem('coachID', data.coachID);
-                    window.location.href = 'CommHub.html'; // Redirect to CommHub.html if the user is a coach
+                    window.location.href = 'GameDashboard/GD.html'; // Redirect to CommHub.html if the user is a coach
                 } else if (data.role === 'analyst') {
                     localStorage.setItem('analystID', data.analystID);
                     window.location.href = 'analyst-dashboard.html'; // Redirect to analyst-dashboard.html if the user is an analyst

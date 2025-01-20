@@ -1,0 +1,65 @@
+<!-- File: index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schedule Management</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Navigation Bar -->
+        <div class="navbar">
+            <div class="logo-container">
+                <img src="NU BULLDOG.png" alt="Logo" class="navbar-logo">
+            </div>
+            <div class="nav-links">
+                <ul>
+                    <li><a href="#">Title Here</a></li>
+                    <li><a href="#">Title Here</a></li>
+                    <li><a href="#">Title Here</a></li>
+                    <li><a href="#">Title Here</a></li>
+                    <li><a href="#">Title Here</a></li>
+                    <li><a href="#">Title Here</a></li>
+                    <li><a href="#">Title Here</a></li>
+                    <li><a href="#">Title Here</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Main Content Section -->
+        <div class="main">
+            <!-- Left Panel -->
+            <div class="panel">
+                <h2>Upcoming Events</h2>
+                <ul>
+                    <li>Game: Jan 15, 2025</li>
+                    <li>Training: Jan 16, 2025</li>
+                    <li>Game: Jan 20, 2025</li>
+                </ul>
+            </div>
+
+            <!-- Center Panel -->
+            <div class="panel calendar-panel">
+                <h2>Calendar</h2>
+                <div class="calendar-controls">
+                    <button id="prev-month">Previous</button>
+                    <span id="month-year"></span>
+                    <button id="next-month">Next</button>
+                </div>
+                <div id="calendar-container" class="calendar-grid"></div>
+            </div>
+
+            <!-- Right Panel -->
+            <div class="panel schedule-panel">
+                <h2>Reminders</h2>
+                <ul id="reminders-list"></ul>
+                <button id="add-reminder">Add Reminder</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

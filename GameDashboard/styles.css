@@ -1,0 +1,177 @@
+/* Global Styles */
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background-color: #F6F4F0;
+    color: #001F54;
+}
+
+/* Navbar */
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background-color: #F6F4F0;
+}
+
+.navbar-logo {
+    height: 80px;
+}
+
+.nav-links ul {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-links ul li {
+    margin: 0 15px;
+}
+
+.nav-links ul li a {
+    text-decoration: none;
+    color: #001F54;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+/* Dropdown Menu */
+.dropdown {
+    position: relative;
+    display: inline-block;
+    margin: 20px;
+}
+
+#dropdownButton {
+    background-color: #001F54;
+    color: #F6F4F0;
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #F6F4F0;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    min-width: 160px;
+}
+
+.dropdown-content a {
+    color: #001F54;
+    padding: 10px;
+    display: block;
+    text-decoration: none;
+}
+
+.dropdown-content a:hover {
+    background-color: #F5C414;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Court Stats Section */
+.court-stats {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: 20px;
+}
+
+.court img {
+    max-width: 100%;
+    border: 5px solid #F5C414;
+    border-radius: 10px;
+}
+
+.game-details {
+    background-color: #F5C414;
+    color: #001F54;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.game-details h1 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.score-breakdown {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 5px;
+    margin-top: 10px;
+    text-align: center;
+    font-size: 14px;
+}
+
+/* Top Performers */
+.top-performers {
+    margin: 20px;
+    padding: 15px;
+    background-color: #F6F4F0;
+    border: 2px solid #F5C414;
+    border-radius: 10px;
+}
+
+.top-performers h3 {
+    margin: 0 0 10px;
+    font-size: 18px;
+    color: #001F54;
+    text-align: center;
+}
+
+.performer {
+    margin: 10px 0;
+    font-size: 14px;
+}
+
+/* Tables */
+.player-stats {
+    margin: 20px;
+    overflow-x: auto;
+}
+
+.player-stats h2 {
+    color: #001F54;
+    font-size: 18px;
+    text-align: center;
+}
+
+.player-stats table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 14px;
+    margin: 0 auto;
+    background-color: #F6F4F0;
+}
+
+.player-stats th, .player-stats td {
+    border: 1px solid #001F54;
+    padding: 8px;
+    text-align: center;
+}
+
+.player-stats th {
+    background-color: #F5C414;
+    color: #001F54;
+}
+
+.player-stats tr:nth-child(even) {
+    background-color: #F6F4F0;
+}
+
+.player-stats tr:nth-child(odd) {
+    background-color: #FFFFFF;
+}

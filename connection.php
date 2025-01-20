@@ -2,7 +2,7 @@
 $host = ''; // Hostname or IP address
 $db = 'nu_game_plan'; // Database name
 $user = 'root'; // MySQL username
-$port = 3307; // MySQL port
+$port = 3306; // MySQL port
 $pass = ''; // MySQL password
 $charset = 'utf8mb4'; // Character set (optional but recommended)
 
