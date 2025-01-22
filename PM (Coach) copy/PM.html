@@ -28,7 +28,7 @@
                     <li><a href="#" class="active">PLAYER MANAGEMENT</a></li>
                     <li><a href="#">SCHEDULE</a></li>
                     <li><a href="#">PROGRESS & MILESTONE</a></li>
-                    <li><a href="#">RESOURCES</a></li>
+                    <li><a href="#">EQUIPMENTS</a></li>
                     <li><a href="#" title="Logout"><i class="fas fa-sign-out-alt"></i></a></li>
                 </ul>
             </div>
@@ -66,23 +66,33 @@
         </section>
 
         <!-- New Container with 3 Sections, stacked vertically -->
-        <div class="container">
-            <div class="section" alt = "Section 1">
-            </div>
-            <div class="section" alt = "Section 2">
-                <div class="dropdown">
-                    <button class="dropbtn">Dropdown</button>
-                    <div class="dropdown-content">
-                        <li><a href="#">S84</a></li>
-                        <li><a href="#">S85</a></li>
-                        <li><a href="#">S86</a></li>
-                        <li><a href="#">S87</a></li>
-                    </div>
-                </div>
-            </div>
-            <div class="section" alt = "Section 3">
+<div class="container">
+    <div class="section" alt="Section 1">
+        <!-- Content for Section 1 -->
+    </div>
+    <div class="section" alt="Section 2">
+        <!-- Dropdown Menu inside Section 2 -->
+        <div class="dropdown">
+            <button class="dropbtn" id="dropdownButton">Dropdown</button>
+            <div class="dropdown-content">
+                <ul>
+                    <li><a href="#">S84</a></li>
+                    <li><a href="#">S85</a></li>
+                    <li><a href="#">S86</a></li>
+                    <li><a href="#">S87</a></li>
+                </ul>
             </div>
         </div>
     </div>
+    <div class="section" alt="Section 3">
+        <!-- Content for Section 3 -->
+    </div>
+    <!-- New buttons below Section 3 -->
+    <div class="buttons-container">
+        <button class="classify-injured-btn">CLASSIFY AS INJURED</button>
+        <button class="remove-player-btn">REMOVE</button>
+        <button class="edit-player-btn">EDIT PLAYER</button>
+    </div>
 </body>
 </html>
+

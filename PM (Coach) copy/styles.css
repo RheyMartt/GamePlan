@@ -129,10 +129,19 @@ body {
     margin-top: 5px; /* Add margin to adjust distance */
 }
 
+.add-player-container {
+    position: relative; /* Ensure it's a reference for absolute positioning */
+    padding: 0 30px;
+    height: 100%; /* Ensure container takes full height */
+    margin-top: 100px; /* Add margin to bring it down from the navbar */
+}
+
+/* Fix the button's positioning inside the correct container */
 .add-player-btn {
-    position: relative;
+    position: absolute; /* Absolute to .add-player-container, not navbar */
+    bottom: 20px; /* Distance from the bottom of the container */
+    right: 20px; /* Distance from the right of the container */
     display: inline-block;
-    margin: 20px;
     background-color: #001F54;
     color: #F6F4F0;
     padding: 10px 15px;
@@ -140,7 +149,6 @@ body {
     cursor: pointer;
     font-size: 16px;
     border-radius: 5px;
-    float: left; /* Moves the button to the right */
 }
 
 .add-player-btn:hover {
@@ -151,12 +159,6 @@ body {
 .player-profile {
     display: flex;
     flex-direction: column;
-}
-
-.add-player-container {
-    display: flex;
-    justify-content: flex-end; /* Moves button to the right */
-    padding: 0 20px;
 }
 
 /* Adjust container near roster list */
@@ -181,10 +183,12 @@ body {
     width: 90%; /* 90% width for responsive layout */
     max-width: 1400px; /* Optional max-width for large screens */
     margin: 20px auto; /* Center container and add margin for spacing */
+    align-items: center; /* Center align items */
 }
 
 /* Individual Section Styling */
 .section {
+    width: 100%; /* Ensure sections take full width */
     height: 200px; /* Fixed height for uniformity */
     background-color: #FFFFFF; /* White section background */
     border-radius: 10px;
@@ -194,31 +198,39 @@ body {
     font-size: 24px;
     font-weight: bold;
     color: #001F54;
+    position: relative; /* Ensure dropdown is positioned relative to this section */
 }
 
 .section:nth-child(2) {
     position: relative; /* Ensure dropdown is positioned relative to this section */
 }
 
+.section:nth-child(3) {
+    position: relative; /* Ensure section 3 is positioned relative */
+    margin-bottom: 100px; /* Add margin to accommodate buttons */
+}
+
 /* Dropdown Menu */
 .dropdown {
-    position: relative;
-    display: inline-block;
-    margin: 20px;
+    position: absolute; /* Change from relative to absolute */
+    top: 20px; /* Set distance from the top of the page */
+    left: 20px; /* Set distance from the left of the page */
+    margin: 0; /* Remove margin */
 }
 
 #dropdownButton {
     background-color: #001F54;
     color: #F6F4F0;
-    padding: 8px 12px; /* Adjust padding for better spacing */
+    padding: 8px 12px;
     border: none;
     cursor: pointer;
-    font-size: 14px; /* Adjust font size for better readability */
+    font-size: 14px;
     border-radius: 5px;
+    transition: transform 0.2s ease;
 }
 
 #dropdownButton:hover {
-    transform: scale(1.1); /* Slightly enlarge the button on hover */
+    transform: scale(1.1);
 }
 
 .dropdown-content {
@@ -228,26 +240,71 @@ body {
     box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
     z-index: 1;
     min-width: 160px;
-    border-radius: 5px; /* Add border-radius for rounded corners */
+    border-radius: 5px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0s 0.3s;
 }
-
+.dropdown-content ul {
+    list-style-type: none; 
+    margin: 0;
+    padding: 0;
+}
 .dropdown-content a {
     color: #001F54;
-    padding: 8px 12px; /* Adjust padding for better spacing */
+    padding: 8px 12px;
     display: block;
     text-decoration: none;
     cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.2s ease;
 }
 
 .dropdown-content a:hover {
     background-color: #F5C414;
-    transform: scale(1.1); /* Slightly enlarge the link on hover */
+    transform: scale(1.05);
 }
 
+/* Hover effect on the dropdown */
 .dropdown:hover .dropdown-content {
     display: block;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.3s ease, visibility 0s 0s;
 }
 
-.dropdown:hover .dropbtn {
-    background-color: #3e8e41;
+.dropdown:hover #dropdownButton {
+    background-color: #F5C414; /* Change background on hover */
+}
+
+/* Ensure the container is positioned relatively */
+.container {
+    position: relative; /* This is important */
+}
+
+/* Buttons Container (Outside Section 3, Lower Right) */
+.buttons-container {
+    position: absolute;
+    bottom: 0; /* Align to the bottom of Section 3 */
+    right: 0; /* Align to the right of Section 3 */
+    display: flex;
+    gap: 10px; /* Space between buttons */
+    padding: 10px; /* Add some padding for spacing */
+    margin-top: ;
+}
+
+/* Player Action Buttons */
+.classify-injured-btn, .remove-player-btn, .edit-player-btn {
+    background-color: #001F54;
+    color: #F6F4F0;
+    padding: 8px 12px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    border-radius: 5px;
+    transition: transform 0.2s ease;
+    display: inline-block;
+}
+
+.classify-injured-btn:hover, .remove-player-btn:hover, .edit-player-btn:hover {
+    transform: scale(1.1);
 }
