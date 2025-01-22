@@ -36,6 +36,7 @@ body {
     background-color: #F6F4F0; /* Navbar background color */
     position: relative;
     height: 100px;
+    margin-top: 20px; /* Add margin to move navbar down */
 }
 
 /* Logo container */
@@ -73,17 +74,6 @@ body {
 .nav-links a:hover {
     background-color: #F5C414;
     color: #FFF;
-}
-
-/* Main Content Area */
-.player-profile {
-    width: 100%;
-    max-width: 1920px;
-    height: calc(1080px - 100px);
-    padding: 20px;
-    margin: auto;
-    overflow-y: auto;
-    background-color: #F6F4F0; /* Background color */
 }
 
 /* Sections inside content */

@@ -1,6 +1,14 @@
 /* Global Styles */
+html, body {
+    width: 1920px; /* Fixed width */
+    height: 1080px; /* Fixed height */
+    background-color: #F6F4F0; /* Dominant background color */
+    font-family: 'Poppins', sans-serif; /* Apply the Poppins font globally */
+}
+
 body {
-    margin: 0;
+    margin: 0 auto; /* Center horizontally */
+    overflow-x: hidden; /* Prevent horizontal scrolling */
     font-family: 'Poppins', sans-serif;
     background-color: #F6F4F0;
     color: #001F54;
@@ -12,10 +20,11 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 20px 30px; /* Adjust padding for better spacing */
-    background-color: #F6F4F0; /* Excluded from the 60-30-10 scheme */
+    padding: 20px 40px;
+    background-color: #F6F4F0; /* Navbar background color */
     position: relative;
     height: 100px;
+    margin-top: 20px; /* Add margin to move navbar down */
 }
 
 /* Logo container */
@@ -25,7 +34,7 @@ body {
 
 /* Navbar Logo Styling */
 .navbar-logo {
-    width: 220px; /* Increase the width for better visibility */
+    width: 200px; /* Increase the width further for better visibility */
     height: auto; /* Maintain the aspect ratio */
     object-fit: contain; /* Ensure the logo scales properly */
     display: block;
@@ -43,14 +52,14 @@ body {
 
 .nav-links a {
     text-decoration: none;
-    color: #001F54; /* 10% Accent color */
-    font-size: 16px; /* Adjust font size for better readability */
-    padding: 8px 16px; /* Adjust padding for better spacing */
+    color: #001F54; /* Accent color for text */
+    font-size: 18px;
+    padding: 10px 20px;
     transition: background-color 0.3s, color 0.3s;
 }
 
 .nav-links a:hover {
-    background-color: #F5C414; /* 30% Secondary color */
+    background-color: #F5C414;
     color: #FFF;
 }
 
@@ -59,7 +68,6 @@ body {
     position: relative;
     display: inline-block;
     margin: 20px;
-    
 }
 
 #dropdownButton {
@@ -70,7 +78,6 @@ body {
     cursor: pointer;
     font-size: 14px; /* Adjust font size for better readability */
     border-radius: 5px;
-   
 }
 
 #dropdownButton:hover {
@@ -153,7 +160,6 @@ body {
     margin-top: 15px;
     line-height: 1.6; /* Better vertical spacing */
     border-collapse: collapse; /* Table-like structure */
-    
 }
 
 /* Score Breakdown Section */
@@ -206,8 +212,10 @@ body {
 
 /* Tables */
 .player-stats {
-    margin: 0; /* Reset margin inside the container */
+    margin: 0 20px; /* Add horizontal margin to create space around the container */
     overflow-x: auto; /* Enable horizontal scroll on smaller screens */
+    box-sizing: border-box; /* Ensure padding doesn't affect the width */
+    gap: 20px; /* Add gap to avoid tables covering up the page */
 }
 
 .player-stats h2 {
@@ -217,17 +225,19 @@ body {
 }
 
 .player-stats table {
-    width: 100%;
+    width: auto; /* Adjust width to prevent table from occupying the entire page */
+    max-width: 100%; /* Ensure the table doesn't exceed the container width */
+    box-sizing: border-box; /* Prevent padding from affecting the width */
     border-collapse: collapse;
     text-align: center; /* Center-align data for consistency */
     font-size: 14px;
     background-color: #F5C414; /* Background color for the table */
-    margin: 20px 0; /* Add space above and below the table */
+    margin: 10px auto; /* Adjusted margin to prevent table from occupying the entire page */
 }
 
 .player-stats th, .player-stats td {
     border: 1px solid #001F54;
-    padding: 10px; /* Adjust padding for better spacing */
+    padding: 15px; /* Adjusted padding for better spacing */
     text-align: center; /* Center-align data for consistency */
 }
 
@@ -235,7 +245,7 @@ body {
     background-color: #F5C414;
     color: #001F54;
     font-weight: bold; /* Make headers stand out */
-    padding: 12px; /* Adjust padding for better spacing */
+    padding: 18px; /* Adjusted padding for better spacing */
 }
 
 .player-stats td:first-child {
@@ -280,3 +290,4 @@ body {
 .grid-item p {
     font-size: 16px; /* Adjust font size for better readability */
 }
+
