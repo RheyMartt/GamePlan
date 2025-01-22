@@ -59,6 +59,7 @@ body {
     position: relative;
     display: inline-block;
     margin: 20px;
+    
 }
 
 #dropdownButton {
@@ -69,6 +70,11 @@ body {
     cursor: pointer;
     font-size: 14px; /* Adjust font size for better readability */
     border-radius: 5px;
+   
+}
+
+#dropdownButton:hover {
+    transform: scale(1.1); /* Slightly enlarge the button on hover */
 }
 
 .dropdown-content {
@@ -85,10 +91,12 @@ body {
     padding: 8px 12px; /* Adjust padding for better spacing */
     display: block;
     text-decoration: none;
+    cursor: pointer;
 }
 
 .dropdown-content a:hover {
     background-color: #F5C414;
+    transform: scale(1.1); /* Slightly enlarge the button on hover */
 }
 
 .dropdown:hover .dropdown-content {

@@ -1,0 +1,158 @@
+/* Global Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Ensure Font is Loaded for All Elements */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+
+/* Main body styling */
+html, body {
+    width: 100%; /* Responsive width */
+    height: 100%; /* Responsive height */
+    /* overflow: hidden; */ /* Prevent scrollbars */
+    background-color: #F6F4F0; /* Dominant background color */
+    font-family: 'Poppins', sans-serif; /* Apply the Poppins font globally */
+}
+
+body {
+    margin: 0 auto; /* Center horizontally */
+    /* overflow-x: hidden; */ /* Prevent horizontal scrolling */
+}
+
+/* Navbar Styling */
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 40px;
+    background-color: #F6F4F0; /* Navbar background color */
+    position: relative;
+    height: 100px;
+    margin-top: 20px; /* Add margin to move navbar down */
+}
+
+/* Logo container */
+.logo-container {
+    flex-shrink: 0;
+}
+
+/* Navbar Logo Styling */
+.navbar-logo {
+    width: 200px; /* Increase the width further for better visibility */
+    height: auto; /* Maintain the aspect ratio */
+    object-fit: contain; /* Ensure the logo scales properly */
+    display: block;
+    margin-right: 15px;
+}
+
+/* Navigation Links */
+.nav-links ul {
+    list-style-type: none;
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-grow: 1;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #001F54; /* Accent color for text */
+    font-size: 18px;
+    padding: 10px 20px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.nav-links a:hover {
+    background-color: #F5C414;
+    color: #FFF;
+}
+/* Roster Section */
+.roster {
+    background-color: #F6F4F0; /* Dominant background color */
+    padding: 45px 20px; /* Adjust padding for better spacing */
+    border-radius: 10px;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+.roster h3 {
+    font-size: 24px;
+    color: #001F54; /* Accent color for text */
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.roster-list {
+    display: flex;
+    overflow-x: auto;
+    gap: 20px; /* Adjust gap for better spacing */
+    padding: 25px 0;
+    scroll-snap-type: x mandatory;
+}
+
+.roster-item {
+    flex: 0 0 auto;
+    width: 250px; /* Increase width to accommodate larger images */
+    text-align: center;
+    cursor: pointer;
+    padding: 10px; /* Add padding for spacing */
+    transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out;
+}
+
+.roster-item:hover {
+    transform: scale(1.05);
+    background-color: #D9D9D9; /* Add background color on hover */
+}
+
+.roster-item img {
+    width: 200px; /* Set width to 212px */
+    height: 180px; /* Set height to 180px */
+    margin-bottom: 10px;
+}
+
+.roster-item span {
+    display: block;
+    font-size: 14px;
+    color: #001F54; /* Accent color for text */
+    font-weight: bold;
+    margin-top: 10px; /* Add margin to adjust distance */
+}
+
+.roster-item span:nth-child(2) {
+    color: #F5C414; /* Secondary color for highlighting */
+    margin-top: 5px; /* Add margin to adjust distance */
+}
+
+.add-player-btn {
+    position: relative;
+    display: inline-block;
+    margin: 20px;
+    background-color: #001F54;
+    color: #F6F4F0;
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+    
+    float: right; /* Moves the button to the right */
+}
+
+.add-player-btn:hover {
+    background-color: #001F54;
+    transform: scale(1.1); /* Slightly enlarge the button on hover */
+}
+
+.player-profile {
+    display: flex;
+    flex-direction: column;
+}
+
+.add-player-container {
+    display: flex;
+    justify-content: flex-end; /* Moves button to the right */
+    padding: 0 20px;
+}

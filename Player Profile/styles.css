@@ -249,12 +249,6 @@ body {
     font-weight: bold;
     color: #001F54;
 }
-.last-games h3 {
-    font-size: 24px;
-    color: #001F54; /* Set the header color to the accent color */
-    font-weight: 700;
-    margin-bottom: 15px;
-}
 
 /* Career Highlights Section */
 .career-highlights {
