@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Player Management</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
@@ -42,57 +42,92 @@
         <section class="roster">
             <div class="roster-list">
                 <div class="roster-item">
-                    <img src="Vacant Player.png" alt="Player">
+                    <img src="LBJ.png" alt="Player">
                 </div>
                 <div class="roster-item">
-                    <img src="Vacant Player.png" alt="Player">
+                    <img src="LBJ.png" alt="Player">
                 </div>
                 <div class="roster-item">
-                    <img src="Vacant Player.png" alt="Player">
+                    <img src="LBJ.png" alt="Player">
                 </div>
                 <div class="roster-item">
-                    <img src="Vacant Player.png" alt="Player">
+                    <img src="LBJ.png" alt="Player">
                 </div>
                 <div class="roster-item">
-                    <img src="Vacant Player.png" alt="Player">
+                    <img src="LBJ.png" alt="Player">
                 </div>
                 <div class="roster-item">
-                    <img src="Vacant Player.png" alt="Player">
+                    <img src="LBJ.png" alt="Player">
                 </div>
                 <div class="roster-item">
-                    <img src="Vacant Player.png" alt="Player">
+                    <img src="LBJ.png" alt="Player">
                 </div>
             </div>
         </section>
 
-        <!-- New Container with 3 Sections, stacked vertically -->
-<div class="container">
-    <div class="section" alt="Section 1">
-        <!-- Content for Section 1 -->
-    </div>
-    <div class="section" alt="Section 2">
-        <!-- Dropdown Menu inside Section 2 -->
-        <div class="dropdown">
-            <button class="dropbtn" id="dropdownButton">Dropdown</button>
-            <div class="dropdown-content">
-                <ul>
-                    <li><a href="#">S84</a></li>
-                    <li><a href="#">S85</a></li>
-                    <li><a href="#">S86</a></li>
-                    <li><a href="#">S87</a></li>
-                </ul>
+         <!-- New Container with 3 Sections, stacked vertically -->
+         <div class="container">
+            <!-- Section 1: Bio/History/Status -->
+            <div class="section">
+                <h3>Bio</h3>
+                <p>Name: Lebron James</p>
+                <p>Position: Forward</p>
+                <p>Status: Active</p>
+                <p>Height: 6'9" | Weight: 220 lbs</p>
+                <p>Team History: Bulldogs (2022 - 2024)</p>
+            </div>
+
+           <!-- Section 2: Stats (Based on Season) -->
+           <div class="section">
+            <h3>Stats</h3>
+            <div class="dropdown">
+                <button class="dropbtn">Choose Season</button>
+                <div class="dropdown-content">
+                    <ul>
+                        <li><a href="#">S84</a></li>
+                        <li><a href="#">S85</a></li>
+                        <li><a href="#">S86</a></li>
+                        <li><a href="#">S87</a></li>
+                    </ul>
+                </div>
+            </div>
+            <p>Points Per Game: 20.3</p>
+            <p>Assists Per Game: 6.5</p>
+            <p>Rebounds Per Game: 5.1</p>
+            <p>Blocks Per Game 1.0</p>
+            <p>Steals Per Game: 2.3</p>
+        </div>
+            <!-- Attendance Section -->
+            <div class="section" alt="Section 3">
+                <h3>Attendance</h3>
+                <p>Total Practices: 40</p>
+                <p>Attended: 38</p>
+                <p>Missed: 2</p>
+                <p>Last Attendance: January 20, 2025</p>
+            </div>
+
+            <!-- Buttons Below Section 3 -->
+            <div class="buttons-container">
+                <button class="classify-injured-btn">CLASSIFY AS INJURED</button>
+                <button class="remove-player-btn">REMOVE</button>
+                <button class="edit-player-btn">EDIT PLAYER</button>
             </div>
         </div>
     </div>
-    <div class="section" alt="Section 3">
-        <!-- Content for Section 3 -->
-    </div>
-    <!-- New buttons below Section 3 -->
-    <div class="buttons-container">
-        <button class="classify-injured-btn">CLASSIFY AS INJURED</button>
-        <button class="remove-player-btn">REMOVE</button>
-        <button class="edit-player-btn">EDIT PLAYER</button>
+
+    <!-- The Modal -->
+    <div id="injuryModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Classify as Injured</h2>
+            <p>Are you sure you want to classify this player as injured?</p>
+            <label for="injuryType">Injury Type:</label>
+            <input type="text" id="injuryType" name="injuryType" placeholder="Enter injury type">
+            <label for="injuryDate">Date Injured:</label>
+            <input type="date" id="injuryDate" name="injuryDate">
+            <button id="confirmInjuryBtn">Confirm</button>
+        </div>
     </div>
 </body>
+<script src="script.js"></script>
 </html>
-
