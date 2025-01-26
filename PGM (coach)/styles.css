@@ -228,3 +228,6 @@ hr {
     border-top: 2px solid #001F54;
     margin: 25px 0;
 }
+.active {
+    font-weight: bold;
+}

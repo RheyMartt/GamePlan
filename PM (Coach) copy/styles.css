@@ -39,30 +39,43 @@ body {
     flex-shrink: 0;
 }
 
-/* Navbar Logo Styling */
-.navbar-logo {
-    width: 200px; /* Increase the width further for better visibility */
-    height: auto; /* Maintain the aspect ratio */
-    object-fit: contain; /* Ensure the logo scales properly */
-    display: block;
-    margin-right: 15px;
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 25px 30px; /* Adjusted padding */
+    background-color: #F6F4F0;
+    position: relative;
+    height: 110px;
 }
 
-/* Navigation Links */
+.logo-container {
+    flex-shrink: 0;
+}
+
+.navbar-logo {
+    width: 220px;
+    height: auto;
+    object-fit: contain;
+    display: block;
+    margin-right: 18px;
+}
+
 .nav-links ul {
     list-style-type: none;
     display: flex;
-    gap: 20px;
+    gap: 22px;
     justify-content: center;
     flex-grow: 1;
+    margin: 0;
+    padding: 0;
 }
 
 .nav-links a {
     text-decoration: none;
-    color: #001F54; /* Accent color for text */
-    font-size: 18px;
-    font-weight: 500; /* Medium weight for better readability */
-    padding: 10px 20px;
+    color: #001F54;
+    font-size: 19px;
+    padding: 12px 22px;
     transition: background-color 0.3s, color 0.3s;
 }
 
@@ -70,7 +83,6 @@ body {
     background-color: #F5C414;
     color: #FFF;
 }
-
 /* Roster Section */
 .roster {
     background-color: #F6F4F0; /* Background color for roster section */
@@ -100,10 +112,10 @@ body {
 
 .roster-item {
     flex: 0 0 auto;
-    width: 250px; /* Increase width to accommodate larger images */
+    width: 250px;
     text-align: center;
     cursor: pointer;
-    padding: 10px; /* Add padding for spacing */
+    padding: 10px; 
     transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out;
 }
 
@@ -140,17 +152,17 @@ body {
 }
 
 .add-player-container {
-    position: relative; /* Ensure it's a reference for absolute positioning */
+    position: relative; 
     padding: 0 30px;
-    height: 100%; /* Ensure container takes full height */
-    margin-top: 100px; /* Add margin to bring it down from the navbar */
+    height: 100%; 
+    margin-top: 100px; 
 }
 
-/* Fix the button's positioning inside the correct container */
+
 .add-player-btn {
-    position: absolute; /* Absolute to .add-player-container, not navbar */
-    bottom: 20px; /* Distance from the bottom of the container */
-    right: 20px; /* Distance from the right of the container */
+    position: absolute;
+    bottom: 20px; 
+    right: 20px; 
     display: inline-block;
     background-color: #001F54;
     color: #F6F4F0;
@@ -163,7 +175,7 @@ body {
 
 .add-player-btn:hover {
     background-color: #001F54;
-    transform: scale(1.1); /* Slightly enlarge the button on hover */
+    transform: scale(1.1); 
 }
 
 .player-profile {
@@ -372,7 +384,7 @@ body {
 }
 
 .close {
-    color: #aaa;
+    color: #FF4D4D;
     float: right;
     font-size: 28px;
     font-weight: bold;
@@ -380,7 +392,44 @@ body {
 
 .close:hover,
 .close:focus {
-    color: black;
     text-decoration: none;
     cursor: pointer;
+}
+
+/* Table Styles */
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+    margin-top: 20px;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 18px;
+    text-align: left;
+}
+
+.table th, .table td {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+}
+
+.table th {
+    background-color: #001F54;
+    color: #F6F4F0;
+    font-weight: 600;
+}
+
+.table tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.table tbody tr:hover {
+    background-color: #f5c414;
+    color: #001F54;
+}
+.active {
+    font-weight: bold;
 }

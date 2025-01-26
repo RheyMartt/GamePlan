@@ -8,12 +8,6 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
-<style>
-    .active {
-        font-weight: bold;
-    }
-</style>
-
 <body>
     <div class="player-management">
         <!-- Navigation Bar -->
@@ -79,7 +73,6 @@
 
            <!-- Section 2: Stats (Based on Season) -->
            <div class="section">
-            <h3>Stats</h3>
             <div class="dropdown">
                 <button class="dropbtn">Choose Season</button>
                 <div class="dropdown-content">
@@ -91,19 +84,70 @@
                     </ul>
                 </div>
             </div>
-            <p>Points Per Game: 20.3</p>
-            <p>Assists Per Game: 6.5</p>
-            <p>Rebounds Per Game: 5.1</p>
-            <p>Blocks Per Game 1.0</p>
-            <p>Steals Per Game: 2.3</p>
+            <div class="table-container">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Stats</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Points Per Game</td>
+                            <td>20.3</td>
+                        </tr>
+                        <tr>
+                            <td>Assists Per Game</td>
+                            <td>6.5</td>
+                        </tr>
+                        <tr>
+                            <td>Rebounds Per Game</td>
+                            <td>5.1</td>
+                        </tr>
+                        <tr>
+                            <td>Blocks Per Game</td>
+                            <td>1.0</td>
+                        </tr>
+                        <tr>
+                            <td>Steals Per Game</td>
+                            <td>2.3</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
             <!-- Attendance Section -->
             <div class="section" alt="Section 3">
                 <h3>Attendance</h3>
-                <p>Total Practices: 40</p>
-                <p>Attended: 38</p>
-                <p>Missed: 2</p>
-                <p>Last Attendance: January 20, 2025</p>
+                <div class="table-container">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Category</th>
+                                <th>Value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Total Practices</td>
+                                <td>40</td>
+                            </tr>
+                            <tr>
+                                <td>Attended</td>
+                                <td>38</td>
+                            </tr>
+                            <tr>
+                                <td>Missed</td>
+                                <td>2</td>
+                            </tr>
+                            <tr>
+                                <td>Last Attendance</td>
+                                <td>January 20, 2025</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
             <!-- Buttons Below Section 3 -->
