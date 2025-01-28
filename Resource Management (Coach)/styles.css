@@ -21,15 +21,17 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 20px 30px; /* Changed from 25px to 20px */
+    padding: 20px 30px;
     background-color: #F6F4F0;
-    position: fixed; /* Ensure navbar stays at the top */
+    position: absolute; /* Positioned relative to the nearest parent with position */
     top: 0;
     left: 0;
     width: 100%;
     height: 110px;
-    z-index: 900; /* Ensure it's on top */
+    z-index: 900; /* Keeps it above other elements */
 }
+
+
 
 
 .logo-container {
@@ -203,10 +205,6 @@ button:hover {
     color: #001F54;
 }
 
-button[type="submit"] {
-    display: block;
-    margin: 20px auto; /* Centers the submit button horizontally */
-}
 /* Modern Checkbox Styling */
 .checkbox-container {
     display: flex;
