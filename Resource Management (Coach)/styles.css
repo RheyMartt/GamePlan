@@ -1,0 +1,273 @@
+/* Import Poppins Font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+/* Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background-color: #F6F4F0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 30px; /* Changed from 25px to 20px */
+    background-color: #F6F4F0;
+    position: fixed; /* Ensure navbar stays at the top */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 110px;
+    z-index: 900; /* Ensure it's on top */
+}
+
+
+.logo-container {
+    flex-shrink: 0;
+}
+
+.navbar-logo {
+    width: 220px;
+    height: auto;
+    object-fit: contain;
+    display: block;
+    margin-right: 18px;
+    margin-top: 20px; /* Adjusted to lower the logo further */
+}
+
+.nav-links ul {
+    list-style-type: none;
+    display: flex;
+    gap: 22px;
+    justify-content: center;
+    flex-grow: 1;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #001F54;
+    font-size: 19px;
+    padding: 12px 22px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.nav-links a:hover {
+    background-color: #F5C414;
+    color: #FFF;
+}
+
+/* Main Content Container */
+.container {
+    margin-top: 120px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.switch-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    margin-top: 140px; /* Increased to ensure visibility */
+    width: 60%;
+    margin-bottom: 20px; /* Added to ensure it doesn't stick to the container */
+}
+
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 25px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.4s;
+    border-radius: 25px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 4px;
+    bottom: 3.5px;
+    background-color: white;
+    transition: 0.4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: #001F54;
+}
+
+input:checked + .slider:before {
+    transform: translateX(24px);
+}
+
+/* Sections */
+.section {
+    background-color: #F5C414;
+    padding: 20px;
+    width: 60%;
+    border-radius: 10px;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.section h2 {
+    color: #001F54;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+/* List Styles */
+.section ul {
+    list-style: none;
+    padding: 0;
+}
+
+.section li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+/* Form Styling */
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    font-weight: 600;
+    color: #001F54;
+}
+
+input, textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+}
+
+textarea {
+    resize: none;
+}
+
+button {
+    background-color: #001F54;
+    color: white;
+    font-size: 18px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background-color: #F5C414;
+    color: #001F54;
+}
+
+button[type="submit"] {
+    display: block;
+    margin: 20px auto; /* Centers the submit button horizontally */
+}
+/* Modern Checkbox Styling */
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    gap: 12px; /* Space between checkbox and label */
+    padding: 10px 15px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    transition: 0.3s ease-in-out;
+    cursor: pointer;
+    width: 100%;
+    max-width: 400px; /* Adjust width if needed */
+}
+
+/* Hover effect */
+.checkbox-container:hover {
+    background: #f9f9f9;
+}
+
+/* Hide default checkbox */
+.checkbox-container input {
+    display: none;
+}
+
+/* Custom checkbox design */
+.checkbox-custom {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #001F54;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.3s;
+}
+
+/* Checked state */
+.checkbox-container input:checked + .checkbox-custom {
+    background-color: #001F54;
+    border-color: #001F54;
+}
+
+/* Checkmark */
+.checkbox-custom::after {
+    content: "✔";
+    color: white;
+    font-size: 14px;
+    display: none;
+}
+
+/* Show checkmark when checked */
+.checkbox-container input:checked + .checkbox-custom::after {
+    display: block;
+}
+
+/* Text Styling */
+.checkbox-label {
+    font-size: 18px;
+    font-weight: 500;
+    color: #001F54;
+    line-height: 1; /* Ensures proper alignment */
+    flex-grow: 1;
+}

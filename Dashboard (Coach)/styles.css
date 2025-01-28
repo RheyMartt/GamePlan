@@ -68,6 +68,7 @@ body {
     position: relative;
     display: inline-block;
     margin: 20px;
+    text-align: right; /* Align dropdown to the right */
 }
 
 #dropdownButton {

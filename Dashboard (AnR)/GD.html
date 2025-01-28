@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>NU GAMEPLAN</title>
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
 </head>
 <body>
   <style>
@@ -27,14 +29,14 @@
           <li><a href="#">SCHEDULE</a></li>
           <li><a href="#">PROGRESS & MILESTONE</a></li>
           <li><a href="#">RESOURCES</a></li>
-          <li><a href="#">LOGOUT</a></li>
+          <li><a href="#" title="Logout"><i class="fas fa-sign-out-alt"></i></a></li>
         </ul>
       </div>
     </div>
 
     <main class="main-content">
       <!-- Dropdown menu for game selection -->
-      <div class="dropdown" id="gameDropdown">
+      <div class="dropdown" id="gameDropdown" style="text-align: right;">
         <button id="dropdownButton">NU vs. UST</button>
         <div class="dropdown-content">
           <a href="#" onclick="updateDropdown('NU vs. UST')">NU vs. UST</a>
