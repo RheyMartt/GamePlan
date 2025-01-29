@@ -9,6 +9,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const returnDateLabel = document.querySelector('label[for="return-date"]');
     const specificUseLabel = document.querySelector('label[for="specific-use"]');
 
+    // Get input elements
+    const borrowDateInput = document.getElementById('borrow-date');
+    const returnDateInput = document.getElementById('return-date');
+    const specificUseInput = document.getElementById('specific-use');
+
     toggleSwitch.addEventListener('change', function() {
         if (this.checked) {
             // Facilities view
@@ -16,7 +21,11 @@ document.addEventListener('DOMContentLoaded', function() {
             equipmentsSection.style.display = 'none';
             facilitiesSection.style.display = 'block';
             
-            // Change form labels for Facilities
+            // Change form labels and input types for Facilities
+            borrowDateInput.type = 'date';
+            returnDateInput.type = 'time';
+            specificUseInput.type = 'time';
+            
             borrowDateLabel.textContent = 'Use Date:';
             returnDateLabel.textContent = 'Start Time:';
             specificUseLabel.textContent = 'End Time:';
@@ -26,7 +35,11 @@ document.addEventListener('DOMContentLoaded', function() {
             equipmentsSection.style.display = 'block';
             facilitiesSection.style.display = 'none';
             
-            // Change form labels back for Equipment
+            // Change form labels and input types back for Equipment
+            borrowDateInput.type = 'date';
+            returnDateInput.type = 'date';
+            specificUseInput.type = 'text';
+            
             borrowDateLabel.textContent = 'Borrow Date:';
             returnDateLabel.textContent = 'Return Date:';
             specificUseLabel.textContent = 'Specific Use:';
