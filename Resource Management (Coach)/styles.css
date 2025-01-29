@@ -83,18 +83,21 @@ body {
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    gap: 10px;
-    margin-top: 140px; /* Increased to ensure visibility */
+    gap: 15px;
+    margin-top: 200px; /* Increased from 130px to 160px to prevent overlap */
     width: 60%;
-    margin-bottom: 20px; /* Added to ensure it doesn't stick to the container */
+    margin-bottom: 25px;
+    padding: 0 10px;
+    position: relative;
+    z-index: 1000;
 }
-
 
 .switch {
     position: relative;
     display: inline-block;
-    width: 50px;
-    height: 25px;
+    width: 60px;
+    height: 32px;
+    z-index: 1000;
 }
 
 .switch input {
@@ -110,29 +113,33 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: #ccc;
-    transition: 0.4s;
-    border-radius: 25px;
+    background-color: #e0e0e0;
+    transition: all 0.3s ease;
+    border-radius: 34px;
+    border: 2px solid #001F54;
+    z-index: 1001;
 }
 
 .slider:before {
     position: absolute;
     content: "";
-    height: 18px;
-    width: 18px;
-    left: 4px;
-    bottom: 3.5px;
+    height: 24px;
+    width: 24px;
+    left: 2px;
+    bottom: 2px;
     background-color: white;
-    transition: 0.4s;
+    transition: all 0.3s ease;
     border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
 input:checked + .slider {
     background-color: #001F54;
+    border-color: #001F54;
 }
 
 input:checked + .slider:before {
-    transform: translateX(24px);
+    transform: translateX(26px);
 }
 
 /* Sections */
@@ -169,7 +176,7 @@ input:checked + .slider:before {
 
 /* Form Styling */
 .form-group {
-    margin-bottom: 15px;
+    margin-bottom: 20px;
 }
 
 label {
@@ -190,6 +197,8 @@ textarea {
 }
 
 button {
+    display: block;
+    margin: 20px auto; /* Centers the button horizontally */
     background-color: #001F54;
     color: white;
     font-size: 18px;
@@ -205,67 +214,165 @@ button:hover {
     color: #001F54;
 }
 
-/* Modern Checkbox Styling */
-.checkbox-container {
+
+/* Equipments & Facilities Section */
+.section {
+    background-color: #F5C414;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    width: 60%;
+    margin-bottom: 20px;
+}
+
+.section h2 {
+    color: #001F54;
+    font-weight: 600;
+    font-size: 22px;
+    margin-bottom: 15px;
+}
+
+/* Equipment List */
+.equipment-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Equipment Item */
+.equipment-item {
     display: flex;
     align-items: center;
-    gap: 12px; /* Space between checkbox and label */
-    padding: 10px 15px;
+    gap: 12px;
     background: white;
+    padding: 12px;
     border-radius: 8px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    transition: 0.3s ease-in-out;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
     cursor: pointer;
-    width: 100%;
-    max-width: 400px; /* Adjust width if needed */
+    transition: 0.3s ease-in-out;
 }
 
 /* Hover effect */
-.checkbox-container:hover {
+.equipment-item:hover {
     background: #f9f9f9;
 }
 
 /* Hide default checkbox */
-.checkbox-container input {
+.equipment-item input {
     display: none;
 }
 
-/* Custom checkbox design */
+/* Custom Checkbox */
 .checkbox-custom {
-    width: 20px;
-    height: 20px;
+    width: 22px;
+    height: 22px;
     border: 2px solid #001F54;
-    border-radius: 4px;
+    border-radius: 5px;
     display: flex;
     align-items: center;
     justify-content: center;
     transition: 0.3s;
 }
 
-/* Checked state */
-.checkbox-container input:checked + .checkbox-custom {
-    background-color: #001F54;
-    border-color: #001F54;
-}
-
 /* Checkmark */
 .checkbox-custom::after {
     content: "✔";
     color: white;
-    font-size: 14px;
+    font-size: 16px;
     display: none;
 }
 
-/* Show checkmark when checked */
-.checkbox-container input:checked + .checkbox-custom::after {
+/* Checked State */
+.equipment-item input:checked + .checkbox-custom {
+    background-color: #001F54;
+    border-color: #001F54;
+}
+
+.equipment-item input:checked + .checkbox-custom::after {
     display: block;
 }
 
-/* Text Styling */
-.checkbox-label {
+/* Label */
+.equipment-label {
     font-size: 18px;
     font-weight: 500;
     color: #001F54;
-    line-height: 1; /* Ensures proper alignment */
     flex-grow: 1;
+}
+
+/* Form Input Styles */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #001F54;
+}
+
+.form-group input[type="text"],
+.form-group input[type="date"],
+.form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #001F54;
+    border-radius: 8px;
+    font-size: 16px;
+    background-color: white;
+    color: #001F54;
+    transition: border-color 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #F5C414;
+}
+
+/* Checkbox Styles */
+.section ul li {
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+}
+
+.section ul li label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    cursor: pointer;
+}
+
+.section ul li input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    margin: 0;
+    cursor: pointer;
+    accent-color: #001F54;
+}
+
+.section ul li .item {
+    flex-grow: 1;
+    font-size: 16px;
+    color: #001F54;
+}
+
+.section ul li .tag {
+    background-color: #001F54;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+/* Textarea specific style */
+textarea {
+    min-height: 100px;
+    resize: vertical;
 }
