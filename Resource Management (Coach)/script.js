@@ -26,6 +26,10 @@ document.addEventListener('DOMContentLoaded', function() {
             returnDateInput.type = 'time';
             specificUseInput.type = 'time';
             
+            // Clear input values when switching
+            returnDateInput.value = '';
+            specificUseInput.value = '';
+            
             borrowDateLabel.textContent = 'Use Date:';
             returnDateLabel.textContent = 'Start Time:';
             specificUseLabel.textContent = 'End Time:';
@@ -39,6 +43,10 @@ document.addEventListener('DOMContentLoaded', function() {
             borrowDateInput.type = 'date';
             returnDateInput.type = 'date';
             specificUseInput.type = 'text';
+            
+            // Clear input values when switching
+            returnDateInput.value = '';
+            specificUseInput.value = '';
             
             borrowDateLabel.textContent = 'Borrow Date:';
             returnDateLabel.textContent = 'Return Date:';
