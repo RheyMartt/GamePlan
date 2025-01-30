@@ -8,15 +8,17 @@ body {
 
 main {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(2, 1fr);
     grid-template-rows: auto auto;
     gap: 50px;
-    padding: 30px 15px; /* Adjusted padding */
+    padding: 30px 15px;
+    align-items: start;
 }
+
 
 section {
     background-color: #F5C414;
-    padding: 25px 15px; /* Adjusted padding */
+    padding: 25px 15px;
     border-radius: 12px;
     width: 100%;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -101,23 +103,37 @@ form .date-fields input {
     min-width: 0;
 }
 
-section.add-training, section.ongoing-training {
+section.add-training, 
+section.ongoing-training {
     grid-column: span 1;
     grid-row: 1;
     min-height: 350px;
-    width: calc(100% - 30px); /* Adjusted width to consume spaces */
+    width: 100%; /* Ensures uniformity */
+}
+section {
+    box-sizing: border-box;
+}
+
+section.training-done {
+    grid-column: span 1;
+    grid-row: 1;
+    min-height: 350px;
+    width: 100%; /* Ensures it matches others */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 section.training-plan {
     background-color: #F5C414;
-    padding: 25px; /* Adjusted padding to match other sections */
+    padding: 25px;
     border-radius: 12px;
-    width: 100%; /* Adjusted width to consume spaces */
+    width: 100%;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     margin-bottom: 25px;
     text-align: center;
     grid-column: span 2;
-    grid-row: 2; /* Adjusted to span only one row */
+    grid-row: 2;
     margin-top: 50px;
     min-height: 350px;
 }
@@ -190,7 +206,7 @@ i {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 25px 30px; /* Adjusted padding */
+    padding: 25px 30px;
     background-color: #F6F4F0;
     position: relative;
     height: 110px;
