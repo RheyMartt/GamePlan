@@ -7,52 +7,50 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <!-- Navigation Bar -->
-        <div class="navbar">
-          <div class="logo-container">
+    <nav class="navbar">
+        <div class="logo-container">
             <img src="NU BULLDOG.png" alt="Logo" class="navbar-logo">
-          </div>
-          <div class="nav-links">
+        </div>
+        <div class="nav-links">
             <ul>
-              <li><a href="#" class="active">GAME DASHBOARD</a></li>
-              <li><a href="#">TEAM COMMUNICATION</a></li>
-              <li><a href="#">PLAYER MANAGEMENT</a></li>
-              <li><a href="#">SCHEDULE</a></li>
-              <li><a href="#">PROGRESS & MILESTONE</a></li>
-              <li><a href="#">EQUIPMENTS</a></li>
-              <li><a href="#">LOGOUT</a></li>
+                <li><a href="#" class="active">GAME DASHBOARD</a></li>
+                <li><a href="#">TEAM COMMUNICATION</a></li>
+                <li><a href="#">PLAYER MANAGEMENT</a></li>
+                <li><a href="#">SCHEDULE</a></li>
+                <li><a href="#">PROGRESS & MILESTONE</a></li>
+                <li><a href="#">RESOURCES</a></li>
+                <li><a href="#">LOGOUT</a></li>
             </ul>
-          </div>
         </div>
-    <div class="container">
-        <div class="box">
-            <ul>
-                <li><strong>Coach John:</strong> "Great job on the last match! Let's review the footage." </li>
-                <li><strong>Player Sarah:</strong> "I've got some ideas for the next game strategy. Can we meet?"</li>
-                <li><strong>Analyst Mike:</strong> "I have updated the stats on player performance. Check the report." </li>
-            </ul>
-            <a href="#" class="button">View All Messages</a>
+    </nav>
+
+    <main class="dashboard-container">
+        <div class="box notifications">
+            <div class="box-header">Notifications</div>
+            <p>New Team Training Added <span class="time">3:00 PM</span></p>
+            <p>New Personal Training Added <span class="time">9:00 AM</span></p>
         </div>
-        <div class="box">
-            <ul>
-                <li><strong>System Update:</strong> "New update for the communication hub. Restart to apply." </li>
-                <li><strong>New Video:</strong> "Match highlights uploaded. Review and provide feedback." </li>
-                <li><strong>Upcoming Meeting:</strong> "Team strategy meeting scheduled for tomorrow at 10 AM." </li>
-            </ul>
-            <a href="#" class="button">View All Notifications</a>
+        <div class="box messages-coach">
+            <div class="box-header">Message from Coach</div>
+            <p>New Team Training Added <span class="time">3:00 PM</span></p>
+            <p>New Team Training Added <span class="time">3:00 PM</span></p>
+            <p>New Team Training Added <span class="time">3:00 PM</span></p>
         </div>
-        <div class="box">
-            <p><strong>Name:</strong> Coach John</p>
-            <p><strong>Email:</strong> john@coach.com</p>
-            <p><strong>Role:</strong> Coach</p>
-            <a href="#" class="button">Edit Profile</a>
+        <div class="box messages-analyst">
+            <div class="box-header">Message from Analyst</div>
+            <p>New Team Analysis Added <span class="time">3:00 PM</span></p>
         </div>
-        <div class="box">
-            <p><strong>Feedback:</strong> "Great performance last game, but we need to improve defense." </p>
-            <p><strong>Upcoming Plan:</strong> "Let's focus on conditioning for the next month, especially endurance." </p>
-            <a href="#" class="button">View Team Strategy</a>
+        <div class="box contact">
+            <div class="box-header">Contact</div>
+            <div class="contact-list">
+                <p>Coach Juan <span class="contact-icon">👤</span></p>
+                <p>Coach Juan <span class="contact-icon">👤</span></p>
+                <p>Coach Juan <span class="contact-icon">👤</span></p>
+                <p>Coach Juan <span class="contact-icon">👤</span></p>
+                <p>Coach Juan <span class="contact-icon">👤</span></p>
+                <p>Coach Juan <span class="contact-icon">👤</span></p>
+            </div>
         </div>
-    </div>
+    </main>
 </body>
 </html>

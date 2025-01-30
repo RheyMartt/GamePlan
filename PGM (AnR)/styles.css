@@ -8,15 +8,17 @@ body {
 
 main {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(2, 1fr);
     grid-template-rows: auto auto;
     gap: 50px;
-    padding: 30px 15px; /* Adjusted padding */
+    padding: 30px 15px;
+    align-items: start;
 }
+
 
 section {
     background-color: #F5C414;
-    padding: 25px 15px; /* Adjusted padding */
+    padding: 25px 15px;
     border-radius: 12px;
     width: 100%;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -27,7 +29,7 @@ h2 {
     font-weight: bold;
     color: #001F54;
     text-align: center;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
 }
 
 .toggle {
@@ -101,25 +103,55 @@ form .date-fields input {
     min-width: 0;
 }
 
-section.add-training, section.ongoing-training {
+section.add-training, 
+section.ongoing-training {
     grid-column: span 1;
     grid-row: 1;
     min-height: 350px;
-    width: calc(100% - 30px); /* Adjusted width to consume spaces */
+    width: 100%; /* Ensures uniformity */
+}
+section {
+    box-sizing: border-box;
+}
+
+section.training-done {
+    grid-column: span 1;
+    grid-row: 1;
+    min-height: 350px;
+    width: 100%; /* Ensures it matches others */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 section.training-plan {
     background-color: #F5C414;
-    padding: 25px 15px; /* Adjusted padding to match other sections */
+    padding: 25px;
     border-radius: 12px;
-    width: calc(100% - 30px); /* Adjusted width to consume spaces */
+    width: 100%;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     margin-bottom: 25px;
-    text-align: left;
+    text-align: center;
     grid-column: span 2;
-    grid-row: 2; /* Adjusted to span only one row */
+    grid-row: 2;
     margin-top: 50px;
     min-height: 350px;
+}
+
+.training-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.players-training, .team-training {
+    width: 45%;
+}
+
+.divider {
+    width: 2px;
+    background-color: #001F54;
+    height: 100%;
 }
 
 section.training-plan h2 {
@@ -132,14 +164,14 @@ section.training-plan h2 {
 
 table {
     width: 100%;
-    border-collapse: separate;
-    border-spacing: 0 12px;
-    margin-top: 12px;
+    border-collapse: collapse;
+    margin-bottom: 20px;
 }
 
 table th, table td {
-    padding: 12px;
+    padding: 10px;
     text-align: left;
+    border-bottom: 1px solid #001F54;
 }
 
 table th:last-child, table td:last-child {
@@ -174,7 +206,7 @@ i {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 25px 30px; /* Adjusted padding */
+    padding: 25px 30px;
     background-color: #F6F4F0;
     position: relative;
     height: 110px;
@@ -217,7 +249,7 @@ i {
 
 section h3 {
     font-size: 1.5em;
-    margin-bottom: 18px;
+    margin-bottom: 10px;
     color: #001F54;
     font-weight: bold;
     text-align: center;
@@ -228,6 +260,14 @@ hr {
     border-top: 2px solid #001F54;
     margin: 25px 0;
 }
+
 .active {
     font-weight: bold;
+}
+
+.progress {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #001F54;
+    text-align: center;
 }

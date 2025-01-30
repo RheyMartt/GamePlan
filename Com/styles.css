@@ -1,132 +1,119 @@
+/* General Styles */
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
 
-/* Global Styles */
 body {
-    margin: 0;
     font-family: 'Poppins', sans-serif;
-    background-color: #F6F4F0;
+    background-color: #F5C414;
     color: #001F54;
 }
 
-/* Navbar Styling */
 .navbar {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 20px 40px;
-    background-color: #F6F4F0; /* Excluded from the 60-30-10 scheme */
+    padding: 25px 30px;
+    background-color: #F6F4F0;
     position: relative;
-    height: 100px;
-    width: 100%; /* Ensure navbar spans full width */
+    height: 110px;
 }
 
-/* Logo container */
 .logo-container {
     flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    padding: 10px;
 }
 
-/* Navbar Logo Styling */
 .navbar-logo {
-    width: 200px; /* Increase the width further for better visibility */
-    height: auto; /* Maintain the aspect ratio */
-    object-fit: contain; /* Ensure the logo scales properly */
+    width: 180px;
+    height: auto;
+    object-fit: contain;
     display: block;
-    margin-right: 15px;
+    margin-right: 20px;
+    transition: transform 0.3s ease;
 }
 
-/* Navigation Links */
 .nav-links ul {
     list-style-type: none;
     display: flex;
-    gap: 20px;
+    gap: 22px;
     justify-content: center;
     flex-grow: 1;
+    margin: 0;
+    padding: 0;
 }
 
 .nav-links a {
     text-decoration: none;
-    color: #001F54; /* 10% Accent color */
-    font-size: 18px;
-    padding: 10px 20px;
+    color: #001F54;
+    font-size: 19px;
+    padding: 12px 22px;
     transition: background-color 0.3s, color 0.3s;
 }
 
 .nav-links a:hover {
-    background-color: #F5C414; /* 30% Secondary color */
+    background-color: #F5C414;
     color: #FFF;
 }
 
-.container {
+/* Dashboard Layout */
+.dashboard-container {
+    margin-top: 100px;
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(3, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 20px;
-    background-color: #F5C414;
     padding: 20px;
-    border-radius: 10px;
-    width: 100%;
-    max-width: 1920px; /* Set max width */
-    height: 100%;
-    max-height: 1080px; /* Set max height */
-    margin: 20px auto; /* Center container horizontally */
-    box-sizing: border-box; /* Include padding and border in element's total width and height */
+    max-width: 1400px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .box {
-    background-color: #F6F4F0;
+    background-color: #FFFFFF;
     border-radius: 10px;
     padding: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-    position: relative;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: 'Poppins', sans-serif;
 }
 
-.box h3 {
-    display: none; /* Hide the titles */
-}
-
-.box:nth-child(3) {
-    grid-column: span 1;
-}
-
-.box:nth-child(4) {
-    grid-column: span 1;
-}
-
-.button {
-    background-color: #F5C414;
-    color: #001F54;
-    text-decoration: none;
-    padding: 10px;
-    border-radius: 5px;
-    margin-top: 10px;
-    text-align: center;
-    width: 100%;
-}
-
-.button:hover {
+.box-header {
     background-color: #001F54;
     color: #FFF;
+    padding: 10px;
+    font-weight: bold;
+    border-radius: 5px 5px 0 0;
+    margin-bottom: 10px;
+    font-size: 18px;
 }
 
-/* Responsive adjustments */
-@media (max-width: 1920px) {
-    .container {
-        width: 100%;
-        height: auto;
-    }
+/* Time and Contacts */
+.time {
+    float: right;
+    font-weight: bold;
+    font-size: 14px;
 }
 
-@media (max-width: 1080px) {
-    .container {
-        grid-template-columns: 1fr;
-        grid-template-rows: repeat(6, 1fr);
-    }
+.contact-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    padding: 10px;
+}
+
+.contact-list p {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    font-weight: 500;
+    padding: 5px 0;
+}
+
+.contact-list p img {
+    margin-left: 10px;
+    width: 16px;
+    height: 16px;
 }
