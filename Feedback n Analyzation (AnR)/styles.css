@@ -1,0 +1,254 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #F6F4F0;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+    box-sizing: border-box;
+}
+
+/* Navbar Styling */
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 40px;
+    background-color: #F6F4F0; /* Navbar background color */
+    position: relative;
+    height: 100px;
+    margin-top: 20px; /* Add margin to move navbar down */
+}
+
+/* Logo container */
+.logo-container {
+    flex-shrink: 0;
+}
+
+/* Navbar Logo Styling */
+.navbar-logo {
+    width: 200px; /* Increase the width further for better visibility */
+    height: auto; /* Maintain the aspect ratio */
+    object-fit: contain; /* Ensure the logo scales properly */
+    display: block;
+    margin-right: 15px;
+}
+
+/* Navigation Links */
+.nav-links ul {
+    list-style-type: none;
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-grow: 1;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #001F54; /* Accent color for text */
+    font-size: 18px;
+    padding: 10px 20px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.nav-links a:hover {
+    background-color: #F5C414;
+    color: #FFF;
+}
+
+/* Container Layout */
+.container {
+    display: flex;
+    justify-content: space-between;
+    padding: 30px 40px;
+    width: calc(100% - 80px);
+    box-sizing: border-box;
+}
+
+/* Left Panel */
+.left-panel {
+    background-color: #F5C414;
+    padding: 20px;
+    border-radius: 15px;
+    flex: 1;
+    margin-right: 20px;
+}
+
+/* Dropdown Buttons */
+.dropdown {
+    color: white;
+    height: 46px;
+    padding: 0 15px;
+    border: 2px solid transparent;
+    font-size: 16px;
+    text-align: left;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    box-sizing: border-box;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.first-dropdown {
+    width: 224px;
+    margin-left: 40px;
+    background-color: #001F54;
+    margin-bottom: 30px;
+}
+
+.second-dropdown {
+    width: 224px;
+    margin-left: 40px;
+    background-color: #001F54;
+    margin-bottom: 30px;
+}
+
+.dropdown:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+}
+
+.dropdown:after {
+    content: '▼';
+    font-size: 12px;
+    margin-left: 10px;
+}
+
+/* Charts */
+.charts {
+    display: flex;
+    justify-content: center; /* Changed from space-between to center */
+    gap: 5px; /* Reduced from 5px to 2px */
+    max-width: 100%;
+    overflow-x: hidden;
+    margin-bottom: 20px; /* Reduced from 30px */
+    padding: 10px 5px; /* Added small padding */
+}
+
+.player-stats-container {
+    overflow-x: auto;
+    margin-top: 15px;
+}
+
+/* Table Styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: auto;
+    background-color: #F5C414; /* Yellow background */
+}
+
+/* Table Header */
+th {
+    background-color: #F5C414; /* Bright Yellow */
+    color: #001F54;
+    font-weight: bold;
+    padding: 12px;
+    text-align: center;
+    border: 1px solid black;
+}
+/* Center the NU Player Stats Title */
+.player-stats-container h2 {
+    text-align: center;
+    color: #001F54;
+    font-weight: 600;
+    font-size: 22px; /* Adjust size as needed */
+    margin-bottom: 10px;
+}
+
+/* Table Rows */
+td {
+    padding: 10px;
+    text-align: center;
+    font-size: 14px;
+    border: 1px solid black;
+}
+
+/* Left Align Player Name */
+td:first-child {
+    text-align: left;
+    padding-left: 10px;
+    white-space: nowrap; /* Prevent text wrapping */
+    min-width: 150px; /* Minimum width for player name column */
+}
+
+/* Alternate Row Coloring */
+tr:nth-child(even) {
+    background-color: #FFF5CC; /* Lighter Yellow */
+}
+
+/* Scrollbar */
+.player-stats-container::-webkit-scrollbar {
+    height: 8px;
+}
+
+.player-stats-container::-webkit-scrollbar-thumb {
+    background: #001F54;
+    border-radius: 10px;
+}
+
+
+/* Right Panel */
+.right-panel {
+    background-color: #F5C414;
+    padding: 20px;
+    border-radius: 15px;
+    flex: 1;
+    color: #001F54; /* Added color property */
+}
+
+.right-panel h2 {
+    color: #001F54;
+    font-weight: 600;
+    text-align: center;
+}
+
+/* Report Sections */
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #001F54;
+    border-radius: 5px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+}
+
+.fixed-textbox {
+    width: 95%;
+    height: 100px;
+    resize: none;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+}
+
+.fixed-textbox:read-only {
+    cursor: default;
+}
+
+/* Submit Button */
+.submit {
+    background-color: #001F54;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    display: block;
+    margin: 10px auto;
+    text-align: center;
+    font-weight: 600;
+}
