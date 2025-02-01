@@ -16,15 +16,15 @@
 /* Main body styling */
 html, body {
     width: 1920px; /* Fixed width */
-    height: 1080px; /* Fixed height */
-    overflow: hidden; /* Prevent scrollbars */
+    min-height: 100vh; /* Minimum height instead of fixed height */
+    overflow-x: hidden; /* Prevent horizontal scrolling */
     background-color: #F6F4F0; /* Dominant background color */
     font-family: 'Poppins', sans-serif; /* Apply the Poppins font globally */
 }
 
 body {
     margin: 0 auto; /* Center horizontally */
-    overflow-x: hidden; /* Prevent horizontal scrolling */
+    overflow-y: auto; /* Allow vertical scrolling */
 }
 
 /* Navbar Styling */
