@@ -166,10 +166,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
                 // Successful login - redirect based on role
                 if (data.role === 'Coach') {
                     localStorage.setItem('coachID', data.coachID);
-                    window.location.href = 'CommHub.html'; // Redirect to CommHub.html if the user is a coach
+                    window.location.href = 'Dashboard (Coach)/GD.php'; // Redirect to CommHub.html if the user is a coach
                 } else if (data.role === 'Analyst') {
                     localStorage.setItem('analystID', data.analystID);
-                    window.location.href = 'analyst-dashboard.html'; // Redirect to analyst-dashboard.html if the user is an analyst
+                    window.location.href = 'Dashboard (AnR)/GD.php'; // Redirect to analyst-dashboard.html if the user is an analyst
                 } else if (data.role === 'Player') {
                     localStorage.setItem('playerID', data.playerID);
                     window.location.href = 'Player_Profile_(Player)/Player.php'; // Redirect to Player.php if the user is a player
