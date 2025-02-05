@@ -48,23 +48,21 @@ $otherPlayers = $stmt->fetchAll();
 <body>
     <div class="player-profile">
         <!-- Navigation Bar -->
-        <div class="navbar">
-            <div class="logo-container">
-                <img src="NU BULLDOG.png" alt="Logo" class="navbar-logo">
-            </div>
-            <div class="nav-links">
-                <ul>
-                    <li><a href="#">Title Here</a></li>
-                    <li><a href="#">Title Here</a></li>
-                    <li><a href="#">Title Here</a></li>
-                    <li><a href="#">Title Here</a></li>
-                    <li><a href="#">Title Here</a></li>
-                    <li><a href="#">Title Here</a></li>
-                    <li><a href="#">Title Here</a></li>
-                    <li><a href="#">Title Here</a></li>
-                </ul>
-            </div>
-        </div>
+    <div class="navbar">
+      <div class="logo-container">
+        <img src="NU BULLDOG.png" alt="Logo" class="navbar-logo">
+      </div>
+      <div class="nav-links">
+        <ul>
+          <li><a href="#" class="active">PLAYER PROFILE</a></li>
+          <li><a href="/gameplan/Com/CommHub.html">TEAM COMMUNICATION</a></li>
+          <li><a href="/gameplan/Schedule_Player/PlayerSM.html">SCHEDULE</a></li>
+          <li><a href="/gameplan/PGM_Player/PGM.html">PROGRESS & MILESTONE</a></li>
+          <li><a href="/gameplan/Resource_Management_Player/RM.html">RESOURCES</a></li>
+          <li><a href="#" title="Logout"><i class="fas fa-sign-out-alt"></i></a></li>
+        </ul>
+      </div>
+    </div>   
 
         <!-- Player Profile Section -->
         <section class="profile-section">
