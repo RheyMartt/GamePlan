@@ -15,16 +15,61 @@
 
 /* Main body styling */
 html, body {
-    width: 1920px; /* Fixed width */
-    min-height: 100vh; /* Minimum height instead of fixed height */
-    overflow-x: hidden; /* Prevent horizontal scrolling */
-    background-color: #F6F4F0; /* Dominant background color */
-    font-family: 'Poppins', sans-serif; /* Apply the Poppins font globally */
+    width: 100vw; /* Full viewport width */
+    height: 100vh; /* Full viewport height */
+    overflow-x: hidden;
+    background-color: #F6F4F0;
+    font-family: 'Poppins', sans-serif;
 }
 
 body {
     margin: 0 auto; /* Center horizontally */
     overflow-y: auto; /* Allow vertical scrolling */
+}
+
+/* Add container for 16:9 aspect ratio */
+.container {
+    width: 100%;
+    max-width: 1600px; /* Maximum width for larger screens */
+    margin: 0 auto;
+    padding: 0 20px;
+    height: auto;
+    aspect-ratio: 16/9;
+}
+
+/* Media Queries for Responsive Design */
+@media screen and (max-width: 1366px) {
+    .container {
+        max-width: 1280px;
+    }
+    
+    .navbar {
+        padding: 15px 30px;
+        height: 80px;
+    }
+
+    .navbar-logo {
+        width: 160px;
+    }
+
+    .player-image {
+        width: 200px;
+        height: 200px;
+    }
+}
+
+@media screen and (max-width: 1024px) {
+    .container {
+        max-width: 960px;
+    }
+    
+    .highlights-content {
+        flex-direction: column;
+    }
+
+    .highlight-group {
+        flex: 1 1 100%;
+    }
 }
 
 /* Navbar Styling */

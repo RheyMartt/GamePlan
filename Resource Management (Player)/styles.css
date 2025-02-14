@@ -32,8 +32,6 @@ body {
 }
 
 
-
-
 .logo-container {
     flex-shrink: 0;
 }
@@ -60,14 +58,36 @@ body {
 .nav-links a {
     text-decoration: none;
     color: #001F54;
-    font-size: 19px;
-    padding: 12px 22px;
+    font-size: 16px; /* Adjusted font size */
+    padding: 10px 18px; /* Adjusted padding */
     transition: background-color 0.3s, color 0.3s;
 }
 
 .nav-links a:hover {
     background-color: #F5C414;
     color: #FFF;
+}
+
+/* Main Content Container */
+.container {
+    margin-top: 120px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.switch-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 15px;
+    margin-top: 200px; /* Increased from 130px to 160px to prevent overlap */
+    width: 60%;
+    margin-bottom: 25px;
+    padding: 0 10px;
+    position: relative;
+    z-index: 1000;
 }
 
 /* Main Content Container */

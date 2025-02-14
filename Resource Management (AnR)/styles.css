@@ -32,8 +32,6 @@ body {
 }
 
 
-
-
 .logo-container {
     flex-shrink: 0;
 }
@@ -60,8 +58,8 @@ body {
 .nav-links a {
     text-decoration: none;
     color: #001F54;
-    font-size: 19px;
-    padding: 12px 22px;
+    font-size: 16px; /* Adjusted font size */
+    padding: 10px 18px; /* Adjusted padding */
     transition: background-color 0.3s, color 0.3s;
 }
 
