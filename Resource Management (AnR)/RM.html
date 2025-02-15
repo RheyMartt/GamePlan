@@ -32,7 +32,6 @@
             </div>
         </div>
 
-        <!-- Switch Button -->
         <div class="switch-container">
             <label class="switch">
                 <input type="checkbox" id="toggle-switch">
@@ -40,6 +39,8 @@
             </label>
             <span id="switch-label">Equipments</span>
         </div>
+        
+        
 
         <!-- Equipments Section -->
         <div class="section" id="equipments-section">
@@ -134,5 +135,22 @@
     </div>
 
     <script src="script.js"></script>
+    <script>
+        document.getElementById('toggle-switch').addEventListener('change', function() {
+            const equipmentsSection = document.getElementById('equipments-section');
+            const facilitiesSection = document.getElementById('facilities-section');
+            const switchLabel = document.getElementById('switch-label');
+            
+            if (this.checked) {
+                equipmentsSection.style.display = 'none';
+                facilitiesSection.style.display = 'block';
+                switchLabel.textContent = 'Facilities';
+            } else {
+                equipmentsSection.style.display = 'block';
+                facilitiesSection.style.display = 'none';
+                switchLabel.textContent = 'Equipments';
+            }
+        });
+    </script>
 </body>
 </html>

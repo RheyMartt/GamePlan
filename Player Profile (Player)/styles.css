@@ -265,7 +265,6 @@ body {
     flex: 1;
     text-align: center;
     color: #001F54;
-    word-wrap: break-word; /* Ensure long text wraps */
 }
 
 .player-info h4 {
@@ -284,9 +283,6 @@ body {
     font-size: 32px;
     font-weight: bold;
     color: #001F54;
-    overflow: hidden; /* Hide overflow text */
-    text-overflow: ellipsis; /* Add ellipsis for overflow text */
-    white-space: nowrap; /* Prevent text from wrapping */
 }
 
 /* Career Highlights Section */
