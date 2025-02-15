@@ -1,0 +1,119 @@
+/* General Styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #F5C414;
+    color: #001F54;
+}
+
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 25px 30px;
+    background-color: #F6F4F0;
+    position: relative;
+    height: 110px;
+}
+
+.logo-container {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+}
+
+.navbar-logo {
+    width: 180px;
+    height: auto;
+    object-fit: contain;
+    display: block;
+    margin-right: 20px;
+    transition: transform 0.3s ease;
+}
+
+.nav-links ul {
+    list-style-type: none;
+    display: flex;
+    gap: 22px;
+    justify-content: center;
+    flex-grow: 1;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #001F54;
+    font-size: 19px;
+    padding: 12px 22px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.nav-links a:hover {
+    background-color: #F5C414;
+    color: #FFF;
+}
+
+/* Dashboard Layout */
+.dashboard-container {
+    margin-top: 100px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    padding: 20px;
+    max-width: 1400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.box {
+    background-color: #FFFFFF;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: 'Poppins', sans-serif;
+}
+
+.box-header {
+    background-color: #001F54;
+    color: #FFF;
+    padding: 10px;
+    font-weight: bold;
+    border-radius: 5px 5px 0 0;
+    margin-bottom: 10px;
+    font-size: 18px;
+}
+
+/* Time and Contacts */
+.time {
+    float: right;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.contact-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    padding: 10px;
+}
+
+.contact-list p {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    font-weight: 500;
+    padding: 5px 0;
+}
+
+.contact-list p img {
+    margin-left: 10px;
+    width: 16px;
+    height: 16px;
+}

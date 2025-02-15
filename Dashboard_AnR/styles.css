@@ -1,0 +1,318 @@
+/* Global Styles */
+html, body {
+    width: 1920px; /* Fixed width */
+    height: 1080px; /* Fixed height */
+    background-color: #F6F4F0; /* Dominant background color */
+    font-family: 'Poppins', sans-serif; /* Apply the Poppins font globally */
+}
+
+body {
+    margin: 0 auto; /* Center horizontally */
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+    font-family: 'Poppins', sans-serif;
+    background-color: #F6F4F0;
+    color: #001F54;
+    line-height: 1.6; /* Improve readability */
+}
+
+/* Navbar Styling */
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 40px;
+    background-color: #F6F4F0; /* Navbar background color */
+    position: relative;
+    height: 100px;
+    margin-top: 20px; /* Add margin to move navbar down */
+}
+
+/* Logo container */
+.logo-container {
+    flex-shrink: 0;
+}
+
+/* Navbar Logo Styling */
+.navbar-logo {
+    width: 200px; /* Increase the width further for better visibility */
+    height: auto; /* Maintain the aspect ratio */
+    object-fit: contain; /* Ensure the logo scales properly */
+    display: block;
+    margin-right: 15px;
+}
+
+/* Navigation Links */
+.nav-links ul {
+    list-style-type: none;
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-grow: 1;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #001F54; /* Accent color for text */
+    font-size: 18px;
+    padding: 10px 20px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.nav-links a:hover {
+    background-color: #F5C414;
+    color: #FFF;
+}
+
+/* Dropdown Menu */
+.dropdown {
+    position: relative;
+    display: inline-block;
+    margin: 20px;
+    text-align: right; /* Align dropdown to the right */
+}
+
+#dropdownButton {
+    background-color: #001F54;
+    color: #F6F4F0;
+    padding: 8px 12px; /* Adjust padding for better spacing */
+    border: none;
+    cursor: pointer;
+    font-size: 14px; /* Adjust font size for better readability */
+    border-radius: 5px;
+}
+
+#dropdownButton:hover {
+    transform: scale(1.1); /* Slightly enlarge the button on hover */
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #F6F4F0;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    min-width: 160px;
+}
+
+.dropdown-content a {
+    color: #001F54;
+    padding: 8px 12px; /* Adjust padding for better spacing */
+    display: block;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.dropdown-content a:hover {
+    background-color: #F5C414;
+    transform: scale(1.1); /* Slightly enlarge the button on hover */
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Court Stats Section */
+.court-stats {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: 20px 10px; /* Adjust margin for better spacing */
+}
+
+.court {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #F5C414; /* Background color for the court section */
+    padding: 20px; /* Adjust padding for better spacing */
+    border-radius: 10px; /* Rounded corners */
+    border: 2px solid #001F54; /* Dark blue border */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+    margin: 20px 0; /* Add space above and below the court section */
+}
+
+.court img {
+    max-width: 100%;
+    border-radius: 10px; /* Rounded corners */
+    margin-bottom: 20px; /* Space below the image */
+}
+
+.game-details {
+    background-color: #F5C414;
+    color: #001F54;
+    padding: 15px; /* Adjust padding for better spacing */
+    border-radius: 10px;
+    text-align: center;
+    border: 2px solid #001F54; /* Dark blue border */
+}
+
+.game-details h1 {
+    margin: 0;
+    font-size: 22px; /* Adjust font size for better readability */
+    font-weight: bold;
+}
+
+.score-breakdown {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 2fr; /* Adjust the last column (T) to be wider */
+    gap: 0; /* Remove extra gaps */
+    text-align: center;
+    font-size: 16px; /* Adjust font size for better readability */
+    margin-top: 15px;
+    line-height: 1.6; /* Better vertical spacing */
+    border-collapse: collapse; /* Table-like structure */
+}
+
+/* Score Breakdown Section */
+.score-breakdown div {
+    padding: 8px 0; /* Uniform padding for rows */
+    font-weight: bold;
+    color: #001F54; /* Dark blue for text */
+}
+
+.score-breakdown div:nth-child(5n) {
+    border-left: 2px solid #001F54; /* Add vertical border before "T" column */
+}
+
+.score-breakdown div:nth-child(-n+5) {
+    font-weight: bold;
+    border-bottom: 2px solid #001F54; /* Header row separation */
+}
+
+/* Top Performers */
+.top-performers {
+    margin: 20px;
+    padding: 20px; /* Adjust padding for better spacing */
+    background-color: #F5C414;
+    border: 2px solid #001F54;
+    border-radius: 10px;
+}
+
+.top-performers h3 {
+    margin: 0 0 10px;
+    font-size: 20px; /* Adjust font size for better readability */
+    color: #001F54;
+    text-align: center;
+}
+
+.performer {
+    margin: 10px 0;
+    font-size: 16px; /* Adjust font size for better readability */
+}
+
+/* Container */
+.player-stats-container {
+    background-color: #F5C414; /* Background color for the container */
+    border-radius: 12px; /* Rounded corners for the container */
+    padding: 25px; /* Adjust padding for better spacing */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Optional: adds a soft shadow for depth */
+    max-width: 1200px; /* Maximum width of the container */
+    margin: 20px auto; /* Center the container and add space around it */
+    border: 2px solid #001F54; /* Dark blue border */
+}
+
+/* Tables */
+.player-stats {
+    margin: 0 20px; /* Add horizontal margin to create space around the container */
+    overflow-x: auto; /* Enable horizontal scroll on smaller screens */
+    box-sizing: border-box; /* Ensure padding doesn't affect the width */
+    gap: 20px; /* Add gap to avoid tables covering up the page */
+}
+
+.player-stats h2 {
+    color: #001F54;
+    font-size: 18px;
+    text-align: center;
+}
+
+.player-stats table {
+    width: auto; /* Adjust width to prevent table from occupying the entire page */
+    max-width: 100%; /* Ensure the table doesn't exceed the container width */
+    box-sizing: border-box; /* Prevent padding from affecting the width */
+    border-collapse: collapse;
+    text-align: center; /* Center-align data for consistency */
+    font-size: 14px;
+    background-color: #F5C414; /* Background color for the table */
+    margin: 10px auto; /* Adjusted margin to prevent table from occupying the entire page */
+}
+
+.player-stats th, .player-stats td {
+    border: 1px solid #001F54;
+    padding: 15px; /* Adjusted padding for better spacing */
+    text-align: center; /* Center-align data for consistency */
+}
+
+.player-stats th {
+    background-color: #F5C414;
+    color: #001F54;
+    font-weight: bold; /* Make headers stand out */
+    padding: 18px; /* Adjusted padding for better spacing */
+}
+
+.player-stats td:first-child {
+    text-align: left; /* Align player names to the left */
+}
+
+.player-stats tr:nth-child(even) {
+    background-color: #FDF1AA; /* Light yellow for alternating rows */
+}
+
+.player-stats tr:nth-child(odd) {
+    background-color: #F5C414; /* Original yellow */
+}
+
+/* Grid Layout Section */
+.grid-layout {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 25px; /* Adjust padding for better spacing */
+}
+
+.grid-item {
+    background-color: #F5C414;
+    color: #001F54;
+    padding: 25px; /* Adjust padding for better spacing */
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.grid-item h2 {
+    margin: 0 0 10px;
+    font-size: 20px; /* Adjust font size for better readability */
+    font-weight: bold;
+}
+
+.grid-item p {
+    font-size: 16px; /* Adjust font size for better readability */
+}
+
+/* Court Buttons Styling */
+.court-buttons {
+    text-align: left; /* Align buttons to the left */
+    margin: 20px 0; /* Add margin for spacing */
+}
+
+.court-buttons button {
+    background-color: #001F54;
+    color: #F6F4F0;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+    margin: 0 10px; /* Add margin between buttons */
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.court-buttons button:hover {
+    background-color: #F5C414;
+    color: #001F54;
+    transform: scale(1.1); /* Slightly enlarge the button on hover */
+}
+

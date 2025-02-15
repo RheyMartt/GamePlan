@@ -1,0 +1,273 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #F6F4F0;
+    color: #001F54;
+    margin: 0;
+    padding: 0;
+}
+
+main {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: auto auto;
+    gap: 50px;
+    padding: 30px 15px;
+    align-items: start;
+}
+
+
+section {
+    background-color: #F5C414;
+    padding: 25px 15px;
+    border-radius: 12px;
+    width: 100%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    font-size: 2em;
+    font-weight: bold;
+    color: #001F54;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.toggle {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-bottom: 25px;
+}
+
+.toggle button {
+    background-color: #001F54;
+    color: white;
+    border: none;
+    padding: 12px 22px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.toggle button:hover {
+    background-color: #003276;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+}
+
+form label {
+    font-size: 1.2em;
+    color: #001F54;
+    font-weight: bold;
+}
+
+form input[type="text"],
+form input[type="date"] {
+    width: calc(100% - 24px);
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1em;
+}
+
+form button {
+    align-self: flex-end;
+    background-color: #001F54;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1.2em;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+form button:hover {
+    background-color: #003276;
+}
+
+form .date-fields {
+    display: flex;
+    gap: 12px;
+    width: 100%;
+}
+
+form .date-fields input {
+    flex: 1;
+    min-width: 0;
+}
+
+section.add-training, 
+section.ongoing-training {
+    grid-column: span 1;
+    grid-row: 1;
+    min-height: 350px;
+    width: 100%; /* Ensures uniformity */
+}
+section {
+    box-sizing: border-box;
+}
+
+section.training-done {
+    grid-column: span 1;
+    grid-row: 1;
+    min-height: 350px;
+    width: 100%; /* Ensures it matches others */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+section.training-plan {
+    background-color: #F5C414;
+    padding: 25px;
+    border-radius: 12px;
+    width: 100%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 25px;
+    text-align: center;
+    grid-column: span 2;
+    grid-row: 2;
+    margin-top: 50px;
+    min-height: 350px;
+}
+
+.training-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.players-training, .team-training {
+    width: 45%;
+}
+
+.divider {
+    width: 2px;
+    background-color: #001F54;
+    height: 100%;
+}
+
+section.training-plan h2 {
+    font-size: 2em;
+    color: #001F54;
+    margin-bottom: 18px;
+    font-weight: bold;
+    text-align: center;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+table th, table td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #001F54;
+}
+
+table th:last-child, table td:last-child {
+    text-align: center;
+}
+
+table th {
+    font-size: 1.1em;
+    color: #001F54;
+    padding-bottom: 6px;
+}
+
+table td {
+    background-color: white;
+    padding: 12px;
+    border-radius: 6px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+table td i {
+    cursor: pointer;
+    font-size: 1.3em;
+    color: #001F54;
+}
+
+i {
+    color: #001F54;
+    cursor: pointer;
+}
+
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 25px 30px;
+    background-color: #F6F4F0;
+    position: relative;
+    height: 110px;
+}
+
+.logo-container {
+    flex-shrink: 0;
+}
+
+.navbar-logo {
+    width: 220px;
+    height: auto;
+    object-fit: contain;
+    display: block;
+    margin-right: 18px;
+}
+
+.nav-links ul {
+    list-style-type: none;
+    display: flex;
+    gap: 22px;
+    justify-content: center;
+    flex-grow: 1;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #001F54;
+    font-size: 19px;
+    padding: 12px 22px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.nav-links a:hover {
+    background-color: #F5C414;
+    color: #FFF;
+}
+
+section h3 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+    color: #001F54;
+    font-weight: bold;
+    text-align: center;
+}
+
+hr {
+    border: none;
+    border-top: 2px solid #001F54;
+    margin: 25px 0;
+}
+
+.active {
+    font-weight: bold;
+}
+
+.progress {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #001F54;
+    text-align: center;
+}
