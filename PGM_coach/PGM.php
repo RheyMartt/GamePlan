@@ -1,3 +1,34 @@
+<?php
+include 'C:\\xampp\\htdocs\\GamePlan\\connection.php'; // Database connection
+session_start(); // Start the session
+
+// Fetch ongoing (not past) training sessions
+function getOngoingTraining() {
+    global $pdo;
+
+    try {
+        $query = "SELECT p.firstName, p.lastName, tp.focusArea AS trainingPlan, 
+                         DATE_FORMAT(t.trainingDate, '%Y-%m-%d') AS trainingDate, 
+                         TIME_FORMAT(t.trainingTime, '%h:%i %p') AS trainingTime
+                  FROM training t
+                  JOIN players p ON t.playerID = p.playerID
+                  JOIN trainingPlans tp ON t.trainingPlanID = tp.trainingPlanID
+                  WHERE t.trainingDate >= CURDATE()  -- Get today & future
+                  ORDER BY t.trainingDate ASC, t.trainingTime ASC"; // Order by earliest first
+
+        $stmt = $pdo->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        echo "Error fetching ongoing training: " . $e->getMessage();
+        return [];
+    }
+}
+
+// Fetch training sessions
+$ongoingTrainings = getOngoingTraining();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -60,28 +91,35 @@
                 <button type="submit">ADD</button>
             </form>
         </section>
-       
         <section class="ongoing-training">
             <h2>ON GOING TRAINING</h2>
             <div class="players">
                 <h3>Players</h3>
                 <table>
                     <tr>
-                        <th>Player 1</th>
+                        <th>Player</th>
                         <th>Training Plan</th>
                         <th>Start Date</th>
-                        <th>End Date</th>
+                        <th>End Time</th>
                         <th><i class="fas fa-eye"></i></th>
                     </tr>
-                    <tr>
-                        <th>Player 2</th>
-                        <th>Training Plan</th>
-                        <th>Start Date</th>
-                        <th>End Date</th>
-                        <th><i class="fas fa-eye"></i></th>
-                    </tr>
+                    <?php if (!empty($ongoingTrainings)): ?>
+                        <?php foreach ($ongoingTrainings as $training): ?>
+                            <tr>
+                                <td><?php echo htmlspecialchars($training['firstName'] . ' ' . $training['lastName']); ?></td>
+                                <td><?php echo htmlspecialchars($training['trainingPlan']); ?></td>
+                                <td><?php echo htmlspecialchars($training['trainingDate']); ?></td>
+                                <td><?php echo htmlspecialchars($training['trainingTime']); ?></td>
+                                <td><i class="fas fa-eye"></i></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <tr>
+                            <td colspan="5">No ongoing training found.</td>
+                        </tr>
+                    <?php endif; ?>
                 </table>
-            </div>
+            </div>                         
             <div class="team">
                 <h3>Team</h3>
                 <table>
