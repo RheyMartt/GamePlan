@@ -14,6 +14,13 @@ document.addEventListener('DOMContentLoaded', function() {
     const returnDateInput = document.getElementById('return-date');
     const specificUseInput = document.getElementById('specific-use');
 
+    const hamburger = document.querySelector('.hamburger');
+    const navLinks = document.querySelector('.nav-links');
+
+    hamburger.addEventListener('click', function() {
+        navLinks.classList.toggle('active');
+    });
+
     toggleSwitch.addEventListener('change', function() {
         if (this.checked) {
             // Facilities view
