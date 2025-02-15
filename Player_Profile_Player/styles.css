@@ -203,11 +203,13 @@ body {
 
 .roster-item {
     flex: 0 0 auto;
-    width: 150px;
+    width: 160px; /* Increased width for better spacing */
     text-align: center;
     cursor: pointer;
     transition: transform 0.3s ease-in-out;
+    padding: 5px; /* Add padding for spacing */
 }
+
 
 .roster-item:hover {
     transform: scale(1.05);
@@ -223,9 +225,17 @@ body {
 .roster-item span {
     display: block;
     font-size: 14px;
-    color: #001F54; /* Accent color for text */
+    color: #001F54;
     font-weight: bold;
+    max-width: 180px;
+    word-wrap: break-word; /* Wrap text properly */
+    text-align: center; /* Keeps alignment neat */
+    overflow-wrap: break-word; /* Ensures breaking works */
+    white-space: normal; /* Prevents text from overflowing */
+    text-overflow: ellipsis; /* Add ellipsis for overflow text */
 }
+
+
 
 .roster-item span:nth-child(2) {
     color: #F5C414; /* Secondary color for highlighting */

@@ -102,14 +102,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
         .form input { width: 100%; height: 45px; padding: 2px; border: 1px solid #001F54; border-radius: 10px; font-size: 16px; }
         .form button { width: 150px; height: 45px; background-color: #F5C414; border: none; border-radius: 10px; color: #001F54; font-weight: bold; cursor: pointer; font-size: 18px; margin-top: 20px; }
         .form button:hover { background-color: #e0af10; }
-
+        .slideshow-container { width: 100%; height: 100%; overflow: hidden; display: flex; justify-content: center; align-items: center; }
+        .slideshow-container img { width: 100%; height: 100%; object-fit: cover; border-radius: 8px; transition: opacity 1s ease-in-out; }
+    
     </style>
 </head>
 
 <body>
     <div class="container">
-        <div class="left-section">
-            <!-- Empty section for layout symmetry -->
+        <div class="slideshow-container">
+            <img id="slideshow" src="image1.jpg" alt="Slideshow Image">
         </div>
         <div class="right-section">
             <div class="login-box">
@@ -187,5 +189,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
 });
 
     </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const images = ["image1.jpg", "image2.jpg", "image3.jpg", "image4.jpg", "image5.jpg", "image6.jpg"]; // Add your images
+            let index = 0;
+            const slideshow = document.getElementById("slideshow");
+
+            function changeImage() {
+                index = (index + 1) % images.length; // Loop back to the first image after the last one
+                slideshow.style.opacity = 0; // Fade out effect
+
+                setTimeout(() => {
+                    slideshow.src = images[index];
+                    slideshow.style.opacity = 1; // Fade in effect
+                }, 500); // Delay for smooth transition
+            }
+
+            setInterval(changeImage, 3000); // Change image every 3 seconds
+        });
+    </script>
+
 </body>
 </html>
