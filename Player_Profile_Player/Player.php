@@ -30,7 +30,7 @@ $age = $now->diff($birthdate)->y;
 
 // Fetch active players excluding the logged-in player
 $stmt = $pdo->prepare("SELECT playerID, firstName, lastName, jerseyNumber, position 
-                        FROM players WHERE status = 'Active' AND playerID != :playerID");
+                        FROM players WHERE status = 'Active' AND playerID != :playerID AND teamID = 1");
 $stmt->execute(['playerID' => $playerID]);
 $otherPlayers = $stmt->fetchAll();
 ?>
