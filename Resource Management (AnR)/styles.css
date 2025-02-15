@@ -380,3 +380,65 @@ textarea {
     min-height: 100px;
     resize: vertical;
 }
+/* Add these media queries to your existing CSS */
+@media (max-width: 1200px) {
+    .nav-links a {
+        font-size: 14px;
+        padding: 8px 12px;
+    }
+
+    /* Specific fix for "PROGRESS & MILESTONE" */
+    .nav-links li:nth-last-child(3) a {
+        white-space: normal;
+        line-height: 1.3;
+        padding: 8px 6px;
+        text-align: center;
+        display: inline-flex;
+        align-items: center;
+        height: auto;
+    }
+}
+
+@media (max-width: 992px) {
+    .nav-links a {
+        font-size: 13px;
+        padding: 6px 10px;
+    }
+
+    /* Adjust for smaller screens */
+    .nav-links li:nth-last-child(3) a {
+        font-size: 12px;
+        padding: 6px 4px;
+    }
+}
+
+@media (max-width: 768px) {
+    .nav-links a {
+        font-size: 12px;
+        padding: 6px 8px;
+    }
+
+    /* Mobile-specific fix */
+    .nav-links li:nth-last-child(3) a {
+        white-space: normal;
+        line-height: 1.2;
+        padding: 6px 4px;
+        text-align: center;
+        display: inline-flex;
+        align-items: center;
+        height: auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .nav-links a {
+        font-size: 11px;
+        padding: 5px 6px;
+    }
+
+    /* Adjust for very small screens */
+    .nav-links li:nth-last-child(3) a {
+        font-size: 10px;
+        padding: 4px 3px;
+    }
+}
