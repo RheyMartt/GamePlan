@@ -50,6 +50,25 @@ function getCompletedTrainings() {
 
 // Fetch completed training data
 $completedTrainings = getCompletedTrainings();
+
+
+// Fetch players from teamID = 1
+function getTeamPlayers() {
+    global $pdo;
+
+    try {
+        $query = "SELECT playerID, firstName, lastName FROM players WHERE teamID = 1 ORDER BY firstName";
+        $stmt = $pdo->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(); // Fetch players
+    } catch (PDOException $e) {
+        echo "Error fetching players: " . $e->getMessage();
+        return [];
+    }
+}
+
+// Fetch players for the dropdown
+$players = getTeamPlayers();
 ?>
 
 <!DOCTYPE html>
@@ -84,23 +103,13 @@ $completedTrainings = getCompletedTrainings();
         <section class="add-training">
             <h2>ADD A TRAINING PLAN</h2>
             <div class="toggle">
-                <select>
+                <select name="playerID">
                     <option selected disabled>Select Player</option>
-                    <option>Player 1</option>
-                    <option>Player 2</option>
-                    <option>Player 3</option>
-                    <option>Player 4</option>
-                    <option>Player 5</option>
-                    <option>Player 6</option>
-                    <option>Player 7</option>
-                    <option>Player 8</option>
-                    <option>Player 9</option>
-                    <option>Player 10</option>
-                    <option>Player 11</option>
-                    <option>Player 12</option>
-                    <option>Player 13</option>
-                    <option>Player 14</option>
-                    <option>Player 15</option>
+                    <?php foreach ($players as $player): ?>
+                        <option value="<?php echo htmlspecialchars($player['playerID']); ?>">
+                            <?php echo htmlspecialchars($player['firstName'] . ' ' . $player['lastName']); ?>
+                        </option>
+                    <?php endforeach; ?>
                 </select>
                 <button>TEAM</button>
             </div>
