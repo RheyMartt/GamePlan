@@ -20,15 +20,13 @@ body {
     display: flex;
     align-items: center; /* Align items vertically */
     justify-content: space-between; /* Align items to the start (left) */
-    padding: 20px;
+    padding: 20px 40px;
     background-color: #F6F4F0;
     position: relative;
     height: 100px;
     margin-top: 20px;
     flex-wrap: nowrap;
-    width: 100%;
     max-width: 2000px;
-    margin: 0 auto;
 }
 
 /* Logo container */
@@ -37,7 +35,7 @@ body {
 }
 
 .navbar-logo {
-    width: 180px;
+    width: 200px;
     height: auto;
     object-fit: contain;
     display: block;
@@ -54,10 +52,6 @@ body {
     overflow: hidden;
 }
 
-.nav-links li {
-    white-space: nowrap;
-}
-
 .nav-links a {
     text-decoration: none;
     color: #001F54;
@@ -72,7 +66,6 @@ body {
 .nav-links a:hover {
     background-color: #F5C414;
     color: #FFF;
-    border-radius: 5px;
 }
 
 
