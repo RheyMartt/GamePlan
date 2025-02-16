@@ -16,7 +16,7 @@ function getOngoingTraining() {
                   WHERE t.trainingDate >= CURDATE()  -- Get today & future
                   ORDER BY t.trainingDate ASC, t.trainingTime ASC"; // Order by earliest first
 
-        $stmt = $pdo->prepare($query);
+        $stmt = $pdo->prepare($query);  
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
@@ -69,6 +69,27 @@ function getTeamPlayers() {
 
 // Fetch players for the dropdown
 $players = getTeamPlayers();
+
+function getTeamTraining() {
+    global $pdo;
+
+    try {
+        $query = "SELECT tp.focusArea AS trainingPlan, 
+                         DATE_FORMAT(tt.trainingDate, '%Y-%m-%d') AS startDate, 
+                         TIME_FORMAT(tt.trainingTime, '%h:%i %p') AS endTime
+                  FROM teamTraining tt
+                  JOIN teamTrainingPlans tp ON tt.teamTrainingPlanID = tp.teamTrainingPlanID
+                  WHERE tt.trainingDate >= CURDATE()
+                  ORDER BY tt.trainingDate ASC, tt.trainingTime ASC"; 
+
+        $stmt = $pdo->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        echo "Error fetching team training: " . $e->getMessage();
+        return [];
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -158,15 +179,25 @@ $players = getTeamPlayers();
                     <tr>
                         <th>Training Plan</th>
                         <th>Start Date</th>
-                        <th>End Date</th>
+                        <th>End Time</th>
                         <th><i class="fas fa-eye"></i></th>
                     </tr>
-                    <tr>
-                        <th>Training Plan</th>
-                        <th>Start Date</th>
-                        <th>End Date</th>
-                        <th><i class="fas fa-eye"></i></th>
-                    </tr>
+                    <?php
+                    $teamTrainings = getTeamTraining(); // Fetch team training sessions
+                    if (!empty($teamTrainings)): ?>
+                        <?php foreach ($teamTrainings as $training): ?>
+                            <tr>
+                                <td><?php echo htmlspecialchars($training['trainingPlan']); ?></td>
+                                <td><?php echo htmlspecialchars($training['startDate']); ?></td>
+                                <td><?php echo htmlspecialchars($training['endTime']); ?></td>
+                                <td><i class="fas fa-eye"></i></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <tr>
+                            <td colspan="4">No team training sessions found.</td>
+                        </tr>
+                    <?php endif; ?>
                 </table>
             </div>
         </section>
