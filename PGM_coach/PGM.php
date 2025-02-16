@@ -7,14 +7,18 @@ function getOngoingTraining() {
     global $pdo;
 
     try {
-        $query = "SELECT p.firstName, p.lastName, tp.focusArea AS trainingPlan, 
-                         DATE_FORMAT(t.trainingDate, '%Y-%m-%d') AS trainingDate, 
-                         TIME_FORMAT(t.trainingTime, '%h:%i %p') AS trainingTime
+        $query = "SELECT 
+                     p.firstName, 
+                     p.lastName, 
+                     tp.focusArea AS trainingPlan, 
+                     DATE_FORMAT(t.trainingDate, '%Y-%m-%d') AS trainingDate, 
+                     TIME_FORMAT(t.trainingTime, '%h:%i %p') AS trainingTime, 
+                     TIME_FORMAT(ADDTIME(t.trainingTime, SEC_TO_TIME(tp.durationMinutes * 60)), '%h:%i %p') AS endTime
                   FROM training t
                   JOIN players p ON t.playerID = p.playerID
                   JOIN trainingPlans tp ON t.trainingPlanID = tp.trainingPlanID
-                  WHERE t.trainingDate >= CURDATE()  -- Get today & future
-                  ORDER BY t.trainingDate ASC, t.trainingTime ASC"; // Order by earliest first
+                  WHERE t.trainingDate >= CURDATE()
+                  ORDER BY t.trainingDate ASC, t.trainingTime ASC";
 
         $stmt = $pdo->prepare($query);  
         $stmt->execute();
@@ -25,14 +29,17 @@ function getOngoingTraining() {
     }
 }
 
-// Fetch training sessions
-$ongoingTrainings = getOngoingTraining();
-
 function getCompletedTrainings() {
     global $pdo;
 
     try {
-        $query = "SELECT p.firstName, p.lastName, tp.focusArea, t.trainingDate, t.trainingTime
+        $query = "SELECT 
+                     p.firstName, 
+                     p.lastName, 
+                     tp.focusArea AS trainingPlan, 
+                     t.trainingDate, 
+                     t.trainingTime, 
+                     ADDTIME(t.trainingTime, SEC_TO_TIME(tp.durationMinutes * 60)) AS endTime
                   FROM training t
                   JOIN players p ON t.playerID = p.playerID
                   JOIN trainingPlans tp ON t.trainingPlanID = tp.trainingPlanID
@@ -41,16 +48,61 @@ function getCompletedTrainings() {
 
         $stmt = $pdo->prepare($query);
         $stmt->execute();
-        return $stmt->fetchAll(); // Fetch completed training sessions
+        $completedTrainings = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // Get total and completed training count
+        $countQuery = "SELECT 
+                          (SELECT COUNT(*) FROM training) AS totalTrainings, 
+                          (SELECT COUNT(*) FROM training WHERE trainingDate < CURDATE()) AS completedTrainings";
+        $countStmt = $pdo->prepare($countQuery);
+        $countStmt->execute();
+        $progress = $countStmt->fetch(PDO::FETCH_ASSOC);
+
+        return [
+            'trainings' => $completedTrainings,
+            'progress' => $progress
+        ];
     } catch (PDOException $e) {
         echo "Error fetching completed training: " . $e->getMessage();
         return [];
     }
 }
 
-// Fetch completed training data
-$completedTrainings = getCompletedTrainings();
+function getCompletedTeamTrainings() {
+    global $pdo;
 
+    try {
+        $query = "SELECT 
+                     tp.focusArea AS trainingPlan, 
+                     tt.trainingDate, 
+                     tt.trainingTime, 
+                     ADDTIME(tt.trainingTime, SEC_TO_TIME(tp.durationMinutes * 60)) AS endTime
+                  FROM teamTraining tt
+                  JOIN teamTrainingPlans tp ON tt.teamTrainingPlanID = tp.teamTrainingPlanID
+                  WHERE tt.trainingDate < CURDATE()
+                  ORDER BY tt.trainingDate DESC";
+
+        $stmt = $pdo->prepare($query);
+        $stmt->execute();
+        $completedTeamTrainings = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // Get total and completed team training count
+        $countQuery = "SELECT 
+                          (SELECT COUNT(*) FROM teamTraining) AS totalTrainings, 
+                          (SELECT COUNT(*) FROM teamTraining WHERE trainingDate < CURDATE()) AS completedTrainings";
+        $countStmt = $pdo->prepare($countQuery);
+        $countStmt->execute();
+        $progress = $countStmt->fetch(PDO::FETCH_ASSOC);
+
+        return [
+            'trainings' => $completedTeamTrainings,
+            'progress' => $progress
+        ];
+    } catch (PDOException $e) {
+        echo "Error fetching completed team training: " . $e->getMessage();
+        return [];
+    }
+}
 
 // Fetch players from teamID = 1
 function getTeamPlayers() {
@@ -67,29 +119,44 @@ function getTeamPlayers() {
     }
 }
 
-// Fetch players for the dropdown
-$players = getTeamPlayers();
-
-function getTeamTraining() {
+function getOngoingTeamTraining() {
     global $pdo;
 
     try {
-        $query = "SELECT tp.focusArea AS trainingPlan, 
-                         DATE_FORMAT(tt.trainingDate, '%Y-%m-%d') AS startDate, 
-                         TIME_FORMAT(tt.trainingTime, '%h:%i %p') AS endTime
+        $query = "SELECT 
+                     tp.focusArea AS trainingPlan, 
+                     DATE_FORMAT(tt.trainingDate, '%Y-%m-%d') AS trainingDate, 
+                     TIME_FORMAT(tt.trainingTime, '%h:%i %p') AS trainingTime, 
+                     TIME_FORMAT(ADDTIME(tt.trainingTime, SEC_TO_TIME(tp.durationMinutes * 60)), '%h:%i %p') AS endTime
                   FROM teamTraining tt
                   JOIN teamTrainingPlans tp ON tt.teamTrainingPlanID = tp.teamTrainingPlanID
                   WHERE tt.trainingDate >= CURDATE()
-                  ORDER BY tt.trainingDate ASC, tt.trainingTime ASC"; 
+                  ORDER BY tt.trainingDate ASC, tt.trainingTime ASC";
 
-        $stmt = $pdo->prepare($query);
+        $stmt = $pdo->prepare($query);  
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
-        echo "Error fetching team training: " . $e->getMessage();
+        echo "Error fetching ongoing team training: " . $e->getMessage();
         return [];
     }
 }
+
+
+$ongoingTrainings = getOngoingTraining();
+
+$completedTrainingsData = getCompletedTrainings();
+$completedTrainings = $completedTrainingsData['trainings'];
+$playerProgress = $completedTrainingsData['progress'];
+
+$players = getTeamPlayers();
+
+$ongoingTeamTrainings = getOngoingTeamTraining();
+
+$completedTeamTrainingsData = getCompletedTeamTrainings();
+$completedTeamTrainings = $completedTeamTrainingsData['trainings'];
+$teamProgress = $completedTeamTrainingsData['progress'];
+
 ?>
 
 <!DOCTYPE html>
@@ -121,6 +188,7 @@ function getTeamTraining() {
         </div>
     </header>
     <main>
+         <main>
         <section class="add-training">
             <h2>ADD A TRAINING PLAN</h2>
             <div class="toggle">
@@ -144,90 +212,81 @@ function getTeamTraining() {
                 <button type="submit">ADD</button>
             </form>
         </section>
+       
         <section class="ongoing-training">
             <h2>ON GOING TRAINING</h2>
             <div class="players">
                 <h3>Players</h3>
                 <table>
                     <tr>
-                        <th>Player</th>
+                        <th>Player Name</th>
                         <th>Training Plan</th>
                         <th>Start Date</th>
+                        <th>Start Time</th>
                         <th>End Time</th>
                         <th><i class="fas fa-eye"></i></th>
                     </tr>
-                    <?php if (!empty($ongoingTrainings)): ?>
-                        <?php foreach ($ongoingTrainings as $training): ?>
-                            <tr>
-                                <td><?php echo htmlspecialchars($training['firstName'] . ' ' . $training['lastName']); ?></td>
-                                <td><?php echo htmlspecialchars($training['trainingPlan']); ?></td>
-                                <td><?php echo htmlspecialchars($training['trainingDate']); ?></td>
-                                <td><?php echo htmlspecialchars($training['trainingTime']); ?></td>
-                                <td><i class="fas fa-eye"></i></td>
-                            </tr>
-                        <?php endforeach; ?>
-                    <?php else: ?>
+                    <?php foreach ($ongoingTrainings as $training): ?>
                         <tr>
-                            <td colspan="5">No ongoing training found.</td>
+                            <td><?php echo htmlspecialchars($training['firstName'] . ' ' . $training['lastName']); ?></td>
+                            <td><?php echo htmlspecialchars($training['trainingPlan']); ?></td>
+                            <td><?php echo htmlspecialchars($training['trainingDate']); ?></td>
+                            <td><?php echo htmlspecialchars($training['trainingTime']); ?></td>
+                            <td><?php echo htmlspecialchars($training['endTime']); ?></td>
+                            <td><i class="fas fa-eye"></i></td>
                         </tr>
-                    <?php endif; ?>
+                    <?php endforeach; ?>
                 </table>
-            </div>                         
+            </div>
             <div class="team">
                 <h3>Team</h3>
                 <table>
                     <tr>
                         <th>Training Plan</th>
                         <th>Start Date</th>
+                        <th>Start Time</th>
                         <th>End Time</th>
                         <th><i class="fas fa-eye"></i></th>
                     </tr>
-                    <?php
-                    $teamTrainings = getTeamTraining(); // Fetch team training sessions
-                    if (!empty($teamTrainings)): ?>
-                        <?php foreach ($teamTrainings as $training): ?>
-                            <tr>
-                                <td><?php echo htmlspecialchars($training['trainingPlan']); ?></td>
-                                <td><?php echo htmlspecialchars($training['startDate']); ?></td>
-                                <td><?php echo htmlspecialchars($training['endTime']); ?></td>
-                                <td><i class="fas fa-eye"></i></td>
-                            </tr>
-                        <?php endforeach; ?>
-                    <?php else: ?>
+                    <?php foreach ($ongoingTeamTrainings as $teamTraining): ?>
                         <tr>
-                            <td colspan="4">No team training sessions found.</td>
+                            <td><?php echo htmlspecialchars($teamTraining['trainingPlan']); ?></td>
+                            <td><?php echo htmlspecialchars($teamTraining['trainingDate']); ?></td>
+                            <td><?php echo htmlspecialchars($teamTraining['trainingTime']); ?></td>
+                            <td><?php echo htmlspecialchars($teamTraining['endTime']); ?></td>
+                            <td><i class="fas fa-eye"></i></td>
                         </tr>
-                    <?php endif; ?>
+                    <?php endforeach; ?>
                 </table>
             </div>
         </section>
         <section class="training-plan">
-           <h2>TRAINING DONE</h2>
+            <h2>TRAINING DONE</h2>
                 <div class="training-container">
-                    <div class="players-training">
-                        <h3>Players</h3>
-                        <table>
+                <div class="players-training">
+                    <h3>Players</h3>
+                    <table>
+                        <tr>
+                            <th>Player Name</th>
+                            <th>Training Plan</th>
+                            <th>Training Date</th>
+                            <th>Start Time</th>
+                            <th>End Time</th>
+                            <th><i class="fas fa-eye"></i></th>
+                        </tr>
+                        <?php foreach ($completedTrainings as $training): ?>
                             <tr>
-                                <th>Player</th>
-                                <th>Training Plan</th>
-                                <th>Training Date</th>
-                                <th>Training Time</th>
-                                <th><i class="fas fa-eye"></i></th>
+                                <td><?php echo htmlspecialchars($training['firstName'] . ' ' . $training['lastName']); ?></td>
+                                <td><?php echo htmlspecialchars($training['trainingPlan']); ?></td>
+                                <td><?php echo htmlspecialchars($training['trainingDate']); ?></td>
+                                <td><?php echo htmlspecialchars($training['trainingTime']); ?></td>
+                                <td><?php echo htmlspecialchars($training['endTime']); ?></td>
+                                <td><i class="fas fa-eye"></i></td>
                             </tr>
-                            <?php if (!empty($completedTrainings)): ?>
-                                <?php foreach ($completedTrainings as $training): ?>
-                                    <tr>
-                                        <td><?php echo htmlspecialchars($training['firstName'] . ' ' . $training['lastName']); ?></td>
-                                        <td><?php echo htmlspecialchars($training['focusArea']); ?></td>
-                                        <td><?php echo htmlspecialchars($training['trainingDate']); ?></td>
-                                        <td><?php echo htmlspecialchars($training['trainingTime']); ?></td>
-                                        <td><i class="fas fa-eye"></i></td>
-                                    </tr>
-                                <?php endforeach; ?>
-                            <?php else: ?>
-                                <tr><td colspan="5">No completed training sessions found.</td></tr>
-                            <?php endif; ?>
-                        </table>
+                        <?php endforeach; ?>
+                    </table>
+                    <div class="progress">
+                        <?php echo "{$playerProgress['completedTrainings']}/{$playerProgress['totalTrainings']} DONE"; ?>
                     </div>
                 </div>
                 <div class="divider"></div>
@@ -237,17 +296,23 @@ function getTeamTraining() {
                         <tr>
                             <th>Training Plan</th>
                             <th>Start Date</th>
-                            <th>End Date</th>
+                            <th>Start Time</th>
+                            <th>End Time</th>
                             <th><i class="fas fa-eye"></i></th>
                         </tr>
-                        <tr>
-                            <th>Training Plan</th>
-                            <th>Start Date</th>
-                            <th>End Date</th>
-                            <th><i class="fas fa-eye"></i></th>
-                        </tr>
+                        <?php foreach ($completedTeamTrainings as $teamTraining): ?>
+                            <tr>
+                                <td><?php echo htmlspecialchars($teamTraining['trainingPlan']); ?></td>
+                                <td><?php echo htmlspecialchars($teamTraining['trainingDate']); ?></td>
+                                <td><?php echo htmlspecialchars($teamTraining['trainingTime']); ?></td>
+                                <td><?php echo htmlspecialchars($teamTraining['endTime']); ?></td>
+                                <td><i class="fas fa-eye"></i></td>
+                            </tr>
+                        <?php endforeach; ?>
                     </table>
-                    <div class="progress">3/7 DONE</div>
+                    <div class="progress">
+                        <?php echo "{$teamProgress['completedTrainings']}/{$teamProgress['totalTrainings']} DONE"; ?>
+                    </div>
                 </div>
             </div>
         </section>
