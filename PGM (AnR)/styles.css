@@ -67,7 +67,8 @@ form label {
 }
 
 form input[type="text"],
-form input[type="date"] {
+form input[type="date"],
+form input[type="time"] {
     width: calc(100% - 24px);
     padding: 12px;
     border: 1px solid #ccc;
