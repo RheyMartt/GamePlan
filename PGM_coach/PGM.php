@@ -27,6 +27,29 @@ function getOngoingTraining() {
 
 // Fetch training sessions
 $ongoingTrainings = getOngoingTraining();
+
+function getCompletedTrainings() {
+    global $pdo;
+
+    try {
+        $query = "SELECT p.firstName, p.lastName, tp.focusArea, t.trainingDate, t.trainingTime
+                  FROM training t
+                  JOIN players p ON t.playerID = p.playerID
+                  JOIN trainingPlans tp ON t.trainingPlanID = tp.trainingPlanID
+                  WHERE t.trainingDate < CURDATE()
+                  ORDER BY t.trainingDate DESC";
+
+        $stmt = $pdo->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(); // Fetch completed training sessions
+    } catch (PDOException $e) {
+        echo "Error fetching completed training: " . $e->getMessage();
+        return [];
+    }
+}
+
+// Fetch completed training data
+$completedTrainings = getCompletedTrainings();
 ?>
 
 <!DOCTYPE html>
@@ -139,27 +162,33 @@ $ongoingTrainings = getOngoingTraining();
             </div>
         </section>
         <section class="training-plan">
-            <h2>TRAINING DONE</h2>
-            <div class="training-container">
-                <div class="players-training">
-                    <h3>Players</h3>
-                    <table>
-                        <tr>
-                            <th>Player 1</th>
-                            <th>Training Plan</th>
-                            <th>Start Date</th>
-                            <th>End Date</th>
-                            <th><i class="fas fa-eye"></i></th>
-                        </tr>
-                        <tr>
-                            <th>Player 2</th>
-                            <th>Training Plan</th>
-                            <th>Start Date</th>
-                            <th>End Date</th>
-                            <th><i class="fas fa-eye"></i></th>
-                        </tr>
-                    </table>
-                    <div class="progress">8/10 DONE</div>
+           <h2>TRAINING DONE</h2>
+                <div class="training-container">
+                    <div class="players-training">
+                        <h3>Players</h3>
+                        <table>
+                            <tr>
+                                <th>Player</th>
+                                <th>Training Plan</th>
+                                <th>Training Date</th>
+                                <th>Training Time</th>
+                                <th><i class="fas fa-eye"></i></th>
+                            </tr>
+                            <?php if (!empty($completedTrainings)): ?>
+                                <?php foreach ($completedTrainings as $training): ?>
+                                    <tr>
+                                        <td><?php echo htmlspecialchars($training['firstName'] . ' ' . $training['lastName']); ?></td>
+                                        <td><?php echo htmlspecialchars($training['focusArea']); ?></td>
+                                        <td><?php echo htmlspecialchars($training['trainingDate']); ?></td>
+                                        <td><?php echo htmlspecialchars($training['trainingTime']); ?></td>
+                                        <td><i class="fas fa-eye"></i></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <tr><td colspan="5">No completed training sessions found.</td></tr>
+                            <?php endif; ?>
+                        </table>
+                    </div>
                 </div>
                 <div class="divider"></div>
                 <div class="team-training">
