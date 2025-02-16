@@ -8,13 +8,12 @@ body {
 
 main {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: auto auto;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
     gap: 50px;
     padding: 30px 15px;
     align-items: start;
 }
-
 
 section {
     background-color: #F5C414;
@@ -105,12 +104,14 @@ form .date-fields input {
 }
 
 section.add-training, 
-section.ongoing-training {
+section.ongoing-training,
+section.training-done,
+section.training-plan {
     grid-column: span 1;
-    grid-row: 1;
-    min-height: 350px;
-    width: 100%; /* Ensures uniformity */
+    min-height: 100vh; /* Make sections take up full viewport height */
+    width: 100%;
 }
+
 section {
     box-sizing: border-box;
 }
