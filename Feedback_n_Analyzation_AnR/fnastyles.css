@@ -31,6 +31,7 @@ body {
     flex-shrink: 0;
 }
 
+
 .navbar-logo {
     width: 200px;
     height: auto;
@@ -256,4 +257,8 @@ textarea {
     margin: 10px auto;
     text-align: center;
     font-weight: 600;
+}
+
+.active {
+    font-weight: bold;
 }
