@@ -64,6 +64,7 @@ function getUpcomingEvents() {
 // Fetch upcoming events
 $upcomingEvents = getUpcomingEvents();
 
+
 ?>
 
 <!-- File: index.html -->
@@ -126,28 +127,35 @@ $upcomingEvents = getUpcomingEvents();
                         ?>
                     </ul>
                 </div>
-            </div>
 
-            <!-- Center Panel -->
-            <div class="panel calendar-panel">
-                <h2>Calendar</h2>
-                <div class="calendar-controls">
-                    <button id="prev-month">Previous</button>
-                    <span id="month-year"></span>
-                    <button id="next-month">Next</button>
+                <!-- Center Panel -->
+                <div class="panel calendar-panel">
+                    <h2>Calendar</h2>
+                    <div class="calendar-controls">
+                        <button id="prev-month">Previous</button>
+                        <span id="month-year"></span>
+                        <button id="next-month">Next</button>
+                    </div>
+                    <div id="calendar-container" class="calendar-grid"></div>
                 </div>
-                <div id="calendar-container" class="calendar-grid"></div>
-            </div>
 
-            <!-- Right Panel -->
-            <div class="panel schedule-panel">
-                <h2>Reminders</h2>
-                <ul id="reminders-list"></ul>
-                <button id="add-reminder">Add Reminder</button>
+                <!-- Right Panel -->
+                <div class="panel schedule-panel">
+                    <h2>Reminders</http://localhost/gameplan/Schedule_Coach/SM.phph2>
+                    <ul id="reminders-list"></ul>
+                    <button id="add-reminder">Add Reminder</button>
             </div>
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+    const eventDates = <?php echo json_encode(array_merge(
+        array_column($upcomingEvents['games'], 'gameDate'),
+        array_column($upcomingEvents['playerTrainings'], 'trainingDate'),
+        array_column($upcomingEvents['teamTrainings'], 'trainingDate')
+    )); ?>;
+</script>
+<script src="script.js"></script>
+
 </body>
 </html>
