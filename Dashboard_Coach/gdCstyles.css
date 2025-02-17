@@ -1,294 +1,272 @@
-/* Global Styles */
-html, body {
-    width: 1920px; /* Fixed width */
-    height: 1080px; /* Fixed height */
-    background-color: #F6F4F0; /* Dominant background color */
-    font-family: 'Poppins', sans-serif; /* Apply the Poppins font globally */
+/* Modern CSS Reset */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 62.5%; /* 1rem = 10px */
+    scroll-behavior: smooth;
 }
 
 body {
-    margin: 0 auto; /* Center horizontally */
-    overflow-x: hidden; /* Prevent horizontal scrolling */
-    font-family: 'Poppins', sans-serif;
+    min-height: 100vh;
     background-color: #F6F4F0;
+    font-family: 'Poppins', sans-serif;
     color: #001F54;
-    line-height: 1.6; /* Improve readability */
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 2rem;
 }
 
-/* Navbar Styling */
+/* Modern Navbar */
 .navbar {
     display: flex;
-    align-items: center;
     justify-content: space-between;
-    padding: 20px 40px;
-    background-color: #F6F4F0; /* Navbar background color */
+    align-items: center;
+    padding: 2rem 0;
     position: relative;
-    height: 100px;
-    margin-top: 20px; /* Add margin to move navbar down */
+    background-color: #F6F4F0;
 }
 
-/* Logo container */
 .logo-container {
-    flex-shrink: 0;
+    width: 220px;
+    transition: transform 0.3s ease;
 }
 
-/* Navbar Logo Styling */
 .navbar-logo {
-    width: 200px; /* Increase the width further for better visibility */
-    height: auto; /* Maintain the aspect ratio */
-    object-fit: contain; /* Ensure the logo scales properly */
-    display: block;
-    margin-right: 15px;
+    width: 100%;
+    height: auto;
 }
 
-/* Navigation Links */
-.nav-links ul {
-    list-style-type: none;
+.nav-links {
     display: flex;
-    gap: 20px;
-    justify-content: center;
-    flex-grow: 1;
+    gap: 4rem;
+    align-items: center;
 }
 
 .nav-links a {
     text-decoration: none;
-    color: #001F54; /* Accent color for text */
-    font-size: 18px;
-    padding: 10px 20px;
-    transition: background-color 0.3s, color 0.3s;
+    color: #001F54;
+    font-size: 1.6rem;
+    font-weight: 500;
+    position: relative;
+    padding: 1rem 0;
 }
 
-.nav-links a:hover {
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
     background-color: #F5C414;
-    color: #FFF;
+    transition: width 0.3s ease;
 }
 
-/* Dropdown Menu */
+.nav-links a:hover::after {
+    width: 100%;
+}
+
+/* Modern Dropdown */
 .dropdown {
     position: relative;
-    display: inline-block;
-    margin: 20px;
-    text-align: right; /* Align dropdown to the right */
 }
 
 #dropdownButton {
-    background-color: #001F54;
+    background: #001F54;
     color: #F6F4F0;
-    padding: 8px 12px; /* Adjust padding for better spacing */
+    padding: 1rem 2rem;
+    border-radius: 8px;
     border: none;
     cursor: pointer;
-    font-size: 14px; /* Adjust font size for better readability */
-    border-radius: 5px;
-}
-
-#dropdownButton:hover {
-    transform: scale(1.1); /* Slightly enlarge the button on hover */
+    font-size: 1.4rem;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
 }
 
 .dropdown-content {
-    display: none;
     position: absolute;
-    background-color: #F6F4F0;
-    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
-    z-index: 1;
-    min-width: 160px;
-}
-
-.dropdown-content a {
-    color: #001F54;
-    padding: 8px 12px; /* Adjust padding for better spacing */
-    display: block;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-.dropdown-content a:hover {
-    background-color: #F5C414;
-    transform: scale(1.1); /* Slightly enlarge the button on hover */
+    right: 0;
+    background: #F6F4F0;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0,31,84,0.1);
+    padding: 1rem;
+    min-width: 200px;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    transform: translateY(10px);
 }
 
 .dropdown:hover .dropdown-content {
-    display: block;
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
 }
 
-/* Court Stats Section */
+.dropdown-content a {
+    padding: 1.2rem 1.6rem;
+    display: block;
+    border-radius: 6px;
+    font-size: 1.4rem;
+    transition: background 0.2s ease;
+}
+
+/* Modern Court Stats Section */
 .court-stats {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    margin: 20px 10px; /* Adjust margin for better spacing */
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 3rem;
+    margin: 4rem 0;
 }
 
 .court {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #F5C414; /* Background color for the court section */
-    padding: 20px; /* Adjust padding for better spacing */
-    border-radius: 10px; /* Rounded corners */
-    border: 2px solid #001F54; /* Dark blue border */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
-    margin: 20px 0; /* Add space above and below the court section */
+    background: #FFFFFF;
+    padding: 3rem;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0,31,84,0.05);
+    border: 1px solid rgba(0,31,84,0.1);
+    transition: transform 0.3s ease;
 }
 
-.court img {
-    max-width: 100%;
-    border-radius: 10px; /* Rounded corners */
-    margin-bottom: 20px; /* Space below the image */
+.court:hover {
+    transform: translateY(-5px);
 }
 
 .game-details {
-    background-color: #F5C414;
-    color: #001F54;
-    padding: 15px; /* Adjust padding for better spacing */
-    border-radius: 10px;
-    text-align: center;
-    border: 2px solid #001F54; /* Dark blue border */
-}
-
-.game-details h1 {
-    margin: 0;
-    font-size: 22px; /* Adjust font size for better readability */
-    font-weight: bold;
+    background: #FFFFFF;
+    padding: 2.5rem;
+    border-radius: 12px;
+    margin: 2rem 0;
+    box-shadow: 0 5px 20px rgba(0,31,84,0.05);
 }
 
 .score-breakdown {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 2fr; /* Adjust the last column (T) to be wider */
-    gap: 0; /* Remove extra gaps */
-    text-align: center;
-    font-size: 16px; /* Adjust font size for better readability */
-    margin-top: 15px;
-    line-height: 1.6; /* Better vertical spacing */
-    border-collapse: collapse; /* Table-like structure */
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1rem;
+    margin: 2rem 0;
+    padding: 1.5rem;
+    background: rgba(245,196,20,0.1);
+    border-radius: 8px;
 }
 
-/* Score Breakdown Section */
-.score-breakdown div {
-    padding: 8px 0; /* Uniform padding for rows */
-    font-weight: bold;
-    color: #001F54; /* Dark blue for text */
-}
-
-.score-breakdown div:nth-child(5n) {
-    border-left: 2px solid #001F54; /* Add vertical border before "T" column */
-}
-
-.score-breakdown div:nth-child(-n+5) {
-    font-weight: bold;
-    border-bottom: 2px solid #001F54; /* Header row separation */
-}
-
-/* Top Performers */
+/* Modern Top Performers */
 .topperformers-container {
-    margin: 20px;
-    padding: 20px; /* Adjust padding for better spacing */
-    background-color: #F5C414;
-    border: 2px solid #001F54;
-    border-radius: 10px;
-}
-
-.topperformersList {
-    margin: 0 0 10px;
-    font-size: 20px; /* Adjust font size for better readability */
-    color: #001F54;
-    text-align: center;
+    background: #FFFFFF;
+    padding: 3rem;
+    border-radius: 16px;
+    margin: 3rem 0;
+    box-shadow: 0 10px 30px rgba(0,31,84,0.05);
 }
 
 .performer {
-    margin: 10px 0;
-    font-size: 16px; /* Adjust font size for better readability */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+    margin: 1rem 0;
+    background: rgba(245,196,20,0.05);
+    border-radius: 8px;
+    transition: transform 0.2s ease;
 }
 
-/* Container */
+.performer:hover {
+    transform: translateX(5px);
+}
+
+/* Modern Table Design */
 .player-stats-container {
-    background-color: #F5C414; /* Background color for the container */
-    border-radius: 12px; /* Rounded corners for the container */
-    padding: 25px; /* Adjust padding for better spacing */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Optional: adds a soft shadow for depth */
-    max-width: 1200px; /* Maximum width of the container */
-    margin: 20px auto; /* Center the container and add space around it */
-    border: 2px solid #001F54; /* Dark blue border */
-}
-
-/* Tables */
-.player-stats {
-    margin: 0 20px; /* Add horizontal margin to create space around the container */
-    overflow-x: auto; /* Enable horizontal scroll on smaller screens */
-    box-sizing: border-box; /* Ensure padding doesn't affect the width */
-    gap: 20px; /* Add gap to avoid tables covering up the page */
-}
-
-.player-stats h2 {
-    color: #001F54;
-    font-size: 18px;
-    text-align: center;
+    background: #FFFFFF;
+    border-radius: 16px;
+    padding: 3rem;
+    margin: 3rem 0;
+    box-shadow: 0 10px 30px rgba(0,31,84,0.05);
 }
 
 .player-stats table {
-    width: auto; /* Adjust width to prevent table from occupying the entire page */
-    max-width: 100%; /* Ensure the table doesn't exceed the container width */
-    box-sizing: border-box; /* Prevent padding from affecting the width */
-    border-collapse: collapse;
-    text-align: center; /* Center-align data for consistency */
-    font-size: 14px;
-    background-color: #F5C414; /* Background color for the table */
-    margin: 10px auto; /* Adjusted margin to prevent table from occupying the entire page */
-}
-
-.player-stats th, .player-stats td {
-    border: 1px solid #001F54;
-    padding: 15px; /* Adjusted padding for better spacing */
-    text-align: center; /* Center-align data for consistency */
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 1rem;
 }
 
 .player-stats th {
-    background-color: #F5C414;
+    background-color: #001F54;
+    color: #FFFFFF;
+    padding: 1.6rem;
+    font-size: 1.4rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.player-stats td {
+    padding: 1.6rem;
+    background: #FFFFFF;
+    border: 1px solid rgba(0,31,84,0.1);
+    transition: all 0.2s ease;
+}
+
+.player-stats tr:hover td {
+    background: rgba(245,196,20,0.05);
+    transform: scale(1.02);
+}
+
+/* Utility Classes */
+.section-title {
+    font-size: 2.8rem;
+    margin-bottom: 3rem;
     color: #001F54;
-    font-weight: bold; /* Make headers stand out */
-    padding: 18px; /* Adjusted padding for better spacing */
+    position: relative;
+    padding-left: 2rem;
 }
 
-.player-stats td:first-child {
-    text-align: left; /* Align player names to the left */
+.section-title::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 5px;
+    height: 70%;
+    background: #F5C414;
+    border-radius: 5px;
 }
 
-.player-stats tr:nth-child(even) {
-    background-color: #FDF1AA; /* Light yellow for alternating rows */
+/* Responsive Design */
+@media (max-width: 768px) {
+    html {
+        font-size: 56.25%;
+    }
+    
+    .nav-links {
+        display: none;
+    }
+    
+    .court-stats {
+        grid-template-columns: 1fr;
+    }
+    
+    .performer {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
 }
 
-.player-stats tr:nth-child(odd) {
-    background-color: #F5C414; /* Original yellow */
+@media (max-width: 480px) {
+    .game-details {
+        padding: 2rem;
+    }
+    
+    .score-breakdown {
+        grid-template-columns: repeat(5, minmax(60px, 1fr));
+    }
 }
-
-/* Grid Layout Section */
-.grid-layout {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
-    padding: 25px; /* Adjust padding for better spacing */
-}
-
-.grid-item {
-    background-color: #F5C414;
-    color: #001F54;
-    padding: 25px; /* Adjust padding for better spacing */
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.grid-item h2 {
-    margin: 0 0 10px;
-    font-size: 20px; /* Adjust font size for better readability */
-    font-weight: bold;
-}
-
-.grid-item p {
-    font-size: 16px; /* Adjust font size for better readability */
-}
-
