@@ -338,3 +338,10 @@ footer {
     right: 10px;
     width: auto;
 }
+
+.event-day {
+    background-color: #FF5733 !important; /* Highlight color */
+    color: white;
+    font-weight: bold;
+    border: 2px solid #C70039;
+}

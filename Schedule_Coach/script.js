@@ -10,30 +10,33 @@ const monthNames = [
 ];
 
 function renderCalendar(month, year) {
-    // Clear previous calendar
     calendarContainer.innerHTML = '';
-
-    // Set month and year in the display
     monthYearDisplay.textContent = `${monthNames[month]} ${year}`;
 
-    // Determine the first day of the month and the number of days in the month
     const firstDay = new Date(year, month, 1).getDay();
     const daysInMonth = new Date(year, month + 1, 0).getDate();
 
-    // Fill in blank cells for days before the first of the month
+    // Add empty cells for alignment
     for (let i = 0; i < firstDay; i++) {
         const emptyCell = document.createElement('div');
         emptyCell.classList.add('empty-cell');
         calendarContainer.appendChild(emptyCell);
     }
 
-    // Add day cells for the current month
+    // Populate days in the month
     for (let day = 1; day <= daysInMonth; day++) {
         const dayCell = document.createElement('div');
         dayCell.textContent = day;
         dayCell.classList.add('day-cell');
 
-        // Highlight today's date
+        const formattedDate = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+
+        // Highlight event days
+        if (eventDates.includes(formattedDate)) {
+            dayCell.classList.add('event-day');
+        }
+
+        // Highlight today
         if (day === currentDate.getDate() && month === currentDate.getMonth() && year === currentDate.getFullYear()) {
             dayCell.classList.add('today');
         }
@@ -41,6 +44,7 @@ function renderCalendar(month, year) {
         calendarContainer.appendChild(dayCell);
     }
 }
+
 
 // Handle Previous and Next Month Buttons
 document.getElementById('prev-month').addEventListener('click', () => {
@@ -63,3 +67,5 @@ document.getElementById('next-month').addEventListener('click', () => {
 
 // Initial Render
 renderCalendar(currentMonth, currentYear);
+
+

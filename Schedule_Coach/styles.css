@@ -268,3 +268,10 @@ footer {
     background-color: #F5C414; /* 30% Secondary color */
     color: #FFF;
 }
+
+.event-day {
+    background-color: #FF5733 !important; /* Highlight color */
+    color: white;
+    font-weight: bold;
+    border: 2px solid #C70039;
+}
