@@ -158,7 +158,6 @@ $completedTeamTrainings = $completedTeamTrainingsData['trainings'];
 $teamProgress = $completedTeamTrainingsData['progress'];
 
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -169,27 +168,26 @@ $teamProgress = $completedTeamTrainingsData['progress'];
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 <body>
-    <header>
+    <div class="container">
+        <!-- Navigation Bar -->
         <div class="navbar">
             <div class="logo-container">
                 <img src="NU BULLDOG.png" alt="Logo" class="navbar-logo">
             </div>
             <div class="nav-links">
                 <ul>
-                    <li><a href="/gameplan/Dashboard_Coach/GD.php" >GAME DASHBOARD</a></li>
-                    <li><a href="#">TEAM COMMUNICATION</a></li>
-                    <li><a href="/gameplan/PM_Coach/PM.html">PLAYER MANAGEMENT</a></li>
-                    <li><a href="/gameplan/Schedule_Coach/SM.php">SCHEDULE</a></li>
-                    <li><a href="#" class="active">PROGRESS AND MILESTONE</a></li>
-                    <li><a href="/gameplan/Resource_Management_Coach/RM.html">RESOURCES</a></li>
-                    <li><a href="#" title="Logout"><i class="fas fa-sign-out-alt"></i></a></li>
+                    <li><a href="/gameplan/Player_Profile_Player/Player.phps" >PLAYER PROFILE</a></li>
+                    <li><a href="/gameplan/Com/CommHub.html">TEAM COMMUNICATION</a></li>
+                    <li><a href="/gameplan/Schedule_Player/PlayerSM.php">SCHEDULE</a></li>
+                    <li><a href="/gameplan/PGM_Player/PGM.html" class="active">PROGRESS & MILESTONE</a></li>
+                    <li><a href="/gameplan/Resource_Management_Player/RM.html">RESOURCES</a></li>
+                    <li><a href="#" title="Logout"><i class="fas fa-sign-out-alt"></i></a></li> 
                 </ul>
             </div>
         </div>
-    </header>
+
     <main>
-         <main>
-        <section class="add-training">
+    <section class="add-training">
             <h2>ADD A TRAINING PLAN</h2>
             <div class="toggle">
                 <select name="playerID">

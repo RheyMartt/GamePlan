@@ -176,20 +176,19 @@ $teamProgress = $completedTeamTrainingsData['progress'];
             </div>
             <div class="nav-links">
                 <ul>
-                    <li><a href="/gameplan/Dashboard_Coach/GD.php" >GAME DASHBOARD</a></li>
+                    <li><a href="#" >GAME DASHBOARD</a></li>
                     <li><a href="#">TEAM COMMUNICATION</a></li>
-                    <li><a href="/gameplan/PM_Coach/PM.html">PLAYER MANAGEMENT</a></li>
-                    <li><a href="/gameplan/Schedule_Coach/SM.php">SCHEDULE</a></li>
+                    <li><a href="#">PLAYER MANAGEMENT</a></li>
+                    <li><a href="#">SCHEDULE</a></li>
                     <li><a href="#" class="active">PROGRESS AND MILESTONE</a></li>
-                    <li><a href="/gameplan/Resource_Management_Coach/RM.html">RESOURCES</a></li>
+                    <li><a href="#">RESOURCES</a></li>
                     <li><a href="#" title="Logout"><i class="fas fa-sign-out-alt"></i></a></li>
                 </ul>
             </div>
         </div>
     </header>
     <main>
-         <main>
-        <section class="add-training">
+    <section class="add-training">
             <h2>ADD A TRAINING PLAN</h2>
             <div class="toggle">
                 <select name="playerID">
