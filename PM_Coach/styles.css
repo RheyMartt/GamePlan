@@ -10,17 +10,21 @@
 
 /* Main body styling */
 html, body {
-    width: 1920px; /* Fixed width */
-    height: 1080px; /* Fixed height */
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
     background-color: #F6F4F0; /* Dominant background color */
     font-family: 'Poppins', sans-serif; /* Apply the Poppins font globally */
-    font-weight: 400; /* Default font weight */
 }
 
 body {
     margin: 0 auto; /* Center horizontally */
     overflow-x: hidden; /* Prevent horizontal scrolling */
+    font-family: 'Poppins', sans-serif;
+    background-color: #F6F4F0;
+    color: #001F54;
+    line-height: 1.6; /* Improve readability */
 }
+
 
 /* Navbar Styling */
 .navbar {
@@ -432,4 +436,28 @@ body {
 }
 .active {
     font-weight: bold;
+}
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .nav-links ul {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .court-stats {
+        flex-direction: column;
+    }
+
+    .player-stats-container {
+        padding: 15px;
+    }
+
+    .grid-layout {
+        grid-template-columns: 1fr;
+    }
 }
