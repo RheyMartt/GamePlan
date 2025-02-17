@@ -1,3 +1,86 @@
+<?php
+require_once $_SERVER['DOCUMENT_ROOT'] . '/GamePlan/connection.php';
+
+// Fetch all games for dropdown
+try {
+    $gameQuery = $pdo->query("SELECT g.gameID, h.teamName AS homeTeam, a.teamName AS awayTeam 
+                              FROM games g
+                              JOIN teams h ON g.homeTeamID = h.teamID
+                              JOIN teams a ON g.awayTeamID = a.teamID
+                              ORDER BY g.gameDate DESC");
+    $games = $gameQuery->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    die("Database error: " . $e->getMessage());
+}
+
+// Get selected gameID (default to the latest game)
+$gameID = isset($_GET['gameID']) ? $_GET['gameID'] : ($games[0]['gameID'] ?? null);
+
+// Fetch game details
+$gameDetails = null;
+if ($gameID) {
+    try {
+        $stmt = $pdo->prepare("SELECT g.*, 
+                                      h.teamName AS homeTeam, 
+                                      a.teamName AS awayTeam
+                               FROM games g
+                               JOIN teams h ON g.homeTeamID = h.teamID
+                               JOIN teams a ON g.awayTeamID = a.teamID
+                               WHERE g.gameID = :gameID");
+        $stmt->execute(['gameID' => $gameID]);
+        $gameDetails = $stmt->fetch(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        die("Database error: " . $e->getMessage());
+    }
+}
+
+$nuStats = [];
+$opponentStats = [];
+
+if ($gameID && $gameDetails) {
+    $opponentTeamID = ($gameDetails['homeTeamID'] == 1) ? $gameDetails['awayTeamID'] : $gameDetails['homeTeamID'];
+
+    try {
+        // NU Bulldogs Stats (Always teamID = 1)
+        $nuStmt = $pdo->prepare("SELECT p.firstName, p.lastName, p.position, p.jerseyNumber, 
+                                         gs.*
+                                  FROM game_stats gs
+                                  JOIN players p ON gs.playerID = p.playerID
+                                  WHERE gs.gameID = :gameID AND p.teamID = 1");
+        $nuStmt->execute(['gameID' => $gameID]);
+        $nuStats = $nuStmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // Opponent Stats (Dynamic teamID)
+        $oppStmt = $pdo->prepare("SELECT p.firstName, p.lastName, p.position, p.jerseyNumber, 
+                                          gs.*
+                                   FROM game_stats gs
+                                   JOIN players p ON gs.playerID = p.playerID
+                                   WHERE gs.gameID = :gameID AND p.teamID = :opponentTeamID");
+        $oppStmt->execute(['gameID' => $gameID, 'opponentTeamID' => $opponentTeamID]);
+        $opponentStats = $oppStmt->fetchAll(PDO::FETCH_ASSOC);
+
+    } catch (PDOException $e) {
+        die("Database error: " . $e->getMessage());
+    }
+}
+
+$topPerformers = [];
+if ($gameID) {
+    try {
+        $topStmt = $pdo->prepare("SELECT p.firstName, p.lastName, gs.points, gs.rebounds, gs.assists, gs.steals
+                                  FROM game_stats gs
+                                  JOIN players p ON gs.playerID = p.playerID
+                                  WHERE gs.gameID = :gameID AND p.teamID = 1
+                                  ORDER BY gs.points DESC
+                                  LIMIT 5");
+        $topStmt->execute(['gameID' => $gameID]);
+        $topPerformers = $topStmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        die("Database error: " . $e->getMessage());
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,7 +89,6 @@
   <title>NU GAMEPLAN</title>
   <link rel="stylesheet" href="gdCstyles.css">    
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-
 </head>
 <body>
   <style>
@@ -15,382 +97,216 @@
     }
   </style>
 
-    <!-- Navigation Bar -->
-    <div class="navbar">
-      <div class="logo-container">
-        <img src="NU BULLDOG.png" alt="Logo" class="navbar-logo">
-      </div>
-      <div class="nav-links">
-        <ul>
-          <li><a href="#" class="active">GAME DASHBOARD</a></li>
-          <li><a href="/gameplan/Com/CommHub.html">TEAM COMMUNICATION</a></li>
-          <li><a href="/gameplan/PM_Coach/PM.html">PLAYER MANAGEMENT</a></li>
-          <li><a href="/gameplan/Schedule_Coach/SM.html">SCHEDULE</a></li>
-          <li><a href="/gameplan/PGM_coach/PGM.php">PROGRESS & MILESTONE</a></li>
-          <li><a href="/gameplan/Resource_Management_Coach/RM.html">RESOURCES</a></li>
-          <li><a href="#" title="Logout"><i class="fas fa-sign-out-alt"></i></a></li>
-        </ul>
+  <!-- Navigation Bar -->
+  <div class="navbar">
+    <div class="logo-container">
+      <img src="NU BULLDOG.png" alt="Logo" class="navbar-logo">
+    </div>
+    <div class="nav-links">
+      <ul>
+        <li><a href="#" class="active">GAME DASHBOARD</a></li>
+        <li><a href="/gameplan/Com/CommHub.html">TEAM COMMUNICATION</a></li>
+        <li><a href="/gameplan/PM_Coach/PM.html">PLAYER MANAGEMENT</a></li>
+        <li><a href="/gameplan/Schedule_Coach/SM.html">SCHEDULE</a></li>
+        <li><a href="/gameplan/PGM_coach/PGM.php">PROGRESS & MILESTONE</a></li>
+        <li><a href="/gameplan/Resource_Management_Coach/RM.html">RESOURCES</a></li>
+        <li><a href="#" title="Logout"><i class="fas fa-sign-out-alt"></i></a></li>
+      </ul>
+    </div>
+  </div>
+
+  <main class="main-content">
+    <!-- Dropdown menu for game selection -->
+    <div class="dropdown" id="gameDropdown">
+      <button id="dropdownButton"><?php echo $gameDetails ? "{$gameDetails['homeTeam']} vs. {$gameDetails['awayTeam']}" : "Select a game"; ?></button>
+      <div class="dropdown-content">
+        <?php foreach ($games as $game): ?>
+          <a href="?gameID=<?php echo $game['gameID']; ?>">
+            <?php echo "{$game['homeTeam']} vs. {$game['awayTeam']}"; ?>
+          </a>
+        <?php endforeach; ?>
       </div>
     </div>
 
-    <!-- /gameplan/Dashboard_Coach/GD.php -->
+    <?php if ($gameDetails): ?>
+      <div class="game-details">
+        <h1>
+          <span><?php echo $gameDetails['homeTeam']; ?></span>
+          <span>-- vs --</span>
+          <span><?php echo $gameDetails['awayTeam']; ?></span>
+        </h1>
+        <p><?php echo $gameDetails['gameDate']; ?> | <?php echo $gameDetails['gameLocation']; ?></p>
+        <p>Game Type: <?php echo $gameDetails['gameType']; ?></p>
 
-    <main class="main-content">
-      <!-- Dropdown menu for game selection -->
-      <div class="dropdown" id="gameDropdown">
-        <button id="dropdownButton">NU vs. UST</button>
-        <div class="dropdown-content">
-          <a href="#" onclick="updateDropdown('NU vs. UST')">NU vs. UST</a>
-          <a href="#" onclick="updateDropdown('NU vs. ADMU')">NU vs. ADMU</a>
-          <a href="#" onclick="updateDropdown('NU vs. UP')">NU vs. UP</a>
-          <a href="#" onclick="updateDropdown('NU vs. AdU')">NU vs. AdU</a>
-          <a href="#" onclick="updateDropdown('NU vs. DLSU')">NU vs. DLSU</a>
-          <a href="#" onclick="updateDropdown('NU vs. UE')">NU vs. UE</a>
-          <a href="#" onclick="updateDropdown('NU vs. AdU')">NU vs. AdU</a>
-        </div>
-      </div>
-
-      <div class="court-stats">
-        <div class="court">
-          <img src="court.jpg" alt="Court Image" class="court-image">
-        </div>
-
-        <div class="game-details">
-          <h1>
-            <span>NATIONAL UNIVERSITY</span>
-            <span>132 - 114</span>
-            <span>UNIVERSITY OF STO. TOMAS</span>
-          </h1>
-          <p>Final</p>
-          <p>National University vs. University of Sto. Tomas</p>
-          <div class="score-breakdown">
-            <div>1</div><div>2</div><div>3</div><div>4</div><div>T</div>
-            <div>40</div><div>26</div><div>32</div><div>34</div><div>132</div>
-            <div>30</div><div>31</div><div>27</div><div>26</div><div>114</div>
-          </div>
-        </div>
-
-        <!-- Top Performers Section -->
-        <div class="top-performers">
-          <h3>Top Performers</h3>
-          <div class="top-performers-list">
-            <div class="performer">
-              <p><strong>LeBron James</strong></p>
-              <p>Points: 30 | Rebounds: 6 | Steals: 3 | Assists: 5</p>
-            </div>
-            <div class="performer">
-              <p><strong>Stephen Curry</strong></p>
-              <p>Points: 29 | Rebounds: 10 | Steals: 1 | Assists: 6</p>
-            </div>
-            <div class="performer">
-              <p><strong>James Harden</strong></p>
-              <p>Points: 26 | Rebounds: 8 | Steals: 2 | Assists: 5</p>
-            </div>
-            <div class="performer">
-              <p><strong>Joel Embiid</strong></p>
-              <p>Points: 25 | Rebounds: 12 | Steals: 2 | Assists: 7</p>
-            </div>
-            <div class="performer">
-              <p><strong>Kawhi Leonard</strong></p>
-              <p>Points: 24 | Rebounds: 12 | Steals: 3 | Assists: 8</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- NU Players Table -->
-      <div class="player-stats-container">
-        <div class="player-stats">
-          <h2>NU Player Stats</h2>
+        <!-- Quarter Scores -->
+        <div class="score-breakdown">
           <table>
             <thead>
               <tr>
-                <th>Player Name</th>
-                <th>Team</th>
-                <th>Pos</th>
-                <th>Pts</th>
-                <th>Asts</th>
-                <th>Rbs</th>
-                <th>Stls</th>
-                <th>Blks</th>
-                <th>TO</th>
-                <th>MP</th>
-                <th>FGM</th>
-                <th>FGA</th>
-                <th>FG%</th>
-                <th>TPM</th>
-                <th>TPA</th>
-                <th>TP%</th>
-                <th>FTM</th>
-                <th>FTA</th>
-                <th>FT%</th>
-                <th>+/-</th>
+                <th>Q1</th>
+                <th>Q2</th>
+                <th>Q3</th>
+                <th>Q4</th>
+                <th>Final</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td>LeBron James</td>
-                <td>NU</td>
-                <td>F</td>
-                <td>35</td>
-                <td>10</td>
-                <td>7</td>
-                <td>5</td>
-                <td>2</td>
-                <td>2</td>
-                <td>38</td>
-                <td>14</td>
-                <td>22</td>
-                <td>63.6%</td>
-                <td>4</td>
-                <td>8</td>
-                <td>50%</td>
-                <td>3</td>
-                <td>4</td>
-                <td>75%</td>
-                <td>+18</td>
+                <td><?php echo $gameDetails['homeQuarterOne']; ?></td>
+                <td><?php echo $gameDetails['homeQuarterTwo']; ?></td>
+                <td><?php echo $gameDetails['homeQuarterThree']; ?></td>
+                <td><?php echo $gameDetails['homeQuarterFour']; ?></td>
+                <td><?php echo $gameDetails['homeFinalScore']; ?></td>
               </tr>
               <tr>
-                <td>Stephen Curry</td>
-                <td>NU</td>
-                <td>G</td>
-                <td>32</td>
-                <td>5</td>
-                <td>3</td>
-                <td>7</td>
-                <td>0</td>
-                <td>3</td>
-                <td>36</td>
-                <td>12</td>
-                <td>21</td>
-                <td>57.1%</td>
-                <td>6</td>
-                <td>11</td>
-                <td>54.5%</td>
-                <td>2</td>
-                <td>2</td>
-                <td>100%</td>
-                <td>+15</td>
-              </tr>
-              <tr>
-                <td>James Harden</td>
-                <td>NU</td>
-                <td>G</td>
-                <td>28</td>
-                <td>8</td>
-                <td>5</td>
-                <td>9</td>
-                <td>1</td>
-                <td>4</td>
-                <td>40</td>
-                <td>9</td>
-                <td>18</td>
-                <td>50%</td>
-                <td>5</td>
-                <td>10</td>
-                <td>50%</td>
-                <td>5</td>
-                <td>6</td>
-                <td>83.3%</td>
-                <td>+10</td>
-              </tr>
-              <tr>
-                <td>Joel Embiid</td>
-                <td>NU</td>
-                <td>C</td>
-                <td>30</td>
-                <td>12</td>
-                <td>2</td>
-                <td>4</td>
-                <td>3</td>
-                <td>3</td>
-                <td>39</td>
-                <td>13</td>
-                <td>24</td>
-                <td>54.2%</td>
-                <td>2</td>
-                <td>5</td>
-                <td>40%</td>
-                <td>2</td>
-                <td>3</td>
-                <td>66.7%</td>
-                <td>+14</td>
-              </tr>
-              <tr>
-                <td>Victor Wembanyama</td>
-                <td>NU</td>
-                <td>C</td>
-                <td>27</td>
-                <td>11</td>
-                <td>4</td>
-                <td>3</td>
-                <td>4</td>
-                <td>2</td>
-                <td>37</td>
-                <td>11</td>
-                <td>19</td>
-                <td>57.9%</td>
-                <td>3</td>
-                <td>6</td>
-                <td>50%</td>
-                <td>4</td>
-                <td>5</td>
-                <td>80%</td>
-                <td>+12</td>
+                <td><?php echo $gameDetails['awayQuarterOne']; ?></td>
+                <td><?php echo $gameDetails['awayQuarterTwo']; ?></td>
+                <td><?php echo $gameDetails['awayQuarterThree']; ?></td>
+                <td><?php echo $gameDetails['awayQuarterFour']; ?></td>
+                <td><?php echo $gameDetails['awayFinalScore']; ?></td>
               </tr>
             </tbody>
           </table>
         </div>
       </div>
+    </div>
 
-      <!-- UST Players Table -->
-      <div class="player-stats-container">
-        <div class="player-stats">
-          <h2>UST Player Stats</h2>
-          <table>
-            <thead>
-              <tr>
-                <th>Player Name</th>
-                <th>Team</th>
-                <th>Pos</th>
-                <th>Pts</th>
-                <th>Asts</th>
-                <th>Rbs</th>
-                <th>Stls</th>
-                <th>Blks</th>
-                <th>TO</th>
-                <th>MP</th>
-                <th>FGM</th>
-                <th>FGA</th>
-                <th>FG%</th>
-                <th>TPM</th>
-                <th>TPA</th>
-                <th>TP%</th>
-                <th>FTM</th>
-                <th>FTA</th>
-                <th>FT%</th>
-                <th>+/-</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Kawhi Leonard</td>
-                <td>UST</td>
-                <td>F</td>
-                <td>29</td>
-                <td>11</td>
-                <td>3</td>
-                <td>7</td>
-                <td>1</td>
-                <td>2</td>
-                <td>39</td>
-                <td>12</td>
-                <td>22</td>
-                <td>54.5%</td>
-                <td>3</td>
-                <td>7</td>
-                <td>42.9%</td>
-                <td>2</td>
-                <td>3</td>
-                <td>66.7%</td>
-                <td>+14</td>
-              </tr>
-              <tr>
-                <td>Giannis Antetokounmpo</td>
-                <td>UST</td>
-                <td>F</td>
-                <td>34</td>
-                <td>16</td>
-                <td>2</td>
-                <td>6</td>
-                <td>3</td>
-                <td>4</td>
-                <td>42</td>
-                <td>14</td>
-                <td>24</td>
-                <td>58.3%</td>
-                <td>2</td>
-                <td>6</td>
-                <td>33.3%</td>
-                <td>4</td>
-                <td>6</td>
-                <td>66.7%</td>
-                <td>+17</td>
-              </tr>
-              <tr>
-                <td>Jimmy Butler</td>
-                <td>UST</td>
-                <td>G</td>
-                <td>27</td>
-                <td>7</td>
-                <td>2</td>
-                <td>8</td>
-                <td>1</td>
-                <td>3</td>
-                <td>40</td>
-                <td>10</td>
-                <td>20</td>
-                <td>50%</td>
-                <td>2</td>
-                <td>5</td>
-                <td>40%</td>
-                <td>5</td>
-                <td>6</td>
-                <td>83.3%</td>
-                <td>+12</td>
-              </tr>
-              <tr>
-                <td>Devin Booker</td>
-                <td>UST</td>
-                <td>G</td>
-                <td>36</td>
-                <td>5</td>
-                <td>1</td>
-                <td>6</td>
-                <td>0</td>
-                <td>2</td>
-                <td>38</td>
-                <td>13</td>
-                <td>26</td>
-                <td>50%</td>
-                <td>4</td>
-                <td>9</td>
-                <td>44.4%</td>
-                <td>6</td>
-                <td>7</td>
-                <td>85.7%</td>
-                <td>+15</td>
-              </tr>
-              <tr>
-                <td>Trae Young</td>
-                <td>UST</td>
-                <td>G</td>
-                <td>30</td>
-                <td>4</td>
-                <td>1</td>
-                <td>11</td>
-                <td>0</td>
-                <td>3</td>
-                <td>39</td>
-                <td>11</td>
-                <td>24</td>
-                <td>45.8%</td>
-                <td>5</td>
-                <td>12</td>
-                <td>41.7%</td>
-                <td>3</td>
-                <td>4</td>
-                <td>75%</td>
-                <td>+13</td>
-              </tr>
-            </tbody>
-          </table>
+    <!-- Top Scorers Section -->
+    <div class="topperformers-container">
+        <h2>Top Performers</h2>
+        <div class="topperformersList">
+        <ul>
+          <?php foreach ($topPerformers as $performer): ?>
+            <li>
+              <strong><?php echo "{$performer['firstName']} {$performer['lastName']}"; ?></strong><br>
+              Pts: <?php echo $performer['points']; ?> |
+              Rbs: <?php echo $performer['rebounds']; ?> |
+              Stls: <?php echo $performer['steals']; ?> |
+              Asts: <?php echo $performer['assists']; ?>
+            </li>
+          <?php endforeach; ?>
+        </ul>
         </div>
       </div>
-    </main>
-  </div>
 
-  <!-- Link to the external JavaScript file -->
-  <script src="script.js"></script>
+    <!-- NU Bulldogs Player Statistics -->
+    <div class="player-stats-container">
+        <h2>NU Bulldogs Player Statistics</h2>
+        <div class="player-stats">
+        <table>
+            <thead>
+                <tr>
+                    <th>Player Name</th>
+                    <th>Position</th>
+                    <th>Pts</th>
+                    <th>Asts</th>
+                    <th>Rbs</th>
+                    <th>Stls</th>
+                    <th>Blks</th>
+                    <th>TOs</th>
+                    <th>Minutes</th>
+                    <th>FGM</th>
+                    <th>FGA</th>
+                    <th>FG%</th>
+                    <th>3PM</th>
+                    <th>3PA</th>
+                    <th>3P%</th>
+                    <th>FTM</th>
+                    <th>FTA</th>
+                    <th>FT%</th>
+                    <th>+/-</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($nuStats as $stat): ?>
+                <tr>
+                    <td><?php echo "{$stat['firstName']} {$stat['lastName']}"; ?></td>
+                    <td><?php echo $stat['position']; ?></td>
+                    <td><?php echo $stat['points']; ?></td>
+                    <td><?php echo $stat['assists']; ?></td>
+                    <td><?php echo $stat['rebounds']; ?></td>
+                    <td><?php echo $stat['steals']; ?></td>
+                    <td><?php echo $stat['blocks']; ?></td>
+                    <td><?php echo $stat['turnovers']; ?></td>
+                    <td><?php echo $stat['minutesPlayed']; ?></td>
+                    <td><?php echo $stat['fieldGoalsMade']; ?></td>
+                    <td><?php echo $stat['fieldGoalsAttempted']; ?></td>
+                    <td><?php echo $stat['fieldGoalsPercentage']; ?>%</td>
+                    <td><?php echo $stat['threePointersMade']; ?></td>
+                    <td><?php echo $stat['threePointersAttempted']; ?></td>
+                    <td><?php echo $stat['threePointsPercentage']; ?>%</td>
+                    <td><?php echo $stat['freeThrowsMade']; ?></td>
+                    <td><?php echo $stat['freeThrowsAttempted']; ?></td>
+                    <td><?php echo $stat['freeThrowPercentage']; ?>%</td>
+                    <td><?php echo $stat['plusMinus']; ?></td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Opponent Player Statistics -->
+    <div class="player-stats-container">
+        <h2><?php echo $gameDetails['awayTeam']; ?> Player Statistics</h2>
+        <div class="player-stats">
+        <table>
+            <thead>
+                <tr>
+                    <th>Player Name</th>
+                    <th>Team</th>
+                    <th>Position</th>
+                    <th>Pts</th>
+                    <th>Asts</th>
+                    <th>Rbs</th>
+                    <th>Stls</th>
+                    <th>Blks</th>
+                    <th>TOs</th>
+                    <th>Minutes</th>
+                    <th>FGM</th>
+                    <th>FGA</th>
+                    <th>FG%</th>
+                    <th>3PM</th>
+                    <th>3PA</th>
+                    <th>3P%</th>
+                    <th>FTM</th>
+                    <th>FTA</th>
+                    <th>FT%</th>
+                    <th>+/-</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($opponentStats as $stat): ?>
+                <tr>
+                    <td><?php echo "{$stat['firstName']} {$stat['lastName']}"; ?></td>
+                    <td><?php echo $stat['position']; ?></td>
+                    <td><?php echo $stat['points']; ?></td>
+                    <td><?php echo $stat['assists']; ?></td>
+                    <td><?php echo $stat['rebounds']; ?></td>
+                    <td><?php echo $stat['steals']; ?></td>
+                    <td><?php echo $stat['blocks']; ?></td>
+                    <td><?php echo $stat['turnovers']; ?></td>
+                    <td><?php echo $stat['minutesPlayed']; ?></td>
+                    <td><?php echo $stat['fieldGoalsMade']; ?></td>
+                    <td><?php echo $stat['fieldGoalsAttempted']; ?></td>
+                    <td><?php echo $stat['fieldGoalsPercentage']; ?>%</td>
+                    <td><?php echo $stat['threePointersMade']; ?></td>
+                    <td><?php echo $stat['threePointersAttempted']; ?></td>
+                    <td><?php echo $stat['threePointsPercentage']; ?>%</td>
+                    <td><?php echo $stat['freeThrowsMade']; ?></td>
+                    <td><?php echo $stat['freeThrowsAttempted']; ?></td>
+                    <td><?php echo $stat['freeThrowPercentage']; ?>%</td>
+                    <td><?php echo $stat['plusMinus']; ?></td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+        </div>
+    </div>
+
+    <?php else: ?>
+      <p>No game data available.</p>
+    <?php endif; ?>
+  </main>
 </body>
 </html>

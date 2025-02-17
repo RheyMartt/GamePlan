@@ -180,7 +180,7 @@ body {
 }
 
 /* Top Performers */
-.top-performers {
+.topperformers-container {
     margin: 20px;
     padding: 20px; /* Adjust padding for better spacing */
     background-color: #F5C414;
@@ -188,7 +188,7 @@ body {
     border-radius: 10px;
 }
 
-.top-performers h3 {
+.topperformersList {
     margin: 0 0 10px;
     font-size: 20px; /* Adjust font size for better readability */
     color: #001F54;

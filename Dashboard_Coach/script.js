@@ -1,11 +1,23 @@
 document.addEventListener("DOMContentLoaded", function () {
-    document.querySelectorAll(".nav-links ul li a").forEach(link => {
-      console.log("Found link:", link.textContent.trim()); // Debugging output
-    });
-  });
-  
+  const dropdownButton = document.getElementById("dropdownButton");
+  const dropdownContent = document.querySelector(".dropdown-content");
 
-// Dropdown Functionality
-function updateDropdown(game) {
-  document.getElementById('dropdownButton').innerText = game;
-}
+  // Toggle dropdown visibility on button click
+  dropdownButton.addEventListener("click", function () {
+      dropdownContent.classList.toggle("show");
+  });
+
+  // Close the dropdown if clicked outside
+  document.addEventListener("click", function (event) {
+      if (!dropdownButton.contains(event.target) && !dropdownContent.contains(event.target)) {
+          dropdownContent.classList.remove("show");
+      }
+  });
+
+  // Automatically update the button text based on selection
+  document.querySelectorAll(".dropdown-content a").forEach(item => {
+      item.addEventListener("click", function () {
+          dropdownButton.textContent = this.textContent;
+      });
+  });
+});
