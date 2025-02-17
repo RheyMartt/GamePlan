@@ -72,6 +72,31 @@ function getUpcomingEvents($playerID) {
 // Fetch upcoming events by passing the playerID
 $upcomingEvents = getUpcomingEvents($playerID);
 
+// Function to fetch personal schedules for the logged-in player
+function getPersonalSchedules($playerID) {
+    global $pdo;
+
+    try {
+        // Fetch personal schedules
+        $query = "SELECT schedDate, schedTime, type, notes
+                  FROM personal_schedule
+                  WHERE playerID = :playerID
+                  ORDER BY schedDate ASC, schedTime ASC";
+        
+        $stmt = $pdo->prepare($query);
+        $stmt->execute(['playerID' => $playerID]);
+        $schedules = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        return $schedules;
+    } catch (PDOException $e) {
+        echo "Error fetching personal schedules: " . $e->getMessage();
+        return [];
+    }
+}
+
+// Fetch personal schedules for the logged-in player
+$personalSchedules = getPersonalSchedules($playerID);
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -142,13 +167,14 @@ $upcomingEvents = getUpcomingEvents($playerID);
         </div>
 
         <!-- Right Panel -->
-        <div class="panel announcements-panel">
+        <div class="panel schedule-panel">
             <h2>Personal Schedule</h2>
-            <ul id="announcements-list"></ul>
+            <ul id="schedule-list"></ul>
         </div>
     </div>
 
     <script>
+    const personalSchedules = <?php echo json_encode($personalSchedules); ?>;
     const eventDates = <?php echo json_encode(array_merge(
         array_column($upcomingEvents['games'], 'gameDate'),
         array_column($upcomingEvents['playerTrainings'], 'trainingDate'),
