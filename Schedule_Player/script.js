@@ -37,9 +37,16 @@ function renderCalendar(month, year) {
         dayCell.textContent = day;
         dayCell.classList.add('day-cell');
 
+        const formattedDate = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+
         // Highlight today's date
         if (day === currentDate.getDate() && month === currentDate.getMonth() && year === currentDate.getFullYear()) {
             dayCell.classList.add('today');
+        }
+
+        // Highlight event days
+        if (eventDates.includes(formattedDate)) {
+            dayCell.classList.add('event-day');
         }
 
         // Add click functionality to day cells to add reminders or request adjustments

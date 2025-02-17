@@ -67,3 +67,5 @@ document.getElementById('next-month').addEventListener('click', () => {
 
 // Initial Render
 renderCalendar(currentMonth, currentYear);
+
+

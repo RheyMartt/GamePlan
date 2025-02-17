@@ -56,7 +56,7 @@ $otherPlayers = $stmt->fetchAll();
         <ul>
           <li><a href="#" class="active">PLAYER PROFILE</a></li>
           <li><a href="/gameplan/Com/CommHub.html">TEAM COMMUNICATION</a></li>
-          <li><a href="/gameplan/Schedule_Player/PlayerSM.html">SCHEDULE</a></li>
+          <li><a href="/gameplan/Schedule_Player/PlayerSM.php">SCHEDULE</a></li>
           <li><a href="/gameplan/PGM_Player/PGM.html">PROGRESS & MILESTONE</a></li>
           <li><a href="/gameplan/Resource_Management_Player/RM.html">RESOURCES</a></li>
           <li><a href="#" title="Logout"><i class="fas fa-sign-out-alt"></i></a></li>

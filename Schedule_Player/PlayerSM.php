@@ -1,7 +1,16 @@
 <?php
+session_start(); // Start the session
 include 'C:\\xampp\\htdocs\\GamePlan\\connection.php'; // Database connection
 
-function getUpcomingEvents() {
+// Ensure playerID is set in session
+if (!isset($_SESSION['playerID'])) {
+    echo "Player is not logged in!";
+    exit;
+}
+
+$playerID = $_SESSION['playerID']; // Get the playerID from the session
+
+function getUpcomingEvents($playerID) {
     global $pdo;
 
     try {
@@ -27,11 +36,11 @@ function getUpcomingEvents() {
                                  FROM training t
                                  JOIN trainingPlans tp ON t.trainingPlanID = tp.trainingPlanID
                                  JOIN players p ON t.playerID = p.playerID
-                                 WHERE t.trainingDate >= CURDATE()
+                                 WHERE t.trainingDate >= CURDATE() AND t.playerID = :playerID
                                  ORDER BY t.trainingDate ASC";
 
         $playerTrainingsStmt = $pdo->prepare($playerTrainingsQuery);
-        $playerTrainingsStmt->execute();
+        $playerTrainingsStmt->execute(['playerID' => $playerID]);
         $playerTrainings = $playerTrainingsStmt->fetchAll(PDO::FETCH_ASSOC);
 
         // Fetch upcoming team trainings (today or future)
@@ -60,14 +69,10 @@ function getUpcomingEvents() {
     }
 }
 
-
-// Fetch upcoming events
-$upcomingEvents = getUpcomingEvents();
-
+// Fetch upcoming events by passing the playerID
+$upcomingEvents = getUpcomingEvents($playerID);
 
 ?>
-
-<!-- File: index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -76,74 +81,70 @@ $upcomingEvents = getUpcomingEvents();
     <title>NU GAMEPLAN</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-
-    <style>
-        .active {
-            font-weight: bold;
-        }
-    </style>
 </head>
+<style>
+    .active {
+        font-weight: bold;
+    }
+</style>
 <body>
     <div class="container">
-        <!-- Navigation Bar -->
-        <div class="navbar">
-            <div class="logo-container">
-                <img src="NU BULLDOG.png" alt="Logo" class="navbar-logo">
-            </div>
-            <div class="nav-links">
-                <ul>
-                    <li><a href="/gameplan/Dashboard_Coach/GD.php">GAME DASHBOARD</a></li>
-                    <li><a href="#">TEAM COMMUNICATION</a></li>
-                    <li><a href="/gameplan/PM_Coach/PM.html">PLAYER MANAGEMENT</a></li>
-                    <li><a href="#" class="active">SCHEDULE</a></li>
-                    <li><a href="/gameplan/PGM_coach/PGM.php">PROGRESS & MILESTONE</a></li>
-                    <li><a href="/gameplan/Resource_Management_Coach/RM.html">RESOURCES</a></li>
-                    <li><a href="#" title="Logout"><i class="fas fa-sign-out-alt"></i></a></li>
-                </ul>
-            </div>
+      <!-- Navigation Bar -->
+      <div class="navbar">
+        <div class="logo-container">
+            <img src="NU BULLDOG.png" alt="Logo" class="navbar-logo">
         </div>
-      
-       <!-- Main Content Section -->
-            <div class="main">
-                <!-- Left Panel -->
-                <div class="panel">
-                    <h2>Upcoming Events</h2>
-                    <ul>
-                        <?php
-                        // Display upcoming games
-                        foreach ($upcomingEvents['games'] as $game) {
-                            echo "<li>Game: {$game['homeTeam']} vs {$game['awayTeam']} on {$game['gameDate']} at {$game['gameTime']} ({$game['gameLocation']})</li>";
-                        }
+        <div class="nav-links">
+            <ul>
+                <li><a href="/gameplan/Player_Profile_Player/Player.php" >PLAYER PROFILE</a></li>
+                <li><a href="/gameplan/Com/CommHub.html">TEAM COMMUNICATION</a></li>
+                <li><a href="/gameplan/Schedule_Player/PlayerSM.html" class="active">SCHEDULE</a></li>
+                <li><a href="/gameplan/PGM_Player/PGM.html">PROGRESS & MILESTONE</a></li>
+                <li><a href="/gameplan/Resource_Management_Player/RM.html">RESOURCES</a></li>
+                <li><a href="#" title="Logout"><i class="fas fa-sign-out-alt"></i></a></li> 
+            </ul>
+        </div>
+    </div>
 
-                        // Display upcoming player trainings
-                        foreach ($upcomingEvents['playerTrainings'] as $training) {
-                            echo "<li>Player Training: {$training['firstName']} {$training['lastName']} - {$training['trainingPlan']} on {$training['trainingDate']} at {$training['trainingTime']}</li>";
-                        }
+    <!-- Main Content Section -->
+    <div class="main">
+        <!-- Left Panel -->
+        <div class="panel">
+            <h2>My Events</h2>
+            <ul>
+                <?php
+                // Display upcoming games
+                foreach ($upcomingEvents['games'] as $game) {
+                    echo "<li>Game: {$game['homeTeam']} vs {$game['awayTeam']} on {$game['gameDate']} at {$game['gameTime']} ({$game['gameLocation']})</li>";
+                }
 
-                        // Display upcoming team trainings
-                        foreach ($upcomingEvents['teamTrainings'] as $teamTraining) {
-                            echo "<li>Team Training: {$teamTraining['teamName']} - {$teamTraining['trainingPlan']} on {$teamTraining['trainingDate']} at {$teamTraining['trainingTime']}</li>";
-                        }
-                        ?>
-                    </ul>
-                </div>
-                <!-- Center Panel -->
-                <div class="panel calendar-panel">
-                    <h2>Calendar</h2>
-                    <div class="calendar-controls">
-                        <button id="prev-month">Previous</button>
-                        <span id="month-year"></span>
-                        <button id="next-month">Next</button>
-                    </div>
-                    <div id="calendar-container" class="calendar-grid"></div>
-                </div>
+                // Display upcoming player trainings
+                foreach ($upcomingEvents['playerTrainings'] as $training) {
+                    echo "<li>Player Training: {$training['firstName']} {$training['lastName']} - {$training['trainingPlan']} on {$training['trainingDate']} at {$training['trainingTime']}</li>";
+                }
 
-                <!-- Right Panel -->
-                <div class="panel schedule-panel">
-                    <h2>Reminders</h2>
-                    <ul id="reminders-list"></ul>
-                    <button id="add-reminder">Add Reminder</button>
+                // Display upcoming team trainings
+                foreach ($upcomingEvents['teamTrainings'] as $teamTraining) {
+                    echo "<li>Team Training: {$teamTraining['teamName']} - {$teamTraining['trainingPlan']} on {$teamTraining['trainingDate']} at {$teamTraining['trainingTime']}</li>";
+                }
+                ?>
+            </ul>
+        </div>
+        <!-- Center Panel -->
+        <div class="panel calendar-panel">
+            <h2>My Calendar</h2>
+            <div class="calendar-controls">
+                <button id="prev-month">Previous</button>
+                <span id="month-year"></span>
+                <button id="next-month">Next</button>
             </div>
+            <div id="calendar-container" class="calendar-grid"></div>
+        </div>
+
+        <!-- Right Panel -->
+        <div class="panel announcements-panel">
+            <h2>Personal Schedule</h2>
+            <ul id="announcements-list"></ul>
         </div>
     </div>
 
@@ -153,8 +154,8 @@ $upcomingEvents = getUpcomingEvents();
         array_column($upcomingEvents['playerTrainings'], 'trainingDate'),
         array_column($upcomingEvents['teamTrainings'], 'trainingDate')
     )); ?>;
-</script>
-<script src="script.js"></script>
+    </script>
 
+    <script src="script.js"></script>
 </body>
 </html>
