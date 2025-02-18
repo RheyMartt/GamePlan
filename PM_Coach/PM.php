@@ -1,3 +1,19 @@
+<?php
+require_once $_SERVER['DOCUMENT_ROOT'] . '/GamePlan/connection.php';
+
+// Fetch player data
+$playerID = isset($_GET['playerID']) ? $_GET['playerID'] : 1; // Default player ID
+
+try {
+    $stmt = $pdo->prepare("SELECT firstName, lastName, position, status, height, weight FROM players WHERE playerID = :playerID");
+    $stmt->bindParam(':playerID', $playerID, PDO::PARAM_INT);
+    $stmt->execute();
+    $player = $stmt->fetch(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    echo "Error: " . $e->getMessage();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,7 +21,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NU GAMEPLAN</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="pmcstyles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 <body>
@@ -35,27 +51,18 @@
         <!-- More From the Roster Section -->
         <section class="roster">
             <div class="roster-list">
-                <div class="roster-item">
-                    <img src="LBJ.png" alt="Player">
-                </div>
-                <div class="roster-item">
-                    <img src="LBJ.png" alt="Player">
-                </div>
-                <div class="roster-item">
-                    <img src="LBJ.png" alt="Player">
-                </div>
-                <div class="roster-item">
-                    <img src="LBJ.png" alt="Player">
-                </div>
-                <div class="roster-item">
-                    <img src="LBJ.png" alt="Player">
-                </div>
-                <div class="roster-item">
-                    <img src="LBJ.png" alt="Player">
-                </div>
-                <div class="roster-item">
-                    <img src="LBJ.png" alt="Player">
-                </div>
+                <?php
+                // Fetch only players with teamID = 1
+                $stmt = $pdo->prepare("SELECT playerID, firstName, lastName FROM players WHERE teamID = :teamID");
+                $stmt->execute(['teamID' => 1]); 
+                $players = $stmt->fetchAll();
+
+                foreach ($players as $player) {
+                    echo '<div class="roster-item">';
+                    echo '<img src="LBJ.png" alt="Player" class="player-btn" data-playerid="' . $player['playerID'] . '">';
+                    echo '</div>';
+                }
+                ?>
             </div>
         </section>
 
@@ -64,11 +71,10 @@
             <!-- Section 1: Bio/History/Status -->
             <div class="section">
                 <h3>Bio</h3>
-                <p>Name: Lebron James</p>
-                <p>Position: Forward</p>
-                <p>Status: Active</p>
-                <p>Height: 6'9" | Weight: 220 lbs</p>
-                <p>Team History: Bulldogs (2022 - 2024)</p>
+                <p>Name: <?php echo htmlspecialchars($player['firstName'] . ' ' . $player['lastName']) ?? 'N/A'; ?></p>
+                <p>Position: <?php echo htmlspecialchars($player['position'] ?? 'N/A'); ?></p>
+                <p>Status: <?php echo htmlspecialchars($player['status'] ?? 'N/A'); ?></p>
+                <p>Height: <?php echo htmlspecialchars($player['height'] ?? 'N/A'); ?> | Weight: <?php echo htmlspecialchars($player['weight'] ?? 'N/A'); ?></p>
             </div>
 
            <!-- Section 2: Stats (Based on Season) -->
@@ -173,5 +179,5 @@
         </div>
     </div>
 </body>
-<script src="script.js"></script>
+<script src="pmcscript.js"></script>
 </html>

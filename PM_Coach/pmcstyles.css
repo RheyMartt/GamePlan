@@ -103,21 +103,25 @@ body {
 
 .roster-list {
     display: flex;
-    overflow-x: auto;
-    gap: 20px; /* Adjust gap for better spacing */
-    padding: 25px 0;
-    scroll-snap-type: x mandatory;
-    justify-content: center; /* Center roster items */
+    overflow-x: auto;  /* Make the roster horizontally scrollable */
+    scroll-snap-type: x mandatory;  /* Enable horizontal snapping */
+    padding: 10px; /* Add padding if needed */
+    justify-content: flex-start; /* Align items to the start */
 }
+
 
 .roster-item {
     flex: 0 0 auto;
-    width: 250px;
+    scroll-snap-align: start; /* Ensures that it snaps to the start */
+    scroll-snap-stop: always; /* Forces snapping at every stop */
+    width: 250px;  /* Adjust width as needed */
+    height: 150px; /* Adjust height as needed */
     text-align: center;
-    cursor: pointer;
-    padding: 10px; 
-    transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out;
+    margin: 10px;
+    padding: 10px;
+    transition: transform 0.3s, background-color 0.3s;
 }
+
 
 .roster-item:hover {
     transform: scale(1.05);
@@ -133,9 +137,8 @@ body {
 .roster-item img {
     width: 100%; /* Set width to 100% to make it responsive */
     height: auto; /* Maintain aspect ratio */
-    max-width: 212px; /* Set maximum width */
-    max-height: 180px; /* Set maximum height */
     margin-bottom: 10px;
+    cursor: pointer;
 }
 
 .roster-item span {

@@ -106,7 +106,7 @@ if ($gameID) {
       <ul>
         <li><a href="#" class="active">GAME DASHBOARD</a></li>
         <li><a href="/gameplan/Com/CommHub.html">TEAM COMMUNICATION</a></li>
-        <li><a href="/gameplan/PM_Coach/PM.html">PLAYER MANAGEMENT</a></li>
+        <li><a href="/gameplan/PM_Coach/PM.php">PLAYER MANAGEMENT</a></li>
         <li><a href="/gameplan/Schedule_Coach/SM.php">SCHEDULE</a></li>
         <li><a href="/gameplan/PGM_coach/PGM.php">PROGRESS & MILESTONE</a></li>
         <li><a href="/gameplan/Resource_Management_Coach/RM.html">RESOURCES</a></li>
