@@ -138,11 +138,35 @@ $upcomingEvents = getUpcomingEvents();
                     <div id="calendar-container" class="calendar-grid"></div>
                 </div>
 
-                <!-- Right Panel -->
-                <div class="panel schedule-panel">
-                    <h2>Reminders</h2>
-                    <ul id="reminders-list"></ul>
-                    <button id="add-reminder">Add Reminder</button>
+                  <!-- Right Panel -->
+                  <div class="panel schedule-panel">
+                <h2>Add Game</h2>
+                
+                <label for="game-type">Game Type</label>
+                <select id="game-type">
+                    <option value="official">Official</option>
+                    <option value="practice">Practice</option>
+                </select>
+                
+                <label for="opponent">Opponent</label>
+                <select id="opponent">
+                    <option value="">Select Opponent</option>
+                    <!-- Add opponent options dynamically -->
+                </select>
+                
+                <label for="date">Date</label>
+                <input type="date" id="date">
+                
+                <label for="time">Time</label>
+                <input type="time" id="time">
+                
+                <label for="location">Location</label>
+                <select id="location">
+                    <option value="">Select Location</option>
+                    <!-- Add location options dynamically -->
+                </select>
+                
+                <button id="add-to-calendar">Add to Calendar</button>
             </div>
         </div>
     </div>
