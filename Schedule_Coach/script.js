@@ -41,9 +41,14 @@ function renderCalendar(month, year) {
             dayCell.classList.add('today');
         }
 
+        dayCell.addEventListener("click", function () {
+            document.getElementById("date").value = formattedDate;
+        });
+
         calendarContainer.appendChild(dayCell);
     }
 }
+
 
 // Handle Previous and Next Month Buttons
 document.getElementById('prev-month').addEventListener('click', () => {
@@ -67,4 +72,54 @@ document.getElementById('next-month').addEventListener('click', () => {
 // Initial Render
 renderCalendar(currentMonth, currentYear);
 
+document.getElementById('add-to-calendar').addEventListener('click', function () {
+    const gameType = document.getElementById('game-type').value;
+    const opponentSelect = document.getElementById('opponent');
+    const opponent = opponentSelect.value;
+    const date = document.getElementById('date').value;
+    const time = document.getElementById('time').value;
+    const locationSelect = document.getElementById('location');
+    const locationName = locationSelect.options[locationSelect.selectedIndex].text;
+
+    if (!gameType || opponent === "" || opponentSelect.selectedIndex === 0 || 
+        !date || !time || locationSelect.selectedIndex === 0) {
+        alert("Please fill out all fields correctly.");
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append("gameType", gameType);
+    formData.append("opponent", opponent);
+    formData.append("date", date);
+    formData.append("time", time);
+    formData.append("location", locationName); 
+
+    fetch("SM.php", {
+        method: "POST",
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === "success") {
+            alert(data.message);
+            location.reload(); 
+        } else {
+            alert(data.message); 
+        }
+    })
+    .catch(error => {
+        console.error("Error:", error);
+        alert("Failed to communicate with the server.");
+    });
+});
+
+dayCell.addEventListener("click", function () {
+    document.getElementById("date").value = formattedDate;
+
+    // Remove previous selection
+    document.querySelectorAll('.day-cell').forEach(cell => cell.classList.remove('selected-date'));
+
+    // Add class to highlight the clicked date
+    this.classList.add('selected-date');
+});
 

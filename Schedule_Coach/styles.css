@@ -297,3 +297,8 @@ footer {
 .active {
     font-weight: bold;
 }
+
+.event-day {
+    background-color: #FF5733 !important; /* Highlight color */
+    color: white;
+}
