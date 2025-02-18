@@ -140,7 +140,7 @@ function handleDayClick(day, month, year) {
                 if (xhr.status === 200) {
                     alert('Schedule added successfully!');
                     closeModal(); // Close the modal after submission
-                    // Optionally, reload the schedule list or update the calendar UI
+                    location.reload(); // Reload the entire page to reflect the updated schedule
                 } else {
                     alert('Failed to add schedule.');
                 }
