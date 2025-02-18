@@ -9,9 +9,6 @@ const monthNames = [
     "July", "August", "September", "October", "November", "December"
 ];
 
-let reminders = []; // Array to hold reminders
-let scheduleRequests = []; // Array to hold schedule adjustment requests
-
 // Render the calendar
 function renderCalendar(month, year) {
     // Clear the previous calendar
@@ -58,48 +55,6 @@ function renderCalendar(month, year) {
     }
 }
 
-// Add a reminder
-function addReminder(date) {
-    const reminderText = prompt(`Enter your reminder for ${date}:`);
-    if (reminderText) {
-        reminders.push({ date, text: reminderText });
-        updateRemindersList();
-        alert(`Reminder added for ${date}: "${reminderText}"`);
-    }
-}
-
-// Request a schedule adjustment
-function requestScheduleAdjustment(date) {
-    const adjustmentDetails = prompt(`Enter your schedule adjustment request for ${date}:`);
-    if (adjustmentDetails) {
-        scheduleRequests.push({ date, details: adjustmentDetails });
-        alert(`Schedule adjustment request submitted for ${date}: "${adjustmentDetails}"`);
-    }
-}
-
-// Update reminders list in the UI
-function updateRemindersList() {
-    const reminderList = document.getElementById('reminders-list');
-    reminderList.innerHTML = ''; // Clear the list
-
-    reminders.forEach((reminder, index) => {
-        const reminderItem = document.createElement('li');
-        reminderItem.textContent = `${reminder.date}: ${reminder.text}`;
-
-        // Add delete button
-        const deleteButton = document.createElement('button');
-        deleteButton.textContent = 'Delete';
-        deleteButton.style.marginLeft = '10px';
-        deleteButton.addEventListener('click', () => {
-            reminders.splice(index, 1);
-            updateRemindersList();
-        });
-
-        reminderItem.appendChild(deleteButton);
-        reminderList.appendChild(reminderItem);
-    });
-}
-
 // Handle Previous and Next Month Buttons
 document.getElementById('prev-month').addEventListener('click', () => {
     currentMonth--;
@@ -121,8 +76,6 @@ document.getElementById('next-month').addEventListener('click', () => {
 
 // Initial Render
 renderCalendar(currentMonth, currentYear);
-// Array to hold schedule announcements
-let scheduleAnnouncements = [];
 
 
 document.addEventListener('DOMContentLoaded', function() {

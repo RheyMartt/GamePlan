@@ -93,10 +93,7 @@ function getPersonalSchedules($playerID) {
         return [];
     }
 }
-
-// Fetch personal schedules for the logged-in player
 $personalSchedules = getPersonalSchedules($playerID);
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -173,7 +170,7 @@ $personalSchedules = getPersonalSchedules($playerID);
         </div>
     </div>
 
-    <script>
+    <script >
     const personalSchedules = <?php echo json_encode($personalSchedules); ?>;
     const eventDates = <?php echo json_encode(array_merge(
         array_column($upcomingEvents['games'], 'gameDate'),
