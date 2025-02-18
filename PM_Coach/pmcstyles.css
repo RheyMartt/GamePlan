@@ -104,6 +104,7 @@ body {
 .roster-list {
     display: flex;
     overflow-x: auto;  /* Make the roster horizontally scrollable */
+    overflow-y: hidden; /* Hide vertical scrollbar */
     scroll-snap-type: x mandatory;  /* Enable horizontal snapping */
     padding: 10px; /* Add padding if needed */
     justify-content: flex-start; /* Align items to the start */
@@ -115,7 +116,7 @@ body {
     scroll-snap-align: start; /* Ensures that it snaps to the start */
     scroll-snap-stop: always; /* Forces snapping at every stop */
     width: 250px;  /* Adjust width as needed */
-    height: 150px; /* Adjust height as needed */
+    height: 200px; /* Adjust height as needed */
     text-align: center;
     margin: 10px;
     padding: 10px;

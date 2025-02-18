@@ -1,22 +1,45 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'] . '/GamePlan/connection.php';
 
+header('Content-Type: application/json');
+
+// Check if playerID is provided
 if (isset($_POST['playerID'])) {
     $playerID = $_POST['playerID'];
 
-    try {
-        $stmt = $pdo->prepare("SELECT firstName, lastName, position, status, height, weight FROM players WHERE playerID = :playerID");
-        $stmt->bindParam(':playerID', $playerID, PDO::PARAM_INT);
-        $stmt->execute();
-        $player = $stmt->fetch(PDO::FETCH_ASSOC);
+    // Log the playerID to debug
+    error_log("PlayerID received: " . $playerID);
 
-        if ($player) {
-            echo json_encode($player);
+    if ($pdo instanceof PDO) {
+        // Fetch player data (bio information)
+        $query = "SELECT firstName, lastName, position, status, height, weight FROM players WHERE playerID = :playerID";
+        $stmt = $pdo->prepare($query);
+        $stmt->bindParam(':playerID', $playerID, PDO::PARAM_INT);
+
+        if ($stmt->execute()) {
+            $player = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if ($player) {
+                // Return player bio data as JSON
+                echo json_encode([
+                    'firstName' => $player['firstName'],
+                    'lastName' => $player['lastName'],
+                    'position' => $player['position'],
+                    'status' => $player['status'],
+                    'height' => $player['height'],
+                    'weight' => $player['weight']
+                ]);
+            } else {
+                // Return error message if player is not found
+                echo json_encode(['error' => 'Player not found']);
+            }
         } else {
-            echo json_encode(["error" => "Player not found"]);
+            echo json_encode(['error' => 'Database query failed']);
         }
-    } catch (PDOException $e) {
-        echo json_encode(["error" => $e->getMessage()]);
+    } else {
+        echo json_encode(['error' => 'Database connection failed']);
     }
+} else {
+    echo json_encode(['error' => 'Player ID not provided']);
 }
 ?>

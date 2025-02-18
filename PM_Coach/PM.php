@@ -1,14 +1,55 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'] . '/GamePlan/connection.php';
 
-// Fetch player data
-$playerID = isset($_GET['playerID']) ? $_GET['playerID'] : 1; // Default player ID
+// Default playerID (can be modified to select a specific player based on URL parameters)
+$playerID = isset($_GET['playerID']) ? $_GET['playerID'] : 1;
 
+// Default values for stats
+$gamesPlayed = 0;
+$totalPoints = $totalAssists = $totalRebounds = $totalBlocks = $totalSteals = 0;
+$ppg = $apg = $rpg = $bpg = $spg = 0;
+
+// Fetch player data
 try {
     $stmt = $pdo->prepare("SELECT firstName, lastName, position, status, height, weight FROM players WHERE playerID = :playerID");
     $stmt->bindParam(':playerID', $playerID, PDO::PARAM_INT);
     $stmt->execute();
     $player = $stmt->fetch(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    echo "Error: " . $e->getMessage();
+}
+
+// Fetch player stats
+try {
+    $stmt = $pdo->prepare("SELECT 
+        COUNT(DISTINCT gameID) AS games_played, 
+        COALESCE(SUM(points), 0) AS total_points, 
+        COALESCE(SUM(assists), 0) AS total_assists, 
+        COALESCE(SUM(rebounds), 0) AS total_rebounds, 
+        COALESCE(SUM(blocks), 0) AS total_blocks, 
+        COALESCE(SUM(steals), 0) AS total_steals 
+        FROM game_stats 
+        WHERE playerID = :playerID");
+    $stmt->bindParam(':playerID', $playerID, PDO::PARAM_INT);
+    $stmt->execute();
+    $stats = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($stats) {
+        $gamesPlayed = (int) $stats['games_played'];
+        $totalPoints = (int) $stats['total_points'];
+        $totalAssists = (int) $stats['total_assists'];
+        $totalRebounds = (int) $stats['total_rebounds'];
+        $totalBlocks = (int) $stats['total_blocks'];
+        $totalSteals = (int) $stats['total_steals'];
+
+        if ($gamesPlayed > 0) {
+            $ppg = $totalPoints / $gamesPlayed;
+            $apg = $totalAssists / $gamesPlayed;
+            $rpg = $totalRebounds / $gamesPlayed;
+            $bpg = $totalBlocks / $gamesPlayed;
+            $spg = $totalSteals / $gamesPlayed;
+        }
+    }
 } catch (PDOException $e) {
     echo "Error: " . $e->getMessage();
 }
@@ -59,17 +100,19 @@ try {
 
                 foreach ($players as $player) {
                     echo '<div class="roster-item">';
-                    echo '<img src="LBJ.png" alt="Player" class="player-btn" data-playerid="' . $player['playerID'] . '">';
+                    echo '<a href="javascript:void(0);" class="player-link" data-playerid="' . $player['playerID'] . '">';
+                    echo '<img src="Player.png" alt="Player" class="player-btn">';
+                    echo '</a>';
                     echo '</div>';
                 }
                 ?>
             </div>
         </section>
 
-         <!-- New Container with 3 Sections, stacked vertically -->
-         <div class="container">
+        <!-- New Container with 3 Sections, stacked vertically -->
+        <div class="container">
             <!-- Section 1: Bio/History/Status -->
-            <div class="section">
+            <div class="section" id="bio-section">
                 <h3>Bio</h3>
                 <p>Name: <?php echo htmlspecialchars($player['firstName'] . ' ' . $player['lastName']) ?? 'N/A'; ?></p>
                 <p>Position: <?php echo htmlspecialchars($player['position'] ?? 'N/A'); ?></p>
@@ -77,54 +120,29 @@ try {
                 <p>Height: <?php echo htmlspecialchars($player['height'] ?? 'N/A'); ?> | Weight: <?php echo htmlspecialchars($player['weight'] ?? 'N/A'); ?></p>
             </div>
 
-           <!-- Section 2: Stats (Based on Season) -->
-           <div class="section">
-            <div class="dropdown">
-                <button class="dropbtn">Choose Season</button>
-                <div class="dropdown-content">
-                    <ul>
-                        <li><a href="#">S84</a></li>
-                        <li><a href="#">S85</a></li>
-                        <li><a href="#">S86</a></li>
-                        <li><a href="#">S87</a></li>
-                    </ul>
+            <!-- Section 2: Stats (Based on Season) -->
+            <div class="section">
+                <div class="table-container" >
+                    <table class="table" id="stats-section">
+                        <thead>
+                            <tr>
+                                <th scope="col">Stats</th>
+                                <th scope="col">Value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Points Per Game</td><td><?php echo number_format($ppg, 1); ?></td></tr>
+                            <tr><td>Assists Per Game</td><td><?php echo number_format($apg, 1); ?></td></tr>
+                            <tr><td>Rebounds Per Game</td><td><?php echo number_format($rpg, 1); ?></td></tr>
+                            <tr><td>Blocks Per Game</td><td><?php echo number_format($bpg, 1); ?></td></tr>
+                            <tr><td>Steals Per Game</td><td><?php echo number_format($spg, 1); ?></td></tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
-            <div class="table-container">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Stats</th>
-                            <th>Value</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Points Per Game</td>
-                            <td>20.3</td>
-                        </tr>
-                        <tr>
-                            <td>Assists Per Game</td>
-                            <td>6.5</td>
-                        </tr>
-                        <tr>
-                            <td>Rebounds Per Game</td>
-                            <td>5.1</td>
-                        </tr>
-                        <tr>
-                            <td>Blocks Per Game</td>
-                            <td>1.0</td>
-                        </tr>
-                        <tr>
-                            <td>Steals Per Game</td>
-                            <td>2.3</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+
             <!-- Attendance Section -->
-            <div class="section" alt="Section 3">
+            <div class="section">
                 <h3>Attendance</h3>
                 <div class="table-container">
                     <table class="table">
@@ -178,6 +196,9 @@ try {
             <button id="confirmInjuryBtn">Confirm</button>
         </div>
     </div>
+
+    <!-- Include the external JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="pmcscript.js"></script>
 </body>
-<script src="pmcscript.js"></script>
 </html>
