@@ -94,6 +94,52 @@ function getPersonalSchedules($playerID) {
     }
 }
 $personalSchedules = getPersonalSchedules($playerID);
+
+
+
+// Check if the required POST parameters are set
+if (isset($_POST['type'], $_POST['schedDate'], $_POST['schedTime'])) {
+    $type = $_POST['type'];
+    $schedDate = $_POST['schedDate'];
+    $schedTime = $_POST['schedTime'];
+    $notes = isset($_POST['notes']) ? $_POST['notes'] : 'n/a'; // Default to 'n/a' if not provided
+
+    // Call the function to insert the schedule into the database
+    include 'your_php_file_with_function.php'; // Include the PHP file with the addPersonalSchedule function
+    $result = addPersonalSchedule($playerID, $type, $schedDate, $schedTime, $notes);
+
+    if ($result) {
+        echo "Schedule added successfully.";
+    } else {
+        echo "Error adding schedule.";
+    }
+} else {
+    echo "Required fields are missing.";
+}
+// Function to insert a new schedule entry into the personal_schedule table
+function addPersonalSchedule($playerID, $type, $schedDate, $schedTime, $notes) {
+    global $pdo;
+
+    try {
+        $query = "INSERT INTO personal_schedule (playerID, type, schedDate, schedTime, notes)
+                  VALUES (:playerID, :type, :schedDate, :schedTime, :notes)";
+
+        $stmt = $pdo->prepare($query);
+        $stmt->execute([
+            'playerID' => $playerID,
+            'type' => $type,
+            'schedDate' => $schedDate,
+            'schedTime' => $schedTime,
+            'notes' => $notes
+        ]);
+
+        return true;
+    } catch (PDOException $e) {
+        echo "Error inserting schedule: " . $e->getMessage();
+        return false;
+    }
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

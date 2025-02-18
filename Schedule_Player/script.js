@@ -119,11 +119,36 @@ function handleDayClick(day, month, year) {
     // Close modal logic
     document.getElementById('close-modal').addEventListener('click', closeModal);
 
-    // Add schedule logic
-    document.getElementById('schedule-form').addEventListener('submit', (e) => {
-        e.preventDefault();
-        addSchedule(date); // Add the schedule
-    });
+    // Handle form submission to add schedule
+    document.getElementById('schedule-form').addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent the default form submission
+
+        const type = document.getElementById('type').value;
+        const schedTime = document.getElementById('sched-time').value;
+        const notes = document.getElementById('notes').value.trim() || "n/a"; // Default to 'n/a' if empty
+
+        // Get the selected date from the handleDayClick function
+        const schedDate = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+
+        // Send the data to the server using AJAX
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', 'PlayerSM.php', true); // Pointing to the PHP script
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    alert('Schedule added successfully!');
+                    closeModal(); // Close the modal after submission
+                    // Optionally, reload the schedule list or update the calendar UI
+                } else {
+                    alert('Failed to add schedule.');
+                }
+            }
+        };
+
+    xhr.send(`type=${encodeURIComponent(type)}&schedDate=${encodeURIComponent(schedDate)}&schedTime=${encodeURIComponent(schedTime)}&notes=${encodeURIComponent(notes)}`);
+});
 }
 
 // Close modal logic
