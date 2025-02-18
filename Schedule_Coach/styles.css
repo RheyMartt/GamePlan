@@ -19,8 +19,8 @@ body {
 
 /* Container */
 .container {
-    width: 1920px;
-    height: 1080px;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
     display: flex;
     flex-direction: column;
     gap: 1rem;
@@ -153,7 +153,7 @@ header {
     color: #333;
 }
 
-/* Right Panel (Reminders) Styling */
+/* Right Panel Styling */
 .schedule-panel {
     background-color: #F5C414;
     padding: 20px;
@@ -200,7 +200,7 @@ select, input {
 button#add-to-calendar {
     margin-top: 20px;
     width: 100%;
-    background-color: #0645AD;
+    background-color: #001F54;
     color: white;
     padding: 10px;
     border: none;
@@ -212,7 +212,7 @@ button#add-to-calendar {
 }
 
 button#add-to-calendar:hover {
-    background-color: #003f87;
+    background-color: #001F54;
 }
 
 button#add-to-calendar:hover {
@@ -292,4 +292,8 @@ footer {
 .nav-links a:hover {
     background-color: #F5C414; /* 30% Secondary color */
     color: #FFF;
+}
+
+.active {
+    font-weight: bold;
 }

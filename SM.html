@@ -7,12 +7,6 @@
     <title>NU GAMEPLAN</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-
-    <style>
-        .active {
-            font-weight: bold;
-        }
-    </style>
 </head>
 <body>
     <div class="container">
@@ -57,8 +51,8 @@
                 <div id="calendar-container" class="calendar-grid"></div>
             </div>
 
-            <div class="panel schedule-panel" style="background-color: #F5C414; padding: 20px; border-radius: 10px;">
-                <h2 style="text-align: center; color: #001F54;">Reminders</h2>
+            <div class="panel schedule-panel">
+                <h2>Add Game</h2>
                 
                 <label for="game-type">Game Type</label>
                 <select id="game-type">
@@ -84,9 +78,10 @@
                     <!-- Add location options dynamically -->
                 </select>
                 
-                <button id="add-to-calendar" style="margin-top: 10px; background-color: #001F54; color: white; padding: 10px; border: none; border-radius: 5px;">Add to Calendar</button>
+                <button id="add-to-calendar">Add to Calendar</button>
             </div>
-
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>
