@@ -201,30 +201,7 @@ $teamProgress = $completedTeamTrainingsData['progress'];
         </div>
 
     <main>
-    <section class="add-training">
-            <h2>ADD A TRAINING PLAN</h2>
-            <div class="toggle">
-                <select name="playerID">
-                    <option selected disabled>Select Player</option>
-                    <?php foreach ($players as $player): ?>
-                        <option value="<?php echo htmlspecialchars($player['playerID']); ?>">
-                            <?php echo htmlspecialchars($player['firstName'] . ' ' . $player['lastName']); ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
-                <button>TEAM</button>
-            </div>
-            <form>
-                <label>TRAINING PLAN:</label>
-                <input type="text">
-                <label>START DATE:</label>
-                <input type="date">
-                <label>END DATE:</label>
-                <input type="date">
-                <button type="submit">ADD</button>
-            </form>
-        </section>
-       
+   
         <section class="ongoing-training">
             <h2>ON GOING TRAINING</h2>
             <div class="players">
