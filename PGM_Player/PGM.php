@@ -213,7 +213,6 @@ $teamProgress = $completedTeamTrainingsData['progress'];
                         <th>Start Date</th>
                         <th>Start Time</th>
                         <th>End Time</th>
-                        <th><i class="fas fa-eye"></i></th>
                     </tr>
                     <?php foreach ($ongoingTrainings as $training): ?>
                         <tr>
@@ -222,7 +221,6 @@ $teamProgress = $completedTeamTrainingsData['progress'];
                             <td><?php echo htmlspecialchars($training['trainingDate']); ?></td>
                             <td><?php echo htmlspecialchars($training['trainingTime']); ?></td>
                             <td><?php echo htmlspecialchars($training['endTime']); ?></td>
-                            <td><i class="fas fa-eye"></i></td>
                         </tr>
                     <?php endforeach; ?>
                 </table>
@@ -235,7 +233,6 @@ $teamProgress = $completedTeamTrainingsData['progress'];
                         <th>Start Date</th>
                         <th>Start Time</th>
                         <th>End Time</th>
-                        <th><i class="fas fa-eye"></i></th>
                     </tr>
                     <?php foreach ($ongoingTeamTrainings as $teamTraining): ?>
                         <tr>
@@ -243,7 +240,6 @@ $teamProgress = $completedTeamTrainingsData['progress'];
                             <td><?php echo htmlspecialchars($teamTraining['trainingDate']); ?></td>
                             <td><?php echo htmlspecialchars($teamTraining['trainingTime']); ?></td>
                             <td><?php echo htmlspecialchars($teamTraining['endTime']); ?></td>
-                            <td><i class="fas fa-eye"></i></td>
                         </tr>
                     <?php endforeach; ?>
                 </table>
@@ -261,7 +257,6 @@ $teamProgress = $completedTeamTrainingsData['progress'];
                             <th>Training Date</th>
                             <th>Start Time</th>
                             <th>End Time</th>
-                            <th><i class="fas fa-eye"></i></th>
                         </tr>
                         <?php foreach ($completedTrainings as $training): ?>
                             <tr>
@@ -270,7 +265,6 @@ $teamProgress = $completedTeamTrainingsData['progress'];
                                 <td><?php echo htmlspecialchars($training['trainingDate']); ?></td>
                                 <td><?php echo htmlspecialchars($training['trainingTime']); ?></td>
                                 <td><?php echo htmlspecialchars($training['endTime']); ?></td>
-                                <td><i class="fas fa-eye"></i></td>
                             </tr>
                         <?php endforeach; ?>
                     </table>
@@ -287,7 +281,6 @@ $teamProgress = $completedTeamTrainingsData['progress'];
                             <th>Start Date</th>
                             <th>Start Time</th>
                             <th>End Time</th>
-                            <th><i class="fas fa-eye"></i></th>
                         </tr>
                         <?php foreach ($completedTeamTrainings as $teamTraining): ?>
                             <tr>
@@ -295,7 +288,6 @@ $teamProgress = $completedTeamTrainingsData['progress'];
                                 <td><?php echo htmlspecialchars($teamTraining['trainingDate']); ?></td>
                                 <td><?php echo htmlspecialchars($teamTraining['trainingTime']); ?></td>
                                 <td><?php echo htmlspecialchars($teamTraining['endTime']); ?></td>
-                                <td><i class="fas fa-eye"></i></td>
                             </tr>
                         <?php endforeach; ?>
                     </table>
