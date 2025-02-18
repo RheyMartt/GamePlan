@@ -80,7 +80,7 @@ function getPersonalSchedules($playerID) {
         // Fetch personal schedules
         $query = "SELECT schedDate, schedTime, type, notes
                   FROM personal_schedule
-                  WHERE playerID = :playerID
+                  WHERE playerID = :playerID AND schedDate >= CURDATE()
                   ORDER BY schedDate ASC, schedTime ASC";
         
         $stmt = $pdo->prepare($query);
@@ -114,7 +114,7 @@ if (isset($_POST['type'], $_POST['schedDate'], $_POST['schedTime'])) {
         echo "Error adding schedule.";
     }
 } else {
-    echo "Required fields are missing.";
+
 }
 // Function to insert a new schedule entry into the personal_schedule table
 function addPersonalSchedule($playerID, $type, $schedDate, $schedTime, $notes) {
