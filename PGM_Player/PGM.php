@@ -1,10 +1,18 @@
 <?php
-include 'C:\\xampp\\htdocs\\GamePlan\\connection.php'; // Database connection
 session_start(); // Start the session
+include 'C:\\xampp\\htdocs\\GamePlan\\connection.php'; // Database connection
+
+// Ensure playerID is set in session
+if (!isset($_SESSION['playerID'])) {
+    echo "Player is not logged in!";
+    exit;
+}
+
+$playerID = $_SESSION['playerID']; // Get the playerID from the session
 
 // Fetch ongoing (not past) training sessions
 function getOngoingTraining() {
-    global $pdo;
+    global $pdo, $playerID;
 
     try {
         $query = "SELECT 
@@ -17,10 +25,12 @@ function getOngoingTraining() {
                   FROM training t
                   JOIN players p ON t.playerID = p.playerID
                   JOIN trainingPlans tp ON t.trainingPlanID = tp.trainingPlanID
-                  WHERE t.trainingDate >= CURDATE()
+                  WHERE t.trainingDate >= CURDATE() 
+                  AND t.playerID = :playerID
                   ORDER BY t.trainingDate ASC, t.trainingTime ASC";
 
-        $stmt = $pdo->prepare($query);  
+        $stmt = $pdo->prepare($query);
+        $stmt->bindParam(':playerID', $playerID, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
@@ -30,7 +40,7 @@ function getOngoingTraining() {
 }
 
 function getCompletedTrainings() {
-    global $pdo;
+    global $pdo, $playerID;
 
     try {
         $query = "SELECT 
@@ -44,17 +54,21 @@ function getCompletedTrainings() {
                   JOIN players p ON t.playerID = p.playerID
                   JOIN trainingPlans tp ON t.trainingPlanID = tp.trainingPlanID
                   WHERE t.trainingDate < CURDATE()
+                  AND t.playerID = :playerID
                   ORDER BY t.trainingDate DESC";
 
         $stmt = $pdo->prepare($query);
+        $stmt->bindParam(':playerID', $playerID, PDO::PARAM_INT);
         $stmt->execute();
         $completedTrainings = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        // Get total and completed training count
+        // Get total and completed training count for the logged-in player
         $countQuery = "SELECT 
-                          (SELECT COUNT(*) FROM training) AS totalTrainings, 
-                          (SELECT COUNT(*) FROM training WHERE trainingDate < CURDATE()) AS completedTrainings";
+                  (SELECT COUNT(*) FROM training WHERE playerID = :playerID1) AS totalTrainings, 
+                  (SELECT COUNT(*) FROM training WHERE playerID = :playerID2 AND trainingDate < CURDATE()) AS completedTrainings";
         $countStmt = $pdo->prepare($countQuery);
+        $countStmt->bindParam(':playerID1', $playerID, PDO::PARAM_INT);
+        $countStmt->bindParam(':playerID2', $playerID, PDO::PARAM_INT);
         $countStmt->execute();
         $progress = $countStmt->fetch(PDO::FETCH_ASSOC);
 
@@ -79,7 +93,7 @@ function getCompletedTeamTrainings() {
                      ADDTIME(tt.trainingTime, SEC_TO_TIME(tp.durationMinutes * 60)) AS endTime
                   FROM teamTraining tt
                   JOIN teamTrainingPlans tp ON tt.teamTrainingPlanID = tp.teamTrainingPlanID
-                  WHERE tt.trainingDate < CURDATE()
+                  WHERE tt.trainingDate < CURDATE() 
                   ORDER BY tt.trainingDate DESC";
 
         $stmt = $pdo->prepare($query);
