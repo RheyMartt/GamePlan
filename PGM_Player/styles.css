@@ -8,14 +8,12 @@ body {
 
 main {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: auto auto;
-    gap: 50px;
-    padding: 30px 15px;
+    grid-template-columns: 1fr 1fr; /* Two equal columns */
+    grid-template-rows: auto;
+    gap: 40px; /* Adjusted spacing between sections */
+    padding: 30px 5%; /* Added padding to the sides */
     align-items: start;
 }
-
-
 section {
     background-color: #F5C414;
     padding: 25px 15px;
@@ -32,134 +30,29 @@ h2 {
     margin-bottom: 20px;
 }
 
-.toggle {
-    display: flex;
-    justify-content: flex-end;
-    gap: 12px;
-    margin-bottom: 25px;
-}
-
-.toggle button {
-    background-color: #001F54;
-    color: white;
-    border: none;
-    padding: 12px 22px;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.toggle button:hover {
-    background-color: #003276;
-}
-
-form {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 18px;
-}
-
-form label {
-    font-size: 1.2em;
-    color: #001F54;
-    font-weight: bold;
-}
-
-form input[type="text"],
-form input[type="date"] {
-    width: calc(100% - 24px);
-    padding: 12px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font-size: 1em;
-}
-
-form button {
-    align-self: flex-end;
-    background-color: #001F54;
-    color: white;
-    border: none;
-    padding: 12px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 1.2em;
-    font-weight: bold;
-    transition: background-color 0.3s ease;
-}
-
-form button:hover {
-    background-color: #003276;
-}
-
-form .date-fields {
-    display: flex;
-    gap: 12px;
-    width: 100%;
-}
-
-form .date-fields input {
-    flex: 1;
-    min-width: 0;
-}
-
-section.add-training, 
-section.ongoing-training {
-    grid-column: span 1;
-    grid-row: 1;
-    min-height: 350px;
-    width: 100%; /* Ensures uniformity */
-}
-section {
-    box-sizing: border-box;
-}
-
+section.ongoing-training,
 section.training-done {
     grid-column: span 1;
     grid-row: 1;
     min-height: 350px;
-    width: 100%; /* Ensures it matches others */
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-section.training-plan {
-    background-color: #F5C414;
-    padding: 25px;
-    border-radius: 12px;
     width: 100%;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-bottom: 25px;
-    text-align: center;
-    grid-column: span 2;
-    grid-row: 2;
-    margin-top: 50px;
-    min-height: 350px;
+    margin-bottom: 20px; /* Adjusted gap */
 }
 
 .training-container {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
+    gap: 20px;
 }
 
 .players-training, .team-training {
-    width: 45%;
+    width: 100%;
 }
 
 .divider {
     width: 2px;
     background-color: #001F54;
     height: 100%;
-}
-
-section.training-plan h2 {
-    font-size: 2em;
-    color: #001F54;
-    margin-bottom: 18px;
-    font-weight: bold;
-    text-align: center;
 }
 
 table {
@@ -172,6 +65,7 @@ table th, table td {
     padding: 10px;
     text-align: left;
     border-bottom: 1px solid #001F54;
+    width: 20%; /* Ensure equal column width */
 }
 
 table th:last-child, table td:last-child {
@@ -182,6 +76,7 @@ table th {
     font-size: 1.1em;
     color: #001F54;
     padding-bottom: 6px;
+    text-align: left; /* Ensure left alignment */
 }
 
 table td {
@@ -189,6 +84,7 @@ table td {
     padding: 12px;
     border-radius: 6px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: left; /* Ensure left alignment */
 }
 
 table td i {
@@ -245,29 +141,4 @@ i {
 .nav-links a:hover {
     background-color: #F5C414;
     color: #FFF;
-}
-
-section h3 {
-    font-size: 1.5em;
-    margin-bottom: 10px;
-    color: #001F54;
-    font-weight: bold;
-    text-align: center;
-}
-
-hr {
-    border: none;
-    border-top: 2px solid #001F54;
-    margin: 25px 0;
-}
-
-.active {
-    font-weight: bold;
-}
-
-.progress {
-    font-size: 1.5em;
-    font-weight: bold;
-    color: #001F54;
-    text-align: center;
 }
