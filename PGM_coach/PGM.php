@@ -200,15 +200,18 @@ $teamProgress = $completedTeamTrainingsData['progress'];
                         </option>
                     <?php endforeach; ?>
                 </select>
-                <button>TEAM</button>
+                <button id="teamButton">TEAM</button>
             </div>
-            <form>
+            <form id="teamTrainingForm">
                 <label>TRAINING PLAN:</label>
-                <input type="text">
+                <input type="text" id="trainingPlan" readonly>
+
                 <label>START DATE:</label>
-                <input type="date">
-                <label>END DATE:</label>
-                <input type="date">
+                <input type="date" id="startDate" required>
+
+                <label>START TIME:</label>
+                <input type="time" id="startTime" required>
+
                 <button type="submit">ADD</button>
             </form>
         </section>
