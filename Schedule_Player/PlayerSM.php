@@ -125,7 +125,7 @@ $personalSchedules = getPersonalSchedules($playerID);
                 <li><a href="/gameplan/Com/CommHub.html">TEAM COMMUNICATION</a></li>
                 <li><a href="/gameplan/Schedule_Player/PlayerSM.html" class="active">SCHEDULE</a></li>
                 <li><a href="/gameplan/PGM_Player/PGM.php">PROGRESS & MILESTONE</a></li>
-                <li><a href="/gameplan/Resource_Management_Player/RM.html">RESOURCES</a></li>
+                <li><a href="/gameplan/Resource_Management_Player/RM.php">RESOURCES</a></li>
                 <li><a href="#" title="Logout"><i class="fas fa-sign-out-alt"></i></a></li> 
             </ul>
         </div>
