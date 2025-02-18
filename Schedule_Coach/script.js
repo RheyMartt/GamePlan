@@ -45,7 +45,6 @@ function renderCalendar(month, year) {
     }
 }
 
-
 // Handle Previous and Next Month Buttons
 document.getElementById('prev-month').addEventListener('click', () => {
     currentMonth--;
