@@ -13,6 +13,11 @@ if (!$data || !isset($data['trainings'])) {
 try {
     $pdo->beginTransaction();
 
+    // Extract team training plan input
+    $teamTrainingPlan = $data['teamTrainingPlan'];
+    $teamTrainingPlanID = null;
+
+    // Insert individual training sessions
     foreach ($data['trainings'] as $training) {
         // Get playerID
         $playerQuery = "SELECT playerID FROM players WHERE CONCAT(firstName, ' ', lastName) = :playerName";
@@ -44,6 +49,29 @@ try {
             'trainingDate' => $training['startDate'],
             'trainingTime' => $training['startTime']
         ]);
+    }
+
+    // Insert team training (only once)
+    if ($teamTrainingPlan) {
+        $teamPlanQuery = "SELECT teamTrainingPlanID FROM teamTrainingPlans WHERE focusArea = :trainingPlan";
+        $stmt = $pdo->prepare($teamPlanQuery);
+        $stmt->execute(['trainingPlan' => $teamTrainingPlan]);
+        $teamPlan = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($teamPlan) {
+            $teamTrainingPlanID = $teamPlan['teamTrainingPlanID'];
+
+            // Insert into teamTraining table
+            $insertTeamQuery = "INSERT INTO teamTraining (teamTrainingPlanID, teamID, trainingDate, trainingTime) 
+                                VALUES (:teamTrainingPlanID, :teamID, :trainingDate, :trainingTime)";
+            $stmt = $pdo->prepare($insertTeamQuery);
+            $stmt->execute([
+                'teamTrainingPlanID' => $teamTrainingPlanID,
+                'teamID' => 1,
+                'trainingDate' => $data['startDate'],
+                'trainingTime' => $data['startTime']
+            ]);
+        }
     }
 
     $pdo->commit();

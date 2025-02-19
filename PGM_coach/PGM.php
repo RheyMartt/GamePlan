@@ -175,7 +175,7 @@ $teamProgress = $completedTeamTrainingsData['progress'];
         <section class="add-training">
             <h2>ADD A TRAINING PLAN</h2>
             <div class="toggle">
-                <button id="teamButton">TEAM</button>
+                <button id="teamButton">CREATE</button>
             </div>
                  <table id="trainingTable" border="1">
                         <thead>
@@ -189,6 +189,9 @@ $teamProgress = $completedTeamTrainingsData['progress'];
                         </tbody>
                     </table>
             <form id="teamTrainingForm">
+                <label>TRAINING PLAN:</label>
+                <input type="text" id="trainingPlanInput" readonly>
+
                 <label>START DATE:</label>
                 <input type="date" id="startDate" required>
 
@@ -305,7 +308,7 @@ $teamProgress = $completedTeamTrainingsData['progress'];
     </main>
     <script>
     document.getElementById("teamButton").addEventListener("click", function() {
-        fetch("fetch_team_training.php") // Make sure this is the correct PHP file
+        fetch("fetch_team_training.php") 
             .then(response => response.json())
             .then(data => {
                 let tableBody = document.querySelector("#trainingTable tbody");
@@ -321,6 +324,17 @@ $teamProgress = $completedTeamTrainingsData['progress'];
                 });
             })
             .catch(error => console.error("Error fetching data:", error));
+
+            fetch('trainingPlan.php')
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById('trainingPlanInput').value = data.trainingPlan; // Populate only on click
+                } else {
+                    console.error("Error:", data.message);
+                }
+            })
+            .catch(error => console.error("Error fetching training plan:", error));
     });
 
     document.getElementById("teamTrainingForm").addEventListener("submit", function(event) {
@@ -328,6 +342,8 @@ $teamProgress = $completedTeamTrainingsData['progress'];
 
         let startDate = document.getElementById("startDate").value;
         let startTime = document.getElementById("startTime").value;
+        let teamTrainingPlan = document.getElementById("trainingPlanInput").value; // Get team training plan
+
         let rows = document.querySelectorAll("#trainingTable tbody tr");
 
         if (!startDate || !startTime) {
@@ -344,10 +360,11 @@ $teamProgress = $completedTeamTrainingsData['progress'];
             trainings.push({ playerName, trainingPlan, startDate, startTime });
         });
 
+        // Send team training plan along with individual trainings
         fetch("insert_training.php", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ trainings })
+            body: JSON.stringify({ trainings, teamTrainingPlan, startDate, startTime }) 
         })
         .then(response => response.json())
         .then(data => {
@@ -360,6 +377,7 @@ $teamProgress = $completedTeamTrainingsData['progress'];
         })
         .catch(error => console.error("Error:", error));
     });
+
     </script>
 </body>
 </html>
