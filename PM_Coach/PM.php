@@ -53,6 +53,40 @@ try {
 } catch (PDOException $e) {
     echo "Error: " . $e->getMessage();
 }
+
+// Fetch attendance stats for the player
+try {
+    $stmt = $pdo->prepare("
+        SELECT 
+            COUNT(*) AS total_sessions,
+            SUM(CASE WHEN status = 'Present' THEN 1 ELSE 0 END) AS attended_sessions,
+            SUM(CASE WHEN status = 'Absent' THEN 1 ELSE 0 END) AS missed_sessions,
+            MAX(sessionID) AS last_attendance_session
+        FROM attendance 
+        WHERE playerID = :playerID
+    ");
+    $stmt->execute(['playerID' => $playerID]);
+    $attendance = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    // Initialize attendance values with 0 (to prevent undefined variable errors)
+    $totalSessions = $attendance['total_sessions'] ?? 0;
+    $attendedSessions = $attendance['attended_sessions'] ?? 0;
+    $missedSessions = $attendance['missed_sessions'] ?? 0;
+    $lastAttendanceDate = "No record";  // Default value
+
+    // Fetch last attendance date
+    if (!empty($attendance['last_attendance_session'])) {
+        $stmt = $pdo->prepare("SELECT sessionType, sessionID FROM attendance WHERE sessionID = :sessionID");
+        $stmt->execute(['sessionID' => $attendance['last_attendance_session']]);
+        $lastSession = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($lastSession) {
+            $lastAttendanceDate = "Session " . $lastSession['sessionID'] . " (" . $lastSession['sessionType'] . ")";
+        }
+    }
+} catch (PDOException $e) {
+    echo "Error fetching attendance data: " . $e->getMessage();
+}
 ?>
 
 <!DOCTYPE html>
@@ -110,56 +144,29 @@ try {
         </section>
 
         <!-- New Container with 3 Sections, stacked vertically -->
-        <div class="container">
-            <!-- Section 1: Bio/History/Status -->
-            <div id="bio-section" class="section">
-                <h3>Bio</h3>
-                <p>Click on a player to view their bio...</p>
-            </div>
-
-            <div id="stats-section" class="section">
-                <p>No stats available. Click on a player to view stats.</p>
-            </div>
-
-
-            <!-- Attendance Section -->
-            <div class="section">
-                <h3>Attendance</h3>
-                <div class="table-container">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Category</th>
-                                <th>Value</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Total Practices</td>
-                                <td>40</td>
-                            </tr>
-                            <tr>
-                                <td>Attended</td>
-                                <td>38</td>
-                            </tr>
-                            <tr>
-                                <td>Missed</td>
-                                <td>2</td>
-                            </tr>
-                            <tr>
-                                <td>Last Attendance</td>
-                                <td>January 20, 2025</td>
-                            </tr>
-                        </tbody>
-                    </table>
+            <div class="container">
+                <!-- Section 1: Bio -->
+                <div id="bio-section" class="section">
+                    <h3>Bio</h3>
+                    <p>Click on a player to view their bio.</p>
                 </div>
-            </div>
 
-            <!-- Buttons Below Section 3 -->
-            <div class="buttons-container">
-                <button class="classify-injured-btn">CLASSIFY AS INJURED</button>
-                <button class="remove-player-btn">REMOVE</button>
-                <button class="edit-player-btn">EDIT PLAYER</button>
+                <!-- Section 2: Stats -->
+                <div id="stats-section" class="section">
+                    <p>No stats available. Click on a player to view stats.</p>
+                </div>
+
+                <!-- Section 3: Attendance -->
+                <div id="attendance-section" class="section">
+                    <h3>Attendance</h3>
+                    <p>Click on a player to view attendance.</p>
+                </div>
+
+                <div class="buttons-container">
+                    <button class="classify-injured-btn">CLASSIFY AS INJURED</button>
+                    <button class="remove-player-btn">REMOVE</button>
+                    <button class="edit-player-btn">EDIT PLAYER</button>
+                </div>
             </div>
         </div>
     </div>
@@ -179,7 +186,6 @@ try {
     </div>
 
     <!-- Include the external JavaScript -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="pmcscript.js"></script>
 </body>
 </html>

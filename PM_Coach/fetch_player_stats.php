@@ -1,6 +1,6 @@
 <?php
 // Include database connection
-require_once $_SERVER['DOCUMENT_ROOT'] . '/GamePlan/connection.php';
+include 'C:\\xampp\\htdocs\\GamePlan\\connection.php'; // connection filepath
 
 if (isset($_POST['playerID'])) {
     $playerID = $_POST['playerID'];

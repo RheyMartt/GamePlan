@@ -91,3 +91,70 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+    // Add event listener for player clicks
+    const rosterItems = document.querySelectorAll(".player-link");
+
+    rosterItems.forEach(item => {
+        item.addEventListener("click", function (e) {
+            e.preventDefault(); // Prevent default link behavior
+
+            // Get the playerID dynamically
+            const playerID = this.getAttribute("data-playerid");
+            console.log("Fetching attendance for Player ID:", playerID);
+
+            // Fetch attendance data
+            fetch("fetch_attendance.php", {
+                method: "POST",
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: "playerID=" + playerID
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        console.error("Error fetching attendance:", data.error);
+                        document.querySelector("#attendance-section").innerHTML = `
+                            <div class="section error-message">${data.error}</div>
+                        `;
+                    } else {
+                        // Dynamically update the attendance section with player attendance data
+                        document.querySelector("#attendance-section").innerHTML = `
+                            <div class="section">
+                                <h3>Attendance</h3>
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Category</th>
+                                            <th>Value</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Total Sessions</td>
+                                            <td>${data.total_sessions}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Attended</td>
+                                            <td>${data.attended_sessions}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Missed</td>
+                                            <td>${data.missed_sessions}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Last Attendance</td>
+                                            <td>${data.lastAttendanceDate}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        `;
+                    }
+                })
+                .catch(error => console.error("Error fetching attendance:", error));
+        });
+    });
+});
+
+
