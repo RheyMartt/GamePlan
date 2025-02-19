@@ -157,27 +157,58 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-// Get modal elements
-const addPlayerModal = document.getElementById("addPlayerModal");
+document.addEventListener("DOMContentLoaded", function () {
+    const addPlayerBtn = document.querySelector(".add-player-btn");
+    const addPlayerModal = document.getElementById("addPlayerModal");
+    const closeButtons = document.querySelectorAll(".close");
+    const addPlayerForm = document.getElementById("addPlayerForm");
 
-// Open modal function
-function openAddPlayerModal() {
-    addPlayerModal.style.display = "block";
-}
+    // Show modal when "Add Player" button is clicked
+    addPlayerBtn.addEventListener("click", function () {
+        addPlayerModal.style.display = "block";
+    });
 
-// Close modal function
-function closeAddPlayerModal() {
-    addPlayerModal.style.display = "none";
-}
+    // Close modal when 'x' is clicked
+    closeButtons.forEach(button => {
+        button.addEventListener("click", function () {
+            addPlayerModal.style.display = "none";
+        });
+    });
 
-// Close modal when clicking outside of it
-window.onclick = function(event) {
-    if (event.target === addPlayerModal) {
-        closeAddPlayerModal();
-    }
-};
+    // Close modal when clicking outside of modal
+    window.addEventListener("click", function (event) {
+        if (event.target === addPlayerModal) {
+            addPlayerModal.style.display = "none";
+        }
+    });
 
-// Get modal elements
+    // Handle form submission via AJAX
+    addPlayerForm.addEventListener("submit", function (event) {
+        event.preventDefault(); // Prevent default form submission
+
+        const formData = new FormData(addPlayerForm);
+
+        fetch("add_player.php", {
+            method: "POST",
+            body: formData
+        })
+        .then(response => response.text())
+        .then(data => {
+            if (data.trim() === "success") {
+                alert("Player added successfully!");
+                addPlayerModal.style.display = "none";
+                addPlayerForm.reset();
+                location.reload(); // Refresh to update the roster
+            } else {
+                alert("Error: " + data);
+            }
+        })
+        .catch(error => console.error("Error:", error));
+    });
+});
+
+
+//Injured Modal
 const injuryModal = document.getElementById("injuryModal");
 const closeInjuryModalBtn = injuryModal.querySelector(".close");
 const classifyInjuredBtn = document.querySelector(".classify-injured-btn");
@@ -204,6 +235,46 @@ window.onclick = function(event) {
         closeInjuryModal();
     }
 };
+
+//Remove player
+document.addEventListener("DOMContentLoaded", function () {
+    let selectedPlayerID = null;
+
+    // Listen for clicks on player links
+    document.querySelectorAll(".player-link").forEach(link => {
+        link.addEventListener("click", function () {
+            selectedPlayerID = this.getAttribute("data-playerid");
+            document.getElementById("removePlayerBtn").disabled = false;
+        });
+    });
+
+    // Handle remove button click
+    document.getElementById("removePlayerBtn").addEventListener("click", function () {
+        if (!selectedPlayerID) {
+            alert("Please select a player first!");
+            return;
+        }
+
+        if (confirm("Are you sure you want to remove this player?")) {
+            fetch("remove_player.php", {
+                method: "POST",
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: "playerID=" + selectedPlayerID
+            })
+            .then(response => response.text())
+            .then(data => {
+                if (data.trim() === "success") {
+                    alert("Player removed successfully!");
+                    location.reload(); // Refresh the page to update the roster
+                } else {
+                    alert("Error: " + data);
+                }
+            })
+            .catch(error => console.error("Error:", error));
+        }
+    });
+});
+
 
 
 
