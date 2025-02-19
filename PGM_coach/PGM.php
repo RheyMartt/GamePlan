@@ -104,21 +104,6 @@ function getCompletedTeamTrainings() {
     }
 }
 
-// Fetch players from teamID = 1
-function getTeamPlayers() {
-    global $pdo;
-
-    try {
-        $query = "SELECT playerID, firstName, lastName FROM players WHERE teamID = 1 ORDER BY firstName";
-        $stmt = $pdo->prepare($query);
-        $stmt->execute();
-        return $stmt->fetchAll(); // Fetch players
-    } catch (PDOException $e) {
-        echo "Error fetching players: " . $e->getMessage();
-        return [];
-    }
-}
-
 function getOngoingTeamTraining() {
     global $pdo;
 
@@ -148,8 +133,6 @@ $ongoingTrainings = getOngoingTraining();
 $completedTrainingsData = getCompletedTrainings();
 $completedTrainings = $completedTrainingsData['trainings'];
 $playerProgress = $completedTrainingsData['progress'];
-
-$players = getTeamPlayers();
 
 $ongoingTeamTrainings = getOngoingTeamTraining();
 
@@ -192,20 +175,20 @@ $teamProgress = $completedTeamTrainingsData['progress'];
         <section class="add-training">
             <h2>ADD A TRAINING PLAN</h2>
             <div class="toggle">
-                <select name="playerID">
-                    <option selected disabled>Select Player</option>
-                    <?php foreach ($players as $player): ?>
-                        <option value="<?php echo htmlspecialchars($player['playerID']); ?>">
-                            <?php echo htmlspecialchars($player['firstName'] . ' ' . $player['lastName']); ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
                 <button id="teamButton">TEAM</button>
+                    <table id="trainingTable" border="1">
+                        <thead>
+                            <tr>
+                                <th>Player Name</th>
+                                <th>Suggested Training Plan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Training plan suggestions will be inserted here dynamically -->
+                        </tbody>
+                    </table>
             </div>
             <form id="teamTrainingForm">
-                <label>TRAINING PLAN:</label>
-                <input type="text" id="trainingPlan" readonly>
-
                 <label>START DATE:</label>
                 <input type="date" id="startDate" required>
 
@@ -320,5 +303,25 @@ $teamProgress = $completedTeamTrainingsData['progress'];
             </div>
         </section>
     </main>
+    <script>
+    document.getElementById("teamButton").addEventListener("click", function() {
+        fetch("fetch_team_training.php") // Make sure this is the correct PHP file
+            .then(response => response.json())
+            .then(data => {
+                let tableBody = document.querySelector("#trainingTable tbody");
+                tableBody.innerHTML = ""; // Clear previous results
+
+                data.forEach(player => {
+                    let row = document.createElement("tr");
+                    row.innerHTML = `
+                        <td>${player.firstName} ${player.lastName}</td>
+                        <td>${player.trainingPlan}</td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            })
+            .catch(error => console.error("Error fetching data:", error));
+    });
+    </script>
 </body>
 </html>
