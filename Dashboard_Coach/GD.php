@@ -3,11 +3,12 @@ include 'C:\\xampp\\htdocs\\GamePlan\\connection.php'; // connection filepath
 
 // Fetch all games for dropdown
 try {
-    $gameQuery = $pdo->query("SELECT g.gameID, h.teamName AS homeTeam, a.teamName AS awayTeam 
-                              FROM games g
-                              JOIN teams h ON g.homeTeamID = h.teamID
-                              JOIN teams a ON g.awayTeamID = a.teamID
-                              ORDER BY g.gameDate DESC");
+  $gameQuery = $pdo->query("SELECT DISTINCT g.gameID, h.teamName AS homeTeam, a.teamName AS awayTeam 
+                            FROM games g
+                            JOIN teams h ON g.homeTeamID = h.teamID
+                            JOIN teams a ON g.awayTeamID = a.teamID
+                            JOIN game_stats gs ON g.gameID = gs.gameID
+                            ORDER BY g.gameDate DESC");
     $games = $gameQuery->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
     die("Database error: " . $e->getMessage());
@@ -132,7 +133,7 @@ if ($gameID) {
       <div class="game-details">
         <h1>
           <span><?php echo $gameDetails['homeTeam']; ?></span>
-          <span>-- vs --</span>
+          <span> vs </span>
           <span><?php echo $gameDetails['awayTeam']; ?></span>
         </h1>
         <p><?php echo $gameDetails['gameDate']; ?> | <?php echo $gameDetails['gameLocation']; ?></p>

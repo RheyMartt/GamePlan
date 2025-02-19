@@ -25,7 +25,7 @@
           <li><a href="#" class="active">GAME DASHBOARD</a></li>
           <li><a href="/gameplan/Com/CommHub.html">TEAM COMMUNICATION</a></li>
           <li><a href="/gameplan/PM_AnR/PM.html">PLAYER MANAGEMENT</a></li>
-          <li><a href="/gameplan/Feedback_n_Analyzation_AnR/FnA.html">FEEDBACK & ANALYZATION</a></li>
+          <li><a href="/gameplan/Feedback_n_Analyzation_AnR/FnA.php">FEEDBACK & ANALYZATION</a></li>
           <li><a href="/gameplan/PGM_AnR/PGM.html">PROGRESS & MILESTONE</a></li>
           <li><a href="/gameplan/Resource_Management_AnR/RM.html">RESOURCES</a></li>
           <li><a href="#" title="Logout"><i class="fas fa-sign-out-alt"></i></a></li>
