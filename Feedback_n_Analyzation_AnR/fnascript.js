@@ -101,4 +101,35 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelector(".submit").addEventListener("click", function () {
+        let gameID = document.getElementById("gameDropdown").value;
+        let findings = document.getElementById("findings").value;
+        let conclusion = document.getElementById("conclusion").value;
+        let keyFindings = document.getElementById("keyFindings").value;
+
+        if (!gameID) {
+            alert("Please select a game.");
+            return;
+        }
+
+        let formData = new FormData();
+        formData.append("gameID", gameID);
+        formData.append("findings", findings);
+        formData.append("conclusion", conclusion);
+        formData.append("keyFindings", keyFindings);
+
+        fetch("save_analysis.php", {
+            method: "POST",
+            body: formData,
+        })
+        .then(response => response.text())
+        .then(data => {
+            alert(data);
+        })
+        .catch(error => console.error("Error:", error));
+    });
+});
+
+
 

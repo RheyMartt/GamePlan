@@ -158,15 +158,19 @@ try {
         <div class="right-panel">
             <h2>NARRATIVE REPORT</h2>
             <div id="gameInfo">GAME: - &nbsp;&nbsp;&nbsp; DATE: -</div>
+
             <h3>FINDINGS & GAME ANALYSIS</h3>
-            <textarea class="fixed-textbox" placeholder="Game analysis content will appear here."></textarea>
+            <textarea id="findings" class="fixed-textbox" placeholder="Game analysis content will appear here."></textarea>
+
             <h3>CONCLUSION</h3>
-            <textarea class="fixed-textbox" placeholder="Conclusion content will appear here."></textarea>
+            <textarea id="conclusion" class="fixed-textbox" placeholder="Conclusion content will appear here."></textarea>
+
             <h3>KEY FINDINGS</h3>
-            <textarea class="fixed-textbox" placeholder="Key findings content will appear here."></textarea>
+            <textarea id="keyFindings" class="fixed-textbox" placeholder="Key findings content will appear here."></textarea>
+
             <button class="submit">SUBMIT</button>
         </div>
-    </div>
+
 
     <script src="fnascript.js"></script>
 
