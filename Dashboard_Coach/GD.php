@@ -137,6 +137,7 @@ if ($gameID) {
         <p><?php echo $gameDetails['gameDate']; ?> | <?php echo $gameDetails['gameLocation']; ?></p>
         <p>Game Type: <?php echo $gameDetails['gameType']; ?></p>
 
+        <!-- Quarter Scores -->
         <div class="score-breakdown">
           <table>
             <thead>
@@ -166,139 +167,141 @@ if ($gameID) {
             </tbody>
           </table>
         </div>
+      </div>
+    </div>
 
-        <div class="topperformers-container">
-          <h2>Top Performers</h2>
-          <div class="topperformersList">
-            <ul>
-              <?php foreach ($topPerformers as $performer): ?>
-                <li>
-                  <strong><?php echo "{$performer['firstName']} {$performer['lastName']}"; ?></strong><br>
-                  Pts: <?php echo $performer['points']; ?> |
-                  Rbs: <?php echo $performer['rebounds']; ?> |
-                  Stls: <?php echo $performer['steals']; ?> |
-                  Asts: <?php echo $performer['assists']; ?>
-                </li>
-              <?php endforeach; ?>
-            </ul>
-          </div>
+    <!-- Top Scorers Section -->
+    <div class="topperformers-container">
+        <h2>Top Performers</h2>
+        <div class="topperformersList">
+        <ul>
+          <?php foreach ($topPerformers as $performer): ?>
+            <li>
+              <strong><?php echo "{$performer['firstName']} {$performer['lastName']}"; ?></strong><br>
+              Pts: <?php echo $performer['points']; ?> |
+              Rbs: <?php echo $performer['rebounds']; ?> |
+              Stls: <?php echo $performer['steals']; ?> |
+              Asts: <?php echo $performer['assists']; ?>
+            </li>
+          <?php endforeach; ?>
+        </ul>
         </div>
-
       </div>
 
-      <!-- NU Bulldogs Player Statistics -->
-      <div class="player-stats-container">
+    <!-- NU Bulldogs Player Statistics -->
+    <div class="player-stats-container">
         <h2>NU Bulldogs Player Statistics</h2>
         <div class="player-stats">
-          <table>
+        <table>
             <thead>
-              <tr>
-                <th>Player Name</th>
-                <th>Position</th>
-                <th>Pts</th>
-                <th>Asts</th>
-                <th>Rbs</th>
-                <th>Stls</th>
-                <th>Blks</th>
-                <th>TOs</th>
-                <th>Minutes</th>
-                <th>FGM</th>
-                <th>FGA</th>
-                <th>FG%</th>
-                <th>3PM</th>
-                <th>3PA</th>
-                <th>3P%</th>
-                <th>FTM</th>
-                <th>FTA</th>
-                <th>FT%</th>
-                <th>+/-</th>
-              </tr>
+                <tr>
+                    <th>Player Name</th>
+                    <th>Position</th>
+                    <th>Pts</th>
+                    <th>Asts</th>
+                    <th>Rbs</th>
+                    <th>Stls</th>
+                    <th>Blks</th>
+                    <th>TOs</th>
+                    <th>Minutes</th>
+                    <th>FGM</th>
+                    <th>FGA</th>
+                    <th>FG%</th>
+                    <th>3PM</th>
+                    <th>3PA</th>
+                    <th>3P%</th>
+                    <th>FTM</th>
+                    <th>FTA</th>
+                    <th>FT%</th>
+                    <th>+/-</th>
+                </tr>
             </thead>
             <tbody>
-              <?php foreach ($nuStats as $stat): ?>
-              <tr>
-                <td><?php echo "{$stat['firstName']} {$stat['lastName']}"; ?></td>
-                <td><?php echo $stat['position']; ?></td>
-                <td><?php echo $stat['points']; ?></td>
-                <td><?php echo $stat['assists']; ?></td>
-                <td><?php echo $stat['rebounds']; ?></td>
-                <td><?php echo $stat['steals']; ?></td>
-                <td><?php echo $stat['blocks']; ?></td>
-                <td><?php echo $stat['turnovers']; ?></td>
-                <td><?php echo $stat['minutesPlayed']; ?></td>
-                <td><?php echo $stat['fieldGoalsMade']; ?></td>
-                <td><?php echo $stat['fieldGoalsAttempted']; ?></td>
-                <td><?php echo $stat['fieldGoalsPercentage']; ?>%</td>
-                <td><?php echo $stat['threePointersMade']; ?></td>
-                <td><?php echo $stat['threePointersAttempted']; ?></td>
-                <td><?php echo $stat['threePointsPercentage']; ?>%</td>
-                <td><?php echo $stat['freeThrowsMade']; ?></td>
-                <td><?php echo $stat['freeThrowsAttempted']; ?></td>
-                <td><?php echo $stat['freeThrowPercentage']; ?>%</td>
-                <td><?php echo $stat['plusMinus']; ?></td>
-              </tr>
-              <?php endforeach; ?>
+                <?php foreach ($nuStats as $stat): ?>
+                <tr>
+                    <td><?php echo "{$stat['firstName']} {$stat['lastName']}"; ?></td>
+                    <td><?php echo $stat['position']; ?></td>
+                    <td><?php echo $stat['points']; ?></td>
+                    <td><?php echo $stat['assists']; ?></td>
+                    <td><?php echo $stat['rebounds']; ?></td>
+                    <td><?php echo $stat['steals']; ?></td>
+                    <td><?php echo $stat['blocks']; ?></td>
+                    <td><?php echo $stat['turnovers']; ?></td>
+                    <td><?php echo $stat['minutesPlayed']; ?></td>
+                    <td><?php echo $stat['fieldGoalsMade']; ?></td>
+                    <td><?php echo $stat['fieldGoalsAttempted']; ?></td>
+                    <td><?php echo $stat['fieldGoalsPercentage']; ?>%</td>
+                    <td><?php echo $stat['threePointersMade']; ?></td>
+                    <td><?php echo $stat['threePointersAttempted']; ?></td>
+                    <td><?php echo $stat['threePointsPercentage']; ?>%</td>
+                    <td><?php echo $stat['freeThrowsMade']; ?></td>
+                    <td><?php echo $stat['freeThrowsAttempted']; ?></td>
+                    <td><?php echo $stat['freeThrowPercentage']; ?>%</td>
+                    <td><?php echo $stat['plusMinus']; ?></td>
+                </tr>
+                <?php endforeach; ?>
             </tbody>
-          </table>
-        </div>
+        </table>
       </div>
+    </div>
 
-      <!-- Opponent Player Statistics -->
-      <div class="player-stats-container">
+    <!-- Opponent Player Statistics -->
+    <div class="player-stats-container">
         <h2><?php echo $gameDetails['awayTeam']; ?> Player Statistics</h2>
         <div class="player-stats">
-          <table>
+        <table>
             <thead>
-              <tr>
-                <th>Player Name</th>
-                <th>Position</th>
-                <th>Pts</th>
-                <th>Asts</th>
-                <th>Rbs</th>
-                <th>Stls</th>
-                <th>Blks</th>
-                <th>TOs</th>
-                <th>Minutes</th>
-                <th>FGM</th>
-                <th>FGA</th>
-                <th>FG%</th>
-                <th>3PM</th>
-                <th>3PA</th>
-                <th>3P%</th>
-                <th>FTM</th>
-                <th>FTA</th>
-                <th>FT%</th>
-                <th>+/-</th>
-              </tr>
+                <tr>
+                    <th>Player Name</th>
+                    <th>Team</th>
+                    <th>Position</th>
+                    <th>Pts</th>
+                    <th>Asts</th>
+                    <th>Rbs</th>
+                    <th>Stls</th>
+                    <th>Blks</th>
+                    <th>TOs</th>
+                    <th>Minutes</th>
+                    <th>FGM</th>
+                    <th>FGA</th>
+                    <th>FG%</th>
+                    <th>3PM</th>
+                    <th>3PA</th>
+                    <th>3P%</th>
+                    <th>FTM</th>
+                    <th>FTA</th>
+                    <th>FT%</th>
+                    <th>+/-</th>
+                </tr>
             </thead>
             <tbody>
-              <?php foreach ($opponentStats as $stat): ?>
-              <tr>
-                <td><?php echo "{$stat['firstName']} {$stat['lastName']}"; ?></td>
-                <td><?php echo $stat['position']; ?></td>
-                <td><?php echo $stat['points']; ?></td>
-                <td><?php echo $stat['assists']; ?></td>
-                <td><?php echo $stat['rebounds']; ?></td>
-                <td><?php echo $stat['steals']; ?></td>
-                <td><?php echo $stat['blocks']; ?></td>
-                <td><?php echo $stat['turnovers']; ?></td>
-                <td><?php echo $stat['minutesPlayed']; ?></td>
-                <td><?php echo $stat['fieldGoalsMade']; ?></td>
-                <td><?php echo $stat['fieldGoalsAttempted']; ?></td>
-                <td><?php echo $stat['fieldGoalsPercentage']; ?>%</td>
-                <td><?php echo $stat['threePointersMade']; ?></td>
-                <td><?php echo $stat['threePointersAttempted']; ?></td>
-                <td><?php echo $stat['threePointsPercentage']; ?>%</td>
-                <td><?php echo $stat['freeThrowsMade']; ?></td>
-                <td><?php echo $stat['freeThrowsAttempted']; ?></td>
-                <td><?php echo $stat['freeThrowPercentage']; ?>%</td>
-                <td><?php echo $stat['plusMinus']; ?></td>
-              </tr>
-              <?php endforeach; ?>
+                <?php foreach ($opponentStats as $stat): ?>
+                <tr>
+                    <td><?php echo "{$stat['firstName']} {$stat['lastName']}"; ?></td>
+                    <td><?php echo $stat['position']; ?></td>
+                    <td><?php echo $stat['points']; ?></td>
+                    <td><?php echo $stat['assists']; ?></td>
+                    <td><?php echo $stat['rebounds']; ?></td>
+                    <td><?php echo $stat['steals']; ?></td>
+                    <td><?php echo $stat['blocks']; ?></td>
+                    <td><?php echo $stat['turnovers']; ?></td>
+                    <td><?php echo $stat['minutesPlayed']; ?></td>
+                    <td><?php echo $stat['fieldGoalsMade']; ?></td>
+                    <td><?php echo $stat['fieldGoalsAttempted']; ?></td>
+                    <td><?php echo $stat['fieldGoalsPercentage']; ?>%</td>
+                    <td><?php echo $stat['threePointersMade']; ?></td>
+                    <td><?php echo $stat['threePointersAttempted']; ?></td>
+                    <td><?php echo $stat['threePointsPercentage']; ?>%</td>
+                    <td><?php echo $stat['freeThrowsMade']; ?></td>
+                    <td><?php echo $stat['freeThrowsAttempted']; ?></td>
+                    <td><?php echo $stat['freeThrowPercentage']; ?>%</td>
+                    <td><?php echo $stat['plusMinus']; ?></td>
+                </tr>
+                <?php endforeach; ?>
             </tbody>
-          </table>
+        </table>
         </div>
-      </div>
+    </div>
 
     <?php else: ?>
       <p>No game data available.</p>
