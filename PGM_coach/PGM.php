@@ -176,7 +176,8 @@ $teamProgress = $completedTeamTrainingsData['progress'];
             <h2>ADD A TRAINING PLAN</h2>
             <div class="toggle">
                 <button id="teamButton">TEAM</button>
-                    <table id="trainingTable" border="1">
+            </div>
+                 <table id="trainingTable" border="1">
                         <thead>
                             <tr>
                                 <th>Player Name</th>
@@ -187,7 +188,6 @@ $teamProgress = $completedTeamTrainingsData['progress'];
                             <!-- Training plan suggestions will be inserted here dynamically -->
                         </tbody>
                     </table>
-            </div>
             <form id="teamTrainingForm">
                 <label>START DATE:</label>
                 <input type="date" id="startDate" required>
@@ -195,7 +195,7 @@ $teamProgress = $completedTeamTrainingsData['progress'];
                 <label>START TIME:</label>
                 <input type="time" id="startTime" required>
 
-                <button type="submit">ADD</button>
+                <button type="submit">Confirm</button>
             </form>
         </section>
        
@@ -321,6 +321,44 @@ $teamProgress = $completedTeamTrainingsData['progress'];
                 });
             })
             .catch(error => console.error("Error fetching data:", error));
+    });
+
+    document.getElementById("teamTrainingForm").addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        let startDate = document.getElementById("startDate").value;
+        let startTime = document.getElementById("startTime").value;
+        let rows = document.querySelectorAll("#trainingTable tbody tr");
+
+        if (!startDate || !startTime) {
+            alert("Please select a start date and time.");
+            return;
+        }
+
+        let trainings = [];
+
+        rows.forEach(row => {
+            let playerName = row.cells[0].textContent.trim();
+            let trainingPlan = row.cells[1].textContent.trim();
+
+            trainings.push({ playerName, trainingPlan, startDate, startTime });
+        });
+
+        fetch("insert_training.php", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ trainings })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert("Training sessions added successfully!");
+                location.reload();
+            } else {
+                alert("Error adding training: " + data.message);
+            }
+        })
+        .catch(error => console.error("Error:", error));
     });
     </script>
 </body>
