@@ -209,36 +209,114 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 //Injured Modal
-const injuryModal = document.getElementById("injuryModal");
-const closeInjuryModalBtn = injuryModal.querySelector(".close");
-const classifyInjuredBtn = document.querySelector(".classify-injured-btn");
+document.addEventListener("DOMContentLoaded", function () {
+    let selectedPlayerID = null; // Declare globally
 
-// Open modal function
-function openInjuryModal() {
-    injuryModal.style.display = "block";
-}
+    const classifyInjuredBtn = document.getElementById("classifyInjuredBtn");
+    const confirmInjuryBtn = document.getElementById("confirmInjuryBtn");
+    const injuryModal = document.getElementById("injuryModal");
+    const revertActiveBtn = document.getElementById("revertActiveBtn");
+    const closeBtns = document.querySelectorAll(".close");
 
-// Close modal function
-function closeInjuryModal() {
-    injuryModal.style.display = "none";
-}
+    // Open modal when "Classify as Injured" is clicked
+    classifyInjuredBtn.addEventListener("click", function () {
+        if (!selectedPlayerID) {
+            alert("Please select a player first.");
+            return;
+        }
+        injuryModal.style.display = "block";
+    });
 
-// Event listener for "CLASSIFY AS INJURED" button
-classifyInjuredBtn.addEventListener("click", openInjuryModal);
+    // Close modal
+    closeBtns.forEach(btn => {
+        btn.addEventListener("click", function () {
+            injuryModal.style.display = "none";
+        });
+    });
 
-// Event listener for close button
-closeInjuryModalBtn.addEventListener("click", closeInjuryModal);
+    // Confirm Injury
+    confirmInjuryBtn.addEventListener("click", function () {
+        const injuryType = document.getElementById("injuryType").value;
+        const injuryDate = document.getElementById("injuryDate").value;
 
-// Close modal when clicking outside of it
-window.onclick = function(event) {
-    if (event.target === injuryModal) {
-        closeInjuryModal();
+        if (!injuryType || !injuryDate) {
+            alert("Please fill in all fields.");
+            return;
+        }
+
+        fetch("classify_injured.php", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: `playerID=${selectedPlayerID}&injuryType=${injuryType}&injuryDate=${injuryDate}`
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert("Player classified as injured.");
+                injuryModal.style.display = "none";
+                classifyInjuredBtn.style.display = "none";
+                revertActiveBtn.style.display = "inline-block";
+            } else {
+                alert("Error: " + data.message);
+            }
+        })
+        .catch(error => console.error("Error:", error));
+    });
+
+    // Handle player selection (assuming you have player buttons with data-playerid)
+    document.querySelectorAll(".player-link").forEach(player => {
+        player.addEventListener("click", function () {
+            selectedPlayerID = this.getAttribute("data-playerid");
+            checkPlayerStatus(selectedPlayerID);
+        });
+    });
+
+    // Function to check if player is injured
+    function checkPlayerStatus(playerID) {
+        fetch(`get_player_status.php?playerID=${playerID}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === "Injured") {
+                classifyInjuredBtn.style.display = "none";
+                revertActiveBtn.style.display = "inline-block";
+            } else {
+                classifyInjuredBtn.style.display = "inline-block";
+                revertActiveBtn.style.display = "none";
+            }
+        });
     }
-};
+
+    // Handle "Revert to Active" button
+    revertActiveBtn.addEventListener("click", function () {
+        if (!selectedPlayerID) {
+            alert("Please select a player first.");
+            return;
+        }
+
+        fetch("revert_active.php", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: `playerID=${selectedPlayerID}`
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert("Player status reverted to active.");
+                revertActiveBtn.style.display = "none";
+                classifyInjuredBtn.style.display = "inline-block";
+            } else {
+                alert("Error: " + data.message);
+            }
+        })
+        .catch(error => console.error("Error:", error));
+    });
+});
+
+
 
 //Remove player
-document.addEventListener("DOMContentLoaded", function () {
-    let selectedPlayerID = null;
+    document.addEventListener("DOMContentLoaded", function () {
+        let selectedPlayerID = null;
 
     // Listen for clicks on player links
     document.querySelectorAll(".player-link").forEach(link => {
@@ -247,6 +325,8 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("removePlayerBtn").disabled = false;
         });
     });
+
+    
 
     // Handle remove button click
     document.getElementById("removePlayerBtn").addEventListener("click", function () {

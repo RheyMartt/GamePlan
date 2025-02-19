@@ -163,6 +163,7 @@ try {
                 </div>
 
                 <div class="buttons-container">
+                    <button id="revertActiveBtn" class="revert-active-btn" style="display:none;">Revert to Active</button>
                     <button id="classifyInjuredBtn" class="classify-injured-btn">CLASSIFY AS INJURED</button>
                     <button id="removePlayerBtn" class="remove-player-btn" disabled>REMOVE</button>
                 </div>

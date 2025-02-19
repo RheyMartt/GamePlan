@@ -320,7 +320,7 @@ body {
 }
 
 /* Player Action Buttons */
-.classify-injured-btn, .remove-player-btn, .edit-player-btn {
+.classify-injured-btn, .remove-player-btn, .revert-active-btn {
     background-color: #001F54;
     color: #F6F4F0;
     padding: 8px 12px;
@@ -333,7 +333,7 @@ body {
     display: inline-block;
 }
 
-.classify-injured-btn:hover, .remove-player-btn:hover, .edit-player-btn:hover {
+.classify-injured-btn:hover, .remove-player-btn:hover, .edit-player-btn:hover, .revert-active-btn:hover {
     transform: scale(1.1);
 }
 
