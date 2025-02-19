@@ -175,6 +175,7 @@ $teamProgress = $completedTeamTrainingsData['progress'];
             <div class="toggle">
                 <button id="teamButton">CREATE</button>
             </div>
+            <div style="width: 100%; max-height: 250px; overflow: auto; border: 1px solid #ccc; padding: 10px;">
                  <table id="trainingTable" border="1">
                         <thead>
                             <tr>
@@ -186,6 +187,7 @@ $teamProgress = $completedTeamTrainingsData['progress'];
                             <!-- Training plan suggestions will be inserted here dynamically -->
                         </tbody>
                     </table>
+            </div>
             <form id="teamTrainingForm">
                 <label>TRAINING PLAN:</label>
                 <input type="text" id="trainingPlanInput" readonly>
@@ -204,64 +206,17 @@ $teamProgress = $completedTeamTrainingsData['progress'];
             <h2>ON GOING TRAINING</h2>
             <div class="players">
                 <h3>Players</h3>
-                <table>
-                    <tr>
-                        <th>Player Name</th>
-                        <th>Training Plan</th>
-                        <th>Start Date</th>
-                        <th>Start Time</th>
-                        <th>End Time</th>
-                        <th><i class="fas fa-eye"></i></th>
-                    </tr>
-                    <?php foreach ($ongoingTrainings as $training): ?>
-                        <tr>
-                            <td><?php echo htmlspecialchars($training['firstName'] . ' ' . $training['lastName']); ?></td>
-                            <td><?php echo htmlspecialchars($training['trainingPlan']); ?></td>
-                            <td><?php echo htmlspecialchars($training['trainingDate']); ?></td>
-                            <td><?php echo htmlspecialchars($training['trainingTime']); ?></td>
-                            <td><?php echo htmlspecialchars($training['endTime']); ?></td>
-                            <td><i class="fas fa-eye"></i></td>
-                        </tr>
-                    <?php endforeach; ?>
-                </table>
-            </div>
-            <div class="team">
-                <h3>Team</h3>
-                <table>
-                    <tr>
-                        <th>Training Plan</th>
-                        <th>Start Date</th>
-                        <th>Start Time</th>
-                        <th>End Time</th>
-                        <th><i class="fas fa-eye"></i></th>
-                    </tr>
-                    <?php foreach ($ongoingTeamTrainings as $teamTraining): ?>
-                        <tr>
-                            <td><?php echo htmlspecialchars($teamTraining['trainingPlan']); ?></td>
-                            <td><?php echo htmlspecialchars($teamTraining['trainingDate']); ?></td>
-                            <td><?php echo htmlspecialchars($teamTraining['trainingTime']); ?></td>
-                            <td><?php echo htmlspecialchars($teamTraining['endTime']); ?></td>
-                            <td><i class="fas fa-eye"></i></td>
-                        </tr>
-                    <?php endforeach; ?>
-                </table>
-            </div>
-        </section>
-        <section class="training-plan">
-            <h2>TRAINING DONE</h2>
-                <div class="training-container">
-                <div class="players-training">
-                    <h3>Players</h3>
+                <div style="width: 100%; max-height: 300px; overflow: auto; border: 1px solid #ccc; padding: 10px;">
                     <table>
                         <tr>
                             <th>Player Name</th>
                             <th>Training Plan</th>
-                            <th>Training Date</th>
+                            <th>Start Date</th>
                             <th>Start Time</th>
                             <th>End Time</th>
                             <th><i class="fas fa-eye"></i></th>
                         </tr>
-                        <?php foreach ($completedTrainings as $training): ?>
+                        <?php foreach ($ongoingTrainings as $training): ?>
                             <tr>
                                 <td><?php echo htmlspecialchars($training['firstName'] . ' ' . $training['lastName']); ?></td>
                                 <td><?php echo htmlspecialchars($training['trainingPlan']); ?></td>
@@ -272,6 +227,59 @@ $teamProgress = $completedTeamTrainingsData['progress'];
                             </tr>
                         <?php endforeach; ?>
                     </table>
+                </div>
+            </div>
+            <div class="team">
+                <h3>Team</h3>
+                    <div style="width: 100%; max-height: 300px; overflow: auto; border: 1px solid #ccc; padding: 10px;">
+                    <table>
+                        <tr>
+                            <th>Training Plan</th>
+                            <th>Start Date</th>
+                            <th>Start Time</th>
+                            <th>End Time</th>
+                            <th><i class="fas fa-eye"></i></th>
+                        </tr>
+                        <?php foreach ($ongoingTeamTrainings as $teamTraining): ?>
+                            <tr>
+                                <td><?php echo htmlspecialchars($teamTraining['trainingPlan']); ?></td>
+                                <td><?php echo htmlspecialchars($teamTraining['trainingDate']); ?></td>
+                                <td><?php echo htmlspecialchars($teamTraining['trainingTime']); ?></td>
+                                <td><?php echo htmlspecialchars($teamTraining['endTime']); ?></td>
+                                <td><i class="fas fa-eye"></i></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </table>
+                </div>
+            </div>
+        </section>
+        <section class="training-plan">
+            <h2>TRAINING DONE</h2>
+                <div class="training-container">
+                <div class="players-training">
+                    <h3>Players</h3>
+                    <div style="width: 100%; max-height: 300px; overflow: auto; border: 1px solid #ccc; padding: 10px;">
+                        <table>
+                            <tr>
+                                <th>Player Name</th>
+                                <th>Training Plan</th>
+                                <th>Training Date</th>
+                                <th>Start Time</th>
+                                <th>End Time</th>
+                                <th><i class="fas fa-eye"></i></th>
+                            </tr>
+                            <?php foreach ($completedTrainings as $training): ?>
+                                <tr>
+                                    <td><?php echo htmlspecialchars($training['firstName'] . ' ' . $training['lastName']); ?></td>
+                                    <td><?php echo htmlspecialchars($training['trainingPlan']); ?></td>
+                                    <td><?php echo htmlspecialchars($training['trainingDate']); ?></td>
+                                    <td><?php echo htmlspecialchars($training['trainingTime']); ?></td>
+                                    <td><?php echo htmlspecialchars($training['endTime']); ?></td>
+                                    <td><i class="fas fa-eye"></i></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </table>
+                    </div>    
                     <div class="progress">
                         <?php echo "{$playerProgress['completedTrainings']}/{$playerProgress['totalTrainings']} DONE"; ?>
                     </div>
@@ -279,6 +287,7 @@ $teamProgress = $completedTeamTrainingsData['progress'];
                 <div class="divider"></div>
                 <div class="team-training">
                     <h3>Team</h3>
+                    <div style="width: 100%; max-height: 300px; overflow: auto; border: 1px solid #ccc; padding: 10px;">
                     <table>
                         <tr>
                             <th>Training Plan</th>
@@ -297,6 +306,7 @@ $teamProgress = $completedTeamTrainingsData['progress'];
                             </tr>
                         <?php endforeach; ?>
                     </table>
+                    </div>
                     <div class="progress">
                         <?php echo "{$teamProgress['completedTrainings']}/{$teamProgress['totalTrainings']} DONE"; ?>
                     </div>
