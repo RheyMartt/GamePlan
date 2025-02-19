@@ -85,49 +85,55 @@ body {
 }
 
 /* Dropdown Buttons */
-.dropdown {
-    color: white;
-    height: 46px;
-    padding: 0 15px;
-    border: 2px solid transparent;
-    font-size: 16px;
-    text-align: left;
-    cursor: pointer;
-    border-radius: 8px;
-    transition: all 0.3s ease;
-    font-weight: 500;
-    box-sizing: border-box;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+/* Wrapper for the dropdown */
+.dropdown-wrapper {
     position: relative;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    display: inline-block;
+    width: 240px; /* Adjust width as needed */
 }
 
+/* Styling for the select dropdown */
 .first-dropdown {
-    width: 224px;
-    margin-left: 40px;
+    width: 100%;
+    height: 46px;
+    padding: 10px 15px;
+    font-size: 16px;
+    font-weight: 500;
+    color: white;
     background-color: #001F54;
-    margin-bottom: 30px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    appearance: none; /* Hides default dropdown UI */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.second-dropdown {
-    width: 224px;
-    margin-left: 40px;
-    background-color: #001F54;
-    margin-bottom: 30px;
+/* Dropdown options styling */
+.first-dropdown option {
+    background-color: white;
+    color: black;
+    padding: 10px;
 }
 
-.dropdown:hover {
+/* Hover effect for dropdown */
+.first-dropdown:hover {
     transform: translateY(-1px);
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
 }
 
-.dropdown:after {
+/* Custom arrow for dropdown */
+.dropdown-wrapper::after {
     content: '▼';
-    font-size: 12px;
-    margin-left: 10px;
+    font-size: 14px;
+    color: white;
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
 }
+
+
 
 /* Charts */
 .charts {

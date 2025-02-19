@@ -104,21 +104,6 @@ function getCompletedTeamTrainings() {
     }
 }
 
-// Fetch players from teamID = 1
-function getTeamPlayers() {
-    global $pdo;
-
-    try {
-        $query = "SELECT playerID, firstName, lastName FROM players WHERE teamID = 1 ORDER BY firstName";
-        $stmt = $pdo->prepare($query);
-        $stmt->execute();
-        return $stmt->fetchAll(); // Fetch players
-    } catch (PDOException $e) {
-        echo "Error fetching players: " . $e->getMessage();
-        return [];
-    }
-}
-
 function getOngoingTeamTraining() {
     global $pdo;
 
@@ -149,8 +134,6 @@ $completedTrainingsData = getCompletedTrainings();
 $completedTrainings = $completedTrainingsData['trainings'];
 $playerProgress = $completedTrainingsData['progress'];
 
-$players = getTeamPlayers();
-
 $ongoingTeamTrainings = getOngoingTeamTraining();
 
 $completedTeamTrainingsData = getCompletedTeamTrainings();
@@ -177,12 +160,10 @@ $teamProgress = $completedTeamTrainingsData['progress'];
             <div class="nav-links">
                 <ul>
                     <li><a href="/gameplan/Dashboard_Coach/GD.php" >GAME DASHBOARD</a></li>
-                    <li><a href="#">TEAM COMMUNICATION</a></li>
-                    <li><a href="/gameplan/PM_Coach/PM.html">PLAYER MANAGEMENT</a></li>
+                    <li><a href="/gameplan/PM_Coach/PM.php">PLAYER MANAGEMENT</a></li>
                     <li><a href="/gameplan/Schedule_Coach/SM.php">SCHEDULE</a></li>
                     <li><a href="#" class="active">PROGRESS AND MILESTONE</a></li>
-                    <li><a href="/gameplan/Resource_Management_Coach/RM.html">RESOURCES</a></li>
-                    <li><a href="#" title="Logout"><i class="fas fa-sign-out-alt"></i></a></li>
+                    <li><a href="/gameplan/Login.php" title="Logout"><i class="fas fa-sign-out-alt"></i></a></li>
                 </ul>
             </div>
         </div>
@@ -192,24 +173,30 @@ $teamProgress = $completedTeamTrainingsData['progress'];
         <section class="add-training">
             <h2>ADD A TRAINING PLAN</h2>
             <div class="toggle">
-                <select name="playerID">
-                    <option selected disabled>Select Player</option>
-                    <?php foreach ($players as $player): ?>
-                        <option value="<?php echo htmlspecialchars($player['playerID']); ?>">
-                            <?php echo htmlspecialchars($player['firstName'] . ' ' . $player['lastName']); ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
-                <button>TEAM</button>
+                <button id="teamButton">CREATE</button>
             </div>
-            <form>
+                 <table id="trainingTable" border="1">
+                        <thead>
+                            <tr>
+                                <th>Player Name</th>
+                                <th>Suggested Training Plan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Training plan suggestions will be inserted here dynamically -->
+                        </tbody>
+                    </table>
+            <form id="teamTrainingForm">
                 <label>TRAINING PLAN:</label>
-                <input type="text">
+                <input type="text" id="trainingPlanInput" readonly>
+
                 <label>START DATE:</label>
-                <input type="date">
-                <label>END DATE:</label>
-                <input type="date">
-                <button type="submit">ADD</button>
+                <input type="date" id="startDate" required>
+
+                <label>START TIME:</label>
+                <input type="time" id="startTime" required>
+
+                <button type="submit">Confirm</button>
             </form>
         </section>
        
@@ -317,5 +304,78 @@ $teamProgress = $completedTeamTrainingsData['progress'];
             </div>
         </section>
     </main>
+    <script>
+    document.getElementById("teamButton").addEventListener("click", function() {
+        fetch("fetch_team_training.php") 
+            .then(response => response.json())
+            .then(data => {
+                let tableBody = document.querySelector("#trainingTable tbody");
+                tableBody.innerHTML = ""; // Clear previous results
+
+                data.forEach(player => {
+                    let row = document.createElement("tr");
+                    row.innerHTML = `
+                        <td>${player.firstName} ${player.lastName}</td>
+                        <td>${player.trainingPlan}</td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            })
+            .catch(error => console.error("Error fetching data:", error));
+
+            fetch('trainingPlan.php')
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById('trainingPlanInput').value = data.trainingPlan; // Populate only on click
+                } else {
+                    console.error("Error:", data.message);
+                }
+            })
+            .catch(error => console.error("Error fetching training plan:", error));
+    });
+
+    document.getElementById("teamTrainingForm").addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        let startDate = document.getElementById("startDate").value;
+        let startTime = document.getElementById("startTime").value;
+        let teamTrainingPlan = document.getElementById("trainingPlanInput").value; // Get team training plan
+
+        let rows = document.querySelectorAll("#trainingTable tbody tr");
+
+        if (!startDate || !startTime) {
+            alert("Please select a start date and time.");
+            return;
+        }
+
+        let trainings = [];
+
+        rows.forEach(row => {
+            let playerName = row.cells[0].textContent.trim();
+            let trainingPlan = row.cells[1].textContent.trim();
+
+            trainings.push({ playerName, trainingPlan, startDate, startTime });
+        });
+
+        // Send team training plan along with individual trainings
+        fetch("insert_training.php", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ trainings, teamTrainingPlan, startDate, startTime }) 
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert("Training sessions added successfully!");
+                location.reload();
+            } else {
+                alert("Error adding training: " + data.message);
+            }
+        })
+        .catch(error => console.error("Error:", error));
+    });
+
+    </script>
 </body>
 </html>

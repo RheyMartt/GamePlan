@@ -304,7 +304,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
                         if (data.role === 'Coach') {
                             window.location.href = 'Dashboard_Coach/GD.php';
                         } else if (data.role === 'Analyst') {
-                            window.location.href = 'Dashboard_AnR/GD.php';
+                            window.location.href = 'Feedback_n_Analyzation_AnR/FnA.php';
                         } else if (data.role === 'Player') {
                             window.location.href = 'Player_Profile_Player/Player.php';
                         }

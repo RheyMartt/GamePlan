@@ -72,6 +72,74 @@ function getUpcomingEvents($playerID) {
 // Fetch upcoming events by passing the playerID
 $upcomingEvents = getUpcomingEvents($playerID);
 
+// Function to fetch personal schedules for the logged-in player
+function getPersonalSchedules($playerID) {
+    global $pdo;
+
+    try {
+        // Fetch personal schedules
+        $query = "SELECT schedDate, schedTime, type, notes
+                  FROM personal_schedule
+                  WHERE playerID = :playerID AND schedDate >= CURDATE()
+                  ORDER BY schedDate ASC, schedTime ASC";
+        
+        $stmt = $pdo->prepare($query);
+        $stmt->execute(['playerID' => $playerID]);
+        $schedules = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        return $schedules;
+    } catch (PDOException $e) {
+        echo "Error fetching personal schedules: " . $e->getMessage();
+        return [];
+    }
+}
+$personalSchedules = getPersonalSchedules($playerID);
+
+
+
+// Check if the required POST parameters are set
+if (isset($_POST['type'], $_POST['schedDate'], $_POST['schedTime'])) {
+    $type = $_POST['type'];
+    $schedDate = $_POST['schedDate'];
+    $schedTime = $_POST['schedTime'];
+    $notes = isset($_POST['notes']) ? $_POST['notes'] : 'n/a'; // Default to 'n/a' if not provided
+
+    // Call the function to insert the schedule into the database
+    include 'your_php_file_with_function.php'; // Include the PHP file with the addPersonalSchedule function
+    $result = addPersonalSchedule($playerID, $type, $schedDate, $schedTime, $notes);
+
+    if ($result) {
+        echo "Schedule added successfully.";
+    } else {
+        echo "Error adding schedule.";
+    }
+} else {
+
+}
+// Function to insert a new schedule entry into the personal_schedule table
+function addPersonalSchedule($playerID, $type, $schedDate, $schedTime, $notes) {
+    global $pdo;
+
+    try {
+        $query = "INSERT INTO personal_schedule (playerID, type, schedDate, schedTime, notes)
+                  VALUES (:playerID, :type, :schedDate, :schedTime, :notes)";
+
+        $stmt = $pdo->prepare($query);
+        $stmt->execute([
+            'playerID' => $playerID,
+            'type' => $type,
+            'schedDate' => $schedDate,
+            'schedTime' => $schedTime,
+            'notes' => $notes
+        ]);
+
+        return true;
+    } catch (PDOException $e) {
+        echo "Error inserting schedule: " . $e->getMessage();
+        return false;
+    }
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -97,11 +165,9 @@ $upcomingEvents = getUpcomingEvents($playerID);
         <div class="nav-links">
             <ul>
                 <li><a href="/gameplan/Player_Profile_Player/Player.php" >PLAYER PROFILE</a></li>
-                <li><a href="/gameplan/Com/CommHub.html">TEAM COMMUNICATION</a></li>
                 <li><a href="/gameplan/Schedule_Player/PlayerSM.html" class="active">SCHEDULE</a></li>
                 <li><a href="/gameplan/PGM_Player/PGM.php">PROGRESS & MILESTONE</a></li>
-                <li><a href="/gameplan/Resource_Management_Player/RM.html">RESOURCES</a></li>
-                <li><a href="#" title="Logout"><i class="fas fa-sign-out-alt"></i></a></li> 
+                <li><a href="/gameplan/Login.php" title="Logout"><i class="fas fa-sign-out-alt"></i></a></li> 
             </ul>
         </div>
     </div>
@@ -142,13 +208,14 @@ $upcomingEvents = getUpcomingEvents($playerID);
         </div>
 
         <!-- Right Panel -->
-        <div class="panel announcements-panel">
+        <div class="panel schedule-panel">
             <h2>Personal Schedule</h2>
-            <ul id="announcements-list"></ul>
+            <ul id="schedule-list"></ul>
         </div>
     </div>
 
-    <script>
+    <script >
+    const personalSchedules = <?php echo json_encode($personalSchedules); ?>;
     const eventDates = <?php echo json_encode(array_merge(
         array_column($upcomingEvents['games'], 'gameDate'),
         array_column($upcomingEvents['playerTrainings'], 'trainingDate'),

@@ -1,13 +1,14 @@
 <?php
-require_once $_SERVER['DOCUMENT_ROOT'] . '/GamePlan/connection.php';
+include 'C:\\xampp\\htdocs\\GamePlan\\connection.php'; // connection filepath
 
 // Fetch all games for dropdown
 try {
-    $gameQuery = $pdo->query("SELECT g.gameID, h.teamName AS homeTeam, a.teamName AS awayTeam 
-                              FROM games g
-                              JOIN teams h ON g.homeTeamID = h.teamID
-                              JOIN teams a ON g.awayTeamID = a.teamID
-                              ORDER BY g.gameDate DESC");
+  $gameQuery = $pdo->query("SELECT DISTINCT g.gameID, h.teamName AS homeTeam, a.teamName AS awayTeam 
+                            FROM games g
+                            JOIN teams h ON g.homeTeamID = h.teamID
+                            JOIN teams a ON g.awayTeamID = a.teamID
+                            JOIN game_stats gs ON g.gameID = gs.gameID
+                            ORDER BY g.gameDate DESC");
     $games = $gameQuery->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
     die("Database error: " . $e->getMessage());
@@ -105,12 +106,10 @@ if ($gameID) {
     <div class="nav-links">
       <ul>
         <li><a href="#" class="active">GAME DASHBOARD</a></li>
-        <li><a href="/gameplan/Com/CommHub.html">TEAM COMMUNICATION</a></li>
-        <li><a href="/gameplan/PM_Coach/PM.html">PLAYER MANAGEMENT</a></li>
+        <li><a href="/gameplan/PM_Coach/PM.php">PLAYER MANAGEMENT</a></li>
         <li><a href="/gameplan/Schedule_Coach/SM.php">SCHEDULE</a></li>
         <li><a href="/gameplan/PGM_coach/PGM.php">PROGRESS & MILESTONE</a></li>
-        <li><a href="/gameplan/Resource_Management_Coach/RM.html">RESOURCES</a></li>
-        <li><a href="#" title="Logout"><i class="fas fa-sign-out-alt"></i></a></li>
+        <li><a href="/gamplan/Login.php" title="Logout"><i class="fas fa-sign-out-alt"></i></a></li>
       </ul>
     </div>
   </div>
@@ -132,7 +131,7 @@ if ($gameID) {
       <div class="game-details">
         <h1>
           <span><?php echo $gameDetails['homeTeam']; ?></span>
-          <span>-- vs --</span>
+          <span> vs </span>
           <span><?php echo $gameDetails['awayTeam']; ?></span>
         </h1>
         <p><?php echo $gameDetails['gameDate']; ?> | <?php echo $gameDetails['gameLocation']; ?></p>
