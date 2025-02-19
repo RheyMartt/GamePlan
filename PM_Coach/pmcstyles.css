@@ -415,7 +415,7 @@ body {
     text-align: left;
 }
 
-.table th, .table td {
+.table th {
     padding: 12px 15px;
     border: 1px solid #ddd;
 }
@@ -424,6 +424,10 @@ body {
     background-color: #001F54;
     color: #F6F4F0;
     font-weight: 600;
+}
+
+.table tbody {
+    border: 1px solid #ddd;
 }
 
 .table tbody tr:nth-child(even) {

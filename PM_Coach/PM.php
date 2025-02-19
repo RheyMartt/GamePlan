@@ -1,5 +1,5 @@
 <?php
-require_once $_SERVER['DOCUMENT_ROOT'] . '/GamePlan/connection.php';
+include 'C:\\xampp\\htdocs\\GamePlan\\connection.php'; // connection filepath
 
 // Default playerID (can be modified to select a specific player based on URL parameters)
 $playerID = isset($_GET['playerID']) ? $_GET['playerID'] : 1;
@@ -112,34 +112,15 @@ try {
         <!-- New Container with 3 Sections, stacked vertically -->
         <div class="container">
             <!-- Section 1: Bio/History/Status -->
-            <div class="section" id="bio-section">
+            <div id="bio-section" class="section">
                 <h3>Bio</h3>
-                <p>Name: <?php echo htmlspecialchars($player['firstName'] . ' ' . $player['lastName']) ?? 'N/A'; ?></p>
-                <p>Position: <?php echo htmlspecialchars($player['position'] ?? 'N/A'); ?></p>
-                <p>Status: <?php echo htmlspecialchars($player['status'] ?? 'N/A'); ?></p>
-                <p>Height: <?php echo htmlspecialchars($player['height'] ?? 'N/A'); ?> | Weight: <?php echo htmlspecialchars($player['weight'] ?? 'N/A'); ?></p>
+                <p>Click on a player to view their bio...</p>
             </div>
 
-            <!-- Section 2: Stats (Based on Season) -->
-            <div class="section">
-                <div class="table-container" >
-                    <table class="table" id="stats-section">
-                        <thead>
-                            <tr>
-                                <th scope="col">Stats</th>
-                                <th scope="col">Value</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr><td>Points Per Game</td><td><?php echo number_format($ppg, 1); ?></td></tr>
-                            <tr><td>Assists Per Game</td><td><?php echo number_format($apg, 1); ?></td></tr>
-                            <tr><td>Rebounds Per Game</td><td><?php echo number_format($rpg, 1); ?></td></tr>
-                            <tr><td>Blocks Per Game</td><td><?php echo number_format($bpg, 1); ?></td></tr>
-                            <tr><td>Steals Per Game</td><td><?php echo number_format($spg, 1); ?></td></tr>
-                        </tbody>
-                    </table>
-                </div>
+            <div id="stats-section" class="section">
+                <p>No stats available. Click on a player to view stats.</p>
             </div>
+
 
             <!-- Attendance Section -->
             <div class="section">

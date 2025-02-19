@@ -1,5 +1,5 @@
 <?php
-require_once $_SERVER['DOCUMENT_ROOT'] . '/GamePlan/connection.php';
+include 'C:\\xampp\\htdocs\\GamePlan\\connection.php'; // connection filepath
 
 // Fetch all games for dropdown
 try {
