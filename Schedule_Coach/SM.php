@@ -147,12 +147,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             <div class="nav-links">
                 <ul>
                     <li><a href="/gameplan/Dashboard_Coach/GD.php">GAME DASHBOARD</a></li>
-                    <li><a href="#">TEAM COMMUNICATION</a></li>
                     <li><a href="/gameplan/PM_Coach/PM.php">PLAYER MANAGEMENT</a></li>
                     <li><a href="#" class="active">SCHEDULE</a></li>
                     <li><a href="/gameplan/PGM_coach/PGM.php">PROGRESS & MILESTONE</a></li>
-                    <li><a href="/gameplan/Resource_Management_Coach/RM.html">RESOURCES</a></li>
-                    <li><a href="#" title="Logout"><i class="fas fa-sign-out-alt"></i></a></li>
+                    <li><a href="/gameplan/Login.php" title="Logout"><i class="fas fa-sign-out-alt"></i></a></li>
                 </ul>
             </div>
         </div>

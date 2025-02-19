@@ -165,11 +165,9 @@ function addPersonalSchedule($playerID, $type, $schedDate, $schedTime, $notes) {
         <div class="nav-links">
             <ul>
                 <li><a href="/gameplan/Player_Profile_Player/Player.php" >PLAYER PROFILE</a></li>
-                <li><a href="/gameplan/Com/CommHub.html">TEAM COMMUNICATION</a></li>
                 <li><a href="/gameplan/Schedule_Player/PlayerSM.html" class="active">SCHEDULE</a></li>
                 <li><a href="/gameplan/PGM_Player/PGM.php">PROGRESS & MILESTONE</a></li>
-                <li><a href="/gameplan/Resource_Management_Player/RM.php">RESOURCES</a></li>
-                <li><a href="#" title="Logout"><i class="fas fa-sign-out-alt"></i></a></li> 
+                <li><a href="/gameplan/Login.php" title="Logout"><i class="fas fa-sign-out-alt"></i></a></li> 
             </ul>
         </div>
     </div>
