@@ -157,4 +157,54 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
+// Get modal elements
+const addPlayerModal = document.getElementById("addPlayerModal");
+
+// Open modal function
+function openAddPlayerModal() {
+    addPlayerModal.style.display = "block";
+}
+
+// Close modal function
+function closeAddPlayerModal() {
+    addPlayerModal.style.display = "none";
+}
+
+// Close modal when clicking outside of it
+window.onclick = function(event) {
+    if (event.target === addPlayerModal) {
+        closeAddPlayerModal();
+    }
+};
+
+// Get modal elements
+const injuryModal = document.getElementById("injuryModal");
+const closeInjuryModalBtn = injuryModal.querySelector(".close");
+const classifyInjuredBtn = document.querySelector(".classify-injured-btn");
+
+// Open modal function
+function openInjuryModal() {
+    injuryModal.style.display = "block";
+}
+
+// Close modal function
+function closeInjuryModal() {
+    injuryModal.style.display = "none";
+}
+
+// Event listener for "CLASSIFY AS INJURED" button
+classifyInjuredBtn.addEventListener("click", openInjuryModal);
+
+// Event listener for close button
+closeInjuryModalBtn.addEventListener("click", closeInjuryModal);
+
+// Close modal when clicking outside of it
+window.onclick = function(event) {
+    if (event.target === injuryModal) {
+        closeInjuryModal();
+    }
+};
+
+
+
 

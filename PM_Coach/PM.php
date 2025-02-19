@@ -120,7 +120,7 @@ try {
         </div>
 
         <div class="add-player-container">
-            <button class="add-player-btn">Add Player</button>
+            <button class="add-player-btn" onclick="openAddPlayerModal()">Add Player</button>
         </div>
   
         <!-- More From the Roster Section -->
@@ -163,15 +163,51 @@ try {
                 </div>
 
                 <div class="buttons-container">
-                    <button class="classify-injured-btn">CLASSIFY AS INJURED</button>
+                    <button id="classifyInjuredBtn" class="classify-injured-btn">CLASSIFY AS INJURED</button>
                     <button class="remove-player-btn">REMOVE</button>
-                    <button class="edit-player-btn">EDIT PLAYER</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- The Modal -->
+    <!-- Add Player Modal -->
+    <div id="addPlayerModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeAddPlayerModal()">&times;</span>
+            <h2>Add New Player</h2>
+            <form id="addPlayerForm">
+                <label for="firstName">First Name:</label>
+                <input type="text" id="firstName" name="firstName" required>
+
+                <label for="lastName">Last Name:</label>
+                <input type="text" id="lastName" name="lastName" required>
+
+                <label for="position">Position:</label>
+                <select id="position" name="position">
+                    <option value="Guard">Guard</option>
+                    <option value="Forward">Forward</option>
+                    <option value="Center">Center</option>
+                </select>
+
+                <label for="height">Height (cm):</label>
+                <input type="number" id="height" name="height" required>
+
+                <label for="weight">Weight (kg):</label>
+                <input type="number" id="weight" name="weight" required>
+
+                <label for="status">Status:</label>
+                <select id="status" name="status">
+                    <option value="Active">Active</option>
+                    <option value="Injured">Injured</option>
+                </select>
+
+                <button type="submit">Add Player</button>
+            </form>
+        </div>
+    </div>
+
+
+    <!-- Injury Modal -->
     <div id="injuryModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
