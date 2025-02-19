@@ -127,6 +127,106 @@ if ($gameID) {
       </div>
     </div>
 
+    <button onclick="openModal('addGameModal')">Add New Game</button>
+
+    <!-- Add Game Modal -->
+    <div id="addGameModal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeModal('addGameModal')">&times;</span>
+        <h2>Add New Game</h2>
+        <form method="POST" action="add_game.php">
+        <label for="opponent">Opponent Team:</label>
+        <select id="opponent" name="opponentID" required>
+            <option value="">Select Opponent</option>
+            <?php
+            $opponents = $pdo->query("SELECT * FROM teams WHERE teamID != 1")->fetchAll();
+            foreach ($opponents as $team) {
+                echo "<option value='{$team['teamID']}'>{$team['teamName']}</option>"; // No <br> or <b>
+            }
+            ?>
+        </select>
+
+        <label for="gameDate">Game Date:</label>
+        <input type="date" name="gameDate" required>
+
+        <label for="gameTime">Game Time:</label>
+        <input type="time" name="gameTime" required>
+
+        <label for="gameLocation">Location:</label>
+        <input type="text" name="gameLocation" required>
+
+        <label for="gameType">Game Type:</label>
+        <select name="gameType">
+            <option value="Official">Official</option>
+            <option value="Exhibition">Exhibition</option>
+            <option value="Practice">Practice</option>
+        </select>
+
+        <h3>Quarter Scores</h3>
+        <label>Home Q1:</label> <input type="number" name="homeQuarterOne" min="0">
+        <label>Home Q2:</label> <input type="number" name="homeQuarterTwo" min="0">
+        <label>Home Q3:</label> <input type="number" name="homeQuarterThree" min="0">
+        <label>Home Q4:</label> <input type="number" name="homeQuarterFour" min="0">
+        <label>Home Final Score:</label> <input type="number" name="homeFinalScore" min="0">
+
+        <label>Away Q1:</label> <input type="number" name="awayQuarterOne" min="0">
+        <label>Away Q2:</label> <input type="number" name="awayQuarterTwo" min="0">
+        <label>Away Q3:</label> <input type="number" name="awayQuarterThree" min="0">
+        <label>Away Q4:</label> <input type="number" name="awayQuarterFour" min="0">
+        <label>Away Final Score:</label> <input type="number" name="awayFinalScore" min="0">
+
+          <button type="submit" name="addGame" value="1">Save Game</button>
+          <button type="button" onclick="openModal('addStatsModal')">Add Player Stats</button>
+          </form>
+      </div>
+    </div>
+
+    <!-- Add Player Stats Modal -->
+    <div id="addStatsModal" class="modal">
+      <div class="modal-content">
+      <span class="close" onclick="closeModal('addStatsModal')">&times;</span>
+      <h2>Add Player Stats</h2>
+        <form method="POST" action="add_stats.php">
+          <label>Select Player:</label>
+          <select name="playerID" required>
+              <option value="">Select Player</option>
+              <?php
+              try {
+                  // Ensure $opponentID is set and valid
+                  $opponentID = isset($_POST['opponentID']) ? (int)$_POST['opponentID'] : 0;
+                  $yourTeamID = 1; // Change this if needed
+
+                  // Use prepared statement to prevent SQL injection
+                  $stmt = $pdo->prepare("SELECT playerID, firstName, lastName FROM players WHERE teamID = ? OR teamID = ?");
+                  $stmt->execute([$yourTeamID, $opponentID]);
+                  $players = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+                  foreach ($players as $player) {
+                      echo "<option value='{$player['playerID']}'>{$player['firstName']} {$player['lastName']}</option>";
+                  }
+              } catch (PDOException $e) {
+                  die("Database error: " . $e->getMessage());
+              }
+              ?>
+          </select>
+
+
+          <label>Points:</label> <input type="number" name="points" required>
+          <label>Assists:</label> <input type="number" name="assists" required>
+          <label>Rebounds:</label> <input type="number" name="rebounds" required>
+          <label>Steals:</label> <input type="number" name="steals" required>
+          <label>Blocks:</label> <input type="number" name="blocks" required>
+          <label>Turnovers:</label> <input type="number" name="turnovers" required>
+          <label>Minutes Played:</label> <input type="number" name="minutesPlayed" required>
+
+          <button type="submit" name="addStats">Save Stats</button>
+        </form>
+      </div>
+    </div>
+
+    
+
+    <!-- Game Details -->
     <?php if ($gameDetails): ?>
       <div class="game-details">
         <h1>
@@ -306,6 +406,9 @@ if ($gameID) {
     <?php else: ?>
       <p>No game data available.</p>
     <?php endif; ?>
+
+    <script src="gdcscript.js"></script>
+
   </main>
 </body>
 </html>
