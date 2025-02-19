@@ -20,11 +20,11 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 20px 40px;
+        padding: 10px 20px; /* Adjust padding to reduce wasted space */
         background-color: #F6F4F0; /* Navbar background color */
         position: relative;
-        height: 100px;
-        margin-top: 20px; /* Add margin to move navbar down */
+        height: 80px; /* Reduce height to make better use of space */
+        margin-top: 10px; /* Adjust margin to move navbar down */
     }
 
     /* Logo container */
@@ -34,7 +34,7 @@
 
     /* Navbar Logo Styling */
     .navbar-logo {
-        width: 200px; /* Increase the width further for better visibility */
+        width: 250px; /* Increase the width for better visibility */
         height: auto; /* Maintain the aspect ratio */
         object-fit: contain; /* Ensure the logo scales properly */
         display: block;
@@ -111,33 +111,6 @@
         display: block;
     }
 
-    /* Court Stats Section */
-    .court-stats {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-    }
-
-    .court {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        background-color: #F5C414; /* Background color for the court section */
-        padding: 20px; /* Adjust padding for better spacing */
-        border-radius: 10px; /* Rounded corners */
-        border: 2px solid #001F54; /* Dark blue border */
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
-        margin: 20px 0; /* Add space above and below the court section */
-    }
-
-    .court img {
-        max-width: 100%;
-        border-radius: 10px; /* Rounded corners */
-        margin-bottom: 20px; /* Space below the image */
-    }
-
     .game-details {
         background-color: #F5C414;
         color: #001F54;
@@ -153,8 +126,17 @@
         margin: 0;
         font-size: 22px; /* Adjust font size for better readability */
         font-weight: bold;
-    }
+    } 
 
+    /* Container */
+    .player-stats-container {
+        background-color: #F5C414; /* Background color for the container */
+        border-radius: 12px; /* Rounded corners for the container */
+        padding: 20px; /* Increase padding for better spacing */
+        max-width: 90vw; /* Reduce the maximum width to 90% of the viewport */
+        margin: 20px auto; /* Add vertical margin for better spacing */
+        border: 2px solid #001F54; /* Dark blue border */
+    }
     .score-breakdown {
         display: flex;
         justify-content: center;
@@ -204,32 +186,16 @@
         margin: 0; /* Remove default margin */
     }
 
-    .performer {
-        margin: 10px 0;
-        font-size: 16px; /* Adjust font size for better readability */
-        display: flex; /* Ensure proper alignment */
-        justify-content: space-between; /* Arrange items well */
-        padding: 5px 10px; /* Add padding for better spacing */
-        border-bottom: 1px solid #001F54; /* Add a bottom border for separation */
-    }
-
-    /* Container */
-    .player-stats-container {
-        background-color: #F5C414; /* Background color for the container */
-        border-radius: 12px; /* Rounded corners for the container */
-        padding: 25px; /* Adjust padding for better spacing */
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Optional: adds a soft shadow for depth */
-        max-width: 1200px; /* Maximum width of the container */
-        margin: 20px auto; /* Center the container and add space around it */
-        border: 2px solid #001F54; /* Dark blue border */
-    }
 
     /* Tables */
     .player-stats {
-        margin: 0 20px; /* Add horizontal margin to create space around the container */
+        margin: 0; /* Remove horizontal margin to eliminate empty spaces on the edges */
+        padding: 0; /* Remove padding to eliminate empty spaces on the edges */
         overflow-x: auto; /* Enable horizontal scroll on smaller screens */
-        box-sizing: border-box; /* Ensure padding doesn't affect the width */
-        gap: 20px; /* Add gap to avoid tables covering up the page */
+        width: 100vw; /* Make it take the full viewport width */
+        max-width: 100%; /* Ensure it doesn't get constrained */
+        padding: 10px; /* Add some padding to avoid touching edges */
+        box-sizing: border-box; /* Ensure padding doesn’t affect width */
     }
 
     .player-stats h2 {
@@ -239,30 +205,28 @@
     }
 
     .player-stats table {
-        width: auto; /* Adjust width to prevent table from occupying the entire page */
-        table-layout: auto; /* Allow flexible column widths */
-        width: 100%; /* Keeps table responsive */
-        box-sizing: border-box; /* Prevent padding from affecting the width */
+        width: 100%; /* Ensure it fills the container */
+        table-layout: auto; /* Let columns adjust naturally */
+        max-width: none; /* Remove any width restrictions */
         border-collapse: collapse;
         text-align: center; /* Center-align data for consistency */
         font-size: 14px;
         background-color: #F5C414; /* Background color for the table */
         margin: 10px auto; /* Adjusted margin to prevent table from occupying the entire page */
+        overflow-x: auto; /* Ensure table is scrollable */
     }
 
     .player-stats th, .player-stats td {
-        border: 1px solid #001F54;
-        padding: 15px; /* Adjusted padding for better spacing */
+        border: 2px solid #001F54;
+        padding: 20px; /* Adjusted padding for better spacing */
         text-align: center; /* Center-align data for consistency */
         min-width: 100px; /* Ensure readability */
-        max-width: 200px; /* Prevent excessive width */
+        max-width: 250px; /* Prevent excessive width */
     }
 
-    .player-stats th {
-        background-color: #F5C414;
-        color: #001F54;
-        font-weight: bold; /* Make headers stand out */
-        padding: 18px; /* Adjusted padding for better spacing */
+    /* Ensure table rows are visible */
+    .player-stats tr {
+        display: table-row;
     }
 
     .player-stats td:first-child {
@@ -285,15 +249,15 @@
     .player-stats th:first-child, 
     .player-stats td:first-child {
     min-width: 150px; /* Prevents text from getting squeezed too much */
-}
-.player-name {
+    }
+    .player-name {
     text-align: left; /* Align text to the left */
     white-space: nowrap; /* Prevent text wrapping */
     overflow: hidden; /* Hide overflow text */
     text-overflow: ellipsis; /* Add ellipsis for overflow text */
     max-width: 150px; /* Set a maximum width */
     min-width: 100px; /* Prevent squeezing */
-}
+    }
 
     /* Grid Layout Section */
     .grid-layout {
@@ -350,3 +314,4 @@
             grid-template-columns: 1fr;
         }
     }
+
