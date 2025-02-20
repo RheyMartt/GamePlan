@@ -52,6 +52,20 @@ function getCareerHighlights($pdo, $playerID) {
 
     return $groupedHighlights;
 }
+function getPlayerAverages($pdo, $playerID) {
+    // SQL query to calculate averages for Points (PPG), Rebounds (RBG), and Assists (APG)
+    $stmt = $pdo->prepare("
+        SELECT 
+            COALESCE(AVG(points), 0) AS PPG, 
+            COALESCE(AVG(rebounds), 0) AS RBG, 
+            COALESCE(AVG(assists), 0) AS APG
+        FROM game_stats
+        WHERE playerID = :playerID
+    ");
+    
+    $stmt->execute(['playerID' => $playerID]);
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
 
 // Calculate age from birthdate
 $birthdate = new DateTime($player['birthdate']);
@@ -65,6 +79,10 @@ $stmt->execute(['playerID' => $playerID]);
 $otherPlayers = $stmt->fetchAll();
 
 $careerHighlights = getCareerHighlights($pdo, $playerID);
+$playerAverages = getPlayerAverages($pdo, $playerID);
+$ppg = number_format($playerAverages['PPG'], 1);
+$rbg = number_format($playerAverages['RBG'], 1);
+$apg = number_format($playerAverages['APG'], 1);
 ?>
 
 
@@ -108,11 +126,12 @@ $careerHighlights = getCareerHighlights($pdo, $playerID);
                 <img src="Bulldog.png" alt="Team Logo" class="team-logo">
             </div>
         
+            <!-- Player Stats Section -->
             <div class="player-details">
                 <div class="stats">
-                    <div class="stat">PPG <span>23.8</span></div>
-                    <div class="stat">RBG <span>7.7</span></div>
-                    <div class="stat">APG <span>8.8</span></div>
+                    <div class="stat">PPG <span><?php echo $ppg; ?></span></div>
+                    <div class="stat">RBG <span><?php echo $rbg; ?></span></div>
+                    <div class="stat">APG <span><?php echo $apg; ?></span></div>
                 </div>
         
                 <div class="additional-info">
