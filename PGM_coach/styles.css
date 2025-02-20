@@ -124,6 +124,7 @@ section.training-done {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    overflow-y: auto; /* Add vertical scrollbar */
 }
 
 section.training-plan {
@@ -272,4 +273,40 @@ hr {
     font-weight: bold;
     color: #001F54;
     text-align: center;
+}
+
+section.add-training .table-container,
+section.ongoing-training .table-container,
+section.training-plan .table-container {
+    max-height: 60vh; /* Adjust the height as needed */
+    overflow-y: auto;
+}
+
+section.ongoing-training {
+    position: relative;
+    overflow-y: auto; /* Ensure vertical scrollbar */
+}
+
+/* Custom scrollbar styles */
+section.ongoing-training::-webkit-scrollbar,
+section.training-done::-webkit-scrollbar {
+    width: 8px;
+}
+
+section.ongoing-training::-webkit-scrollbar-thumb,
+section.training-done::-webkit-scrollbar-thumb {
+    background-color: #001F54;
+    border-radius: 4px;
+}
+
+section.ongoing-training::-webkit-scrollbar-track,
+section.training-done::-webkit-scrollbar-track {
+    background-color: #F6F4F0;
+    border-radius: 4px;
+}
+
+section.ongoing-training .table-container,
+section.training-done .table-container {
+    max-height: 60vh; /* Adjust the height as needed */
+    overflow-y: auto;
 }

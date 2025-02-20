@@ -160,21 +160,32 @@
         justify-content: center;
         align-items: center;
         text-align: center;
-    }
-    /* Score Breakdown Section */
-    .score-breakdown div {
-        padding: 15px ; /* Uniform padding for rows */
-        font-weight: bold;
-        color: #001F54; /* Dark blue for text */
+        margin: 20px 0; /* Add margin for spacing */
     }
 
-    .score-breakdown div:nth-child(5n) {
-        border-left: 2px solid #001F54; /* Add vertical border before "T" column */
+    .score-breakdown table {
+        border-collapse: collapse;
+        width: auto; /* Adjust width to fit content */
+        background-color: #F5C414; /* Background color for the table */
+        border: 2px solid #001F54; /* Dark blue border */
+        border-radius: 10px; /* Rounded corners */
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
     }
 
-    .score-breakdown div:nth-child(-n+5) {
-        font-weight: bold;
-        border-bottom: 2px solid #001F54; /* Header row separation */
+    .score-breakdown th, .score-breakdown td {
+        padding: 10px 20px; /* Adjust padding for better spacing */
+        border: 1px solid #001F54; /* Dark blue border */
+        font-size: 16px; /* Adjust font size for better readability */
+        color: #001F54; /* Dark blue text color */
+    }
+
+    .score-breakdown th {
+        background-color: #F5C414; /* Background color for headers */
+        font-weight: bold; /* Bold text for headers */
+    }
+
+    .score-breakdown td {
+        background-color: #FDF1AA; /* Light yellow for alternating rows */
     }
 
     /* Top Performers */
@@ -187,6 +198,7 @@
         text-align: center;
         max-width: 90%; /* Adjust width for responsiveness */
         width: 600px; /* Maximum width */
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
     }
 
     .topperformersList {
@@ -204,13 +216,15 @@
         margin: 0; /* Remove default margin */
     }
 
-    .performer {
+    .topperformersList li {
         margin: 10px 0;
         font-size: 16px; /* Adjust font size for better readability */
         display: flex; /* Ensure proper alignment */
         justify-content: space-between; /* Arrange items well */
         padding: 5px 10px; /* Add padding for better spacing */
         border-bottom: 1px solid #001F54; /* Add a bottom border for separation */
+        background-color: #FDF1AA; /* Light yellow background */
+        border-radius: 5px; /* Rounded corners */
     }
 
     /* Container */
@@ -226,10 +240,11 @@
 
     /* Tables */
     .player-stats {
-        margin: 0 20px; /* Add horizontal margin to create space around the container */
+        margin: 0; /* Remove horizontal margin to eliminate empty spaces on the edges */
+        padding: 0; /* Remove padding to eliminate empty spaces on the edges */
         overflow-x: auto; /* Enable horizontal scroll on smaller screens */
-        box-sizing: border-box; /* Ensure padding doesn't affect the width */
-        gap: 20px; /* Add gap to avoid tables covering up the page */
+        width: 100%; /* Make it take the full width */
+        box-sizing: border-box; /* Ensure padding doesn’t affect width */
     }
 
     .player-stats h2 {
@@ -239,10 +254,8 @@
     }
 
     .player-stats table {
-        width: auto; /* Adjust width to prevent table from occupying the entire page */
-        table-layout: auto; /* Allow flexible column widths */
-        width: 100%; /* Keeps table responsive */
-        box-sizing: border-box; /* Prevent padding from affecting the width */
+        width: 100%; /* Ensure it fills the container */
+        table-layout: auto; /* Let columns adjust naturally */
         border-collapse: collapse;
         text-align: center; /* Center-align data for consistency */
         font-size: 14px;
@@ -251,18 +264,11 @@
     }
 
     .player-stats th, .player-stats td {
-        border: 1px solid #001F54;
-        padding: 15px; /* Adjusted padding for better spacing */
+        border: 2px solid #001F54;
+        padding: 20px; /* Adjusted padding for better spacing */
         text-align: center; /* Center-align data for consistency */
         min-width: 100px; /* Ensure readability */
-        max-width: 200px; /* Prevent excessive width */
-    }
-
-    .player-stats th {
-        background-color: #F5C414;
-        color: #001F54;
-        font-weight: bold; /* Make headers stand out */
-        padding: 18px; /* Adjusted padding for better spacing */
+        max-width: 250px; /* Prevent excessive width */
     }
 
     .player-stats td:first-child {
@@ -282,18 +288,20 @@
     .player-stats tr:nth-child(odd) {
         background-color: #F5C414; /* Original yellow */
     }
+
     .player-stats th:first-child, 
     .player-stats td:first-child {
-    min-width: 150px; /* Prevents text from getting squeezed too much */
-}
-.player-name {
-    text-align: left; /* Align text to the left */
-    white-space: nowrap; /* Prevent text wrapping */
-    overflow: hidden; /* Hide overflow text */
-    text-overflow: ellipsis; /* Add ellipsis for overflow text */
-    max-width: 150px; /* Set a maximum width */
-    min-width: 100px; /* Prevent squeezing */
-}
+        min-width: 150px; /* Prevents text from getting squeezed too much */
+    }
+
+    .player-name {
+        text-align: left; /* Align text to the left */
+        white-space: nowrap; /* Prevent text wrapping */
+        overflow: hidden; /* Hide overflow text */
+        text-overflow: ellipsis; /* Add ellipsis for overflow text */
+        max-width: 150px; /* Set a maximum width */
+        min-width: 100px; /* Prevent squeezing */
+    }
 
     /* Grid Layout Section */
     .grid-layout {
@@ -325,6 +333,34 @@
     .grid-item p {
         font-size: 16px; /* Adjust font size for better readability */
     }
+
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+    
+    .modal-content {
+        background-color: white;
+        margin: 10% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 50%;
+    }
+    
+    .close {
+        color: red;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+    
 
     /* Responsive adjustments */
     @media (max-width: 768px) {

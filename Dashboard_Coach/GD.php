@@ -127,6 +127,147 @@ if ($gameID) {
       </div>
     </div>
 
+    <button onclick="openModal('addGameModal')">Add New Game</button>
+    <button type="button" onclick="openModal('addStatsModal')">Add Player Stats</button>
+
+    <!-- Add Game Modal -->
+    <div id="addGameModal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeModal('addGameModal')">&times;</span>
+        <h2>Add New Game</h2>
+        <form method="POST" action="add_game.php">
+        <label for="opponent">Opponent Team:</label>
+        <select id="opponent" name="opponentID" required>
+            <option value="">Select Opponent</option>
+            <?php
+            $opponents = $pdo->query("SELECT * FROM teams WHERE teamID != 1")->fetchAll();
+            foreach ($opponents as $team) {
+                echo "<option value='{$team['teamID']}'>{$team['teamName']}</option>"; // No <br> or <b>
+            }
+            ?>
+        </select>
+
+        <label for="gameDate">Game Date:</label>
+        <input type="date" name="gameDate" required>
+
+        <label for="gameTime">Game Time:</label>
+        <input type="time" name="gameTime" required>
+
+        <label for="gameLocation">Location:</label>
+        <input type="text" name="gameLocation" required>
+
+        <label for="gameType">Game Type:</label>
+        <select name="gameType">
+            <option value="Official">Official</option>
+            <option value="Exhibition">Exhibition</option>
+            <option value="Practice">Practice</option>
+        </select>
+
+        <h3>Quarter Scores</h3>
+        <label>Home Q1:</label> <input type="number" name="homeQuarterOne" min="0">
+        <label>Home Q2:</label> <input type="number" name="homeQuarterTwo" min="0">
+        <label>Home Q3:</label> <input type="number" name="homeQuarterThree" min="0">
+        <label>Home Q4:</label> <input type="number" name="homeQuarterFour" min="0">
+        <label>Home Final Score:</label> <input type="number" name="homeFinalScore" min="0">
+
+        <label>Away Q1:</label> <input type="number" name="awayQuarterOne" min="0">
+        <label>Away Q2:</label> <input type="number" name="awayQuarterTwo" min="0">
+        <label>Away Q3:</label> <input type="number" name="awayQuarterThree" min="0">
+        <label>Away Q4:</label> <input type="number" name="awayQuarterFour" min="0">
+        <label>Away Final Score:</label> <input type="number" name="awayFinalScore" min="0">
+
+          <button type="submit" name="addGame" value="1">Save Game</button>
+          </form>
+      </div>
+    </div>
+
+    <!-- Add Player Stats Modal -->
+    <div id="addStatsModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('addStatsModal')">&times;</span>
+      <h2>Add Player Stats</h2>
+
+      <!-- Select Game Dropdown -->
+      <label for="gameID">Select Game:</label>
+      <select id="gameID" name="gameID" required onchange="fetchPlayersForGame(this.value)">
+        <option value="">Select Game</option>
+        <?php
+        try {
+            $stmt = $pdo->prepare("SELECT gameID, gameDate, 
+                                          (SELECT teamName FROM teams WHERE teams.teamID = games.awayTeamID) AS opponentName
+                                  FROM games
+                                  WHERE gameID NOT IN (SELECT DISTINCT gameID FROM game_stats)");
+            $stmt->execute();
+            $games = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            foreach ($games as $game) {
+                echo "<option value='{$game['gameID']}'>NU Bulldogs vs {$game['opponentName']} ({$game['gameDate']})</option>";
+            }
+        } catch (PDOException $e) {
+            echo "<option value=''>Error loading games: " . htmlspecialchars($e->getMessage()) . "</option>";
+        }
+        ?>
+      </select>
+
+      <!-- Home Team Player Section -->
+      <h3>NU Bulldogs (Home Team)</h3>
+      <label for="homePlayerID">Select Player:</label>
+      <select id="homePlayerID" name="homePlayerID" required>
+        <option value="">Select Player</option>
+        <!-- Dynamically populated via JavaScript -->
+      </select>
+
+      <div id="homePlayerStats">
+        <label for="homePoints">Points:</label> <input type="number" id="homePoints" name="homePoints" required>
+        <label for="homeAssists">Assists:</label> <input type="number" id="homeAssists" name="homeAssists" required>
+        <label for="homeRebounds">Rebounds:</label> <input type="number" id="homeRebounds" name="homeRebounds" required>
+        <label for="homeSteals">Steals:</label> <input type="number" id="homeSteals" name="homeSteals" required>
+        <label for="homeBlocks">Blocks:</label> <input type="number" id="homeBlocks" name="homeBlocks" required>
+        <label for="homeTurnovers">Turnovers:</label> <input type="number" id="homeTurnovers" name="homeTurnovers" required>
+        <label for="homeMinutesPlayed">Minutes Played:</label> <input type="number" id="homeMinutesPlayed" name="homeMinutesPlayed" required>
+        <label for="homeFGM">Field Goals Made:</label> <input type="number" id="homeFGM" name="homeFGM" required>
+        <label for="homeFGA">Field Goals Attempted:</label> <input type="number" id="homeFGA" name="homeFGA" required>
+        <label for="home3PM">3-Pointers Made:</label> <input type="number" id="home3PM" name="home3PM" required>
+        <label for="home3PA">3-Pointers Attempted:</label> <input type="number" id="home3PA" name="home3PA" required>
+        <label for="homeFTM">Free Throws Made:</label> <input type="number" id="homeFTM" name="homeFTM" required>
+        <label for="homeFTA">Free Throws Attempted:</label> <input type="number" id="homeFTA" name="homeFTA" required>
+        <label for="homePlusMinus">+/-:</label> <input type="number" id="homePlusMinus" name="homePlusMinus" required>
+      </div>
+
+      <!-- Away Team Player Section -->
+      <h3>Away Team</h3>
+      <label for="awayPlayerID">Select Player:</label>
+      <select id="awayPlayerID" name="awayPlayerID" required>
+        <option value="">Select Player</option>
+        <!-- Dynamically populated via JavaScript -->
+      </select>
+
+      <div id="awayPlayerStats">
+        <label for="awayPoints">Points:</label> <input type="number" id="awayPoints" name="awayPoints" required>
+        <label for="awayAssists">Assists:</label> <input type="number" id="awayAssists" name="awayAssists" required>
+        <label for="awayRebounds">Rebounds:</label> <input type="number" id="awayRebounds" name="awayRebounds" required>
+        <label for="awaySteals">Steals:</label> <input type="number" id="awaySteals" name="awaySteals" required>
+        <label for="awayBlocks">Blocks:</label> <input type="number" id="awayBlocks" name="awayBlocks" required>
+        <label for="awayTurnovers">Turnovers:</label> <input type="number" id="awayTurnovers" name="awayTurnovers" required>
+        <label for="awayMinutesPlayed">Minutes Played:</label> <input type="number" id="awayMinutesPlayed" name="awayMinutesPlayed" required>
+        <label for="awayFGM">Field Goals Made:</label> <input type="number" id="awayFGM" name="awayFGM" required>
+        <label for="awayFGA">Field Goals Attempted:</label> <input type="number" id="awayFGA" name="awayFGA" required>
+        <label for="away3PM">3-Pointers Made:</label> <input type="number" id="away3PM" name="away3PM" required>
+        <label for="away3PA">3-Pointers Attempted:</label> <input type="number" id="away3PA" name="away3PA" required>
+        <label for="awayFTM">Free Throws Made:</label> <input type="number" id="awayFTM" name="awayFTM" required>
+        <label for="awayFTA">Free Throws Attempted:</label> <input type="number" id="awayFTA" name="awayFTA" required>
+        <label for="awayPlusMinus">+/-:</label> <input type="number" id="awayPlusMinus" name="awayPlusMinus" required>
+      </div>
+
+      <button type="button" onclick="submitStatsForm()">Save Stats</button>
+    </div>
+  </div>
+
+
+
+    
+
+    <!-- Game Details -->
     <?php if ($gameDetails): ?>
       <div class="game-details">
         <h1>
@@ -306,6 +447,9 @@ if ($gameID) {
     <?php else: ?>
       <p>No game data available.</p>
     <?php endif; ?>
+
+    <script src="gdcscript.js"></script>
+
   </main>
 </body>
 </html>
