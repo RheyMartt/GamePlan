@@ -1,81 +1,42 @@
-// Global Modal Functions
-function openModal(modalId) {
-    let modal = document.getElementById(modalId);
-    if (modal) {
-        modal.style.display = "block";
-    } else {
-        console.warn(`Modal with ID '${modalId}' not found.`);
-    }
-}
-
-function closeModal(modalId) {
-    let modal = document.getElementById(modalId);
-    if (modal) {
-        modal.style.display = "none";
-    } else {
-        console.warn(`Modal with ID '${modalId}' not found.`);
-    }
-}
-
-// Close modal when clicking outside of it
-window.onclick = function (event) {
-    document.querySelectorAll(".modal").forEach((modal) => {
-        if (event.target === modal) {
-            closeModal(modal.id);
-        }
-    });
-};
-
 document.addEventListener("DOMContentLoaded", function () {
+    // Dropdown functionality
     const dropdownButton = document.getElementById("dropdownButton");
     const dropdownContent = document.querySelector(".dropdown-content");
 
     if (dropdownButton && dropdownContent) {
-        // Toggle dropdown visibility
-        dropdownButton.addEventListener("click", function (event) {
+        dropdownButton.addEventListener("click", function () {
             dropdownContent.classList.toggle("show");
-            event.stopPropagation();
         });
 
-        // Prevent dropdown from closing when clicking inside
-        dropdownContent.addEventListener("click", function (event) {
-            event.stopPropagation();
-        });
-
-        // Close the dropdown when clicking outside
-        document.addEventListener("click", function () {
-            dropdownContent.classList.remove("show");
-        });
-
-        // Update button text based on selection
-        document.querySelectorAll(".dropdown-content a").forEach((item) => {
-            item.addEventListener("click", function (event) {
-                event.preventDefault();
-                dropdownButton.textContent = this.textContent.trim();
+        document.addEventListener("click", function (event) {
+            if (!dropdownButton.contains(event.target) && !dropdownContent.contains(event.target)) {
                 dropdownContent.classList.remove("show");
+            }
+        });
+
+        document.querySelectorAll(".dropdown-content a").forEach((item) => {
+            item.addEventListener("click", function () {
+                dropdownButton.textContent = this.textContent;
             });
         });
-    } else {
-        console.error("Dropdown elements not found.");
     }
 
-    // Adding game
-    let gameForm = document.querySelector("#addGameModal form"); 
+    // Adding game functionality
+    const gameForm = document.querySelector("#addGameModal form");
     if (gameForm) {
         gameForm.addEventListener("submit", function (e) {
             e.preventDefault();
-            let formData = new FormData(this);
-            formData.append("addGame", "1"); // Ensures 'addGame' is always sent
+            const formData = new FormData(this);
+            formData.append("addGame", "1");
 
             fetch("add_game.php", {
                 method: "POST",
                 body: formData,
             })
-                .then((response) => response.text()) // Get raw response
+                .then((response) => response.text())
                 .then((data) => {
-                    console.log("Raw Response:", data); // Log before parsing
                     try {
-                        let jsonData = JSON.parse(data); // Attempt to parse JSON
+                        const jsonData = JSON.parse(data);
                         alert(jsonData.message);
                         if (jsonData.status === "success") {
                             closeModal("addGameModal");
@@ -83,25 +44,20 @@ document.addEventListener("DOMContentLoaded", function () {
                         }
                     } catch (error) {
                         console.error("JSON Parsing Error:", error);
-                        console.log("Server response was not valid JSON:", data);
-                        alert("An error occurred. Check the console for details.");
+                        alert("An error occurred. Please check the console for details.");
                     }
                 })
                 .catch((error) => console.error("Fetch Error:", error));
-            
-            
         });
-    } else {
-        console.error("Game form not found.");
     }
 
-    // Adding stats
-    let statsForm = document.querySelector("#addStatsModal form"); // Correct selector
+    // Adding stats functionality
+    const statsForm = document.querySelector("#addStatsModal form");
     if (statsForm) {
         statsForm.addEventListener("submit", function (event) {
             event.preventDefault();
             const formData = new FormData(this);
-            formData.append("addStats", "1"); // Ensures 'addStats' is always sent
+            formData.append("addStats", "1");
 
             fetch("add_stats.php", {
                 method: "POST",
@@ -117,23 +73,111 @@ document.addEventListener("DOMContentLoaded", function () {
                 })
                 .catch((error) => console.error("Error:", error));
         });
-    } else {
-        console.warn("Stats form not found. Ensure #addStatsModal form exists in the HTML.");
     }
 
-    // Assign modal functions to all close buttons
+    // Close modal functionality
     document.querySelectorAll(".close").forEach((closeBtn) => {
         closeBtn.addEventListener("click", function () {
-            let modal = this.closest(".modal");
+            const modal = this.closest(".modal");
             if (modal) closeModal(modal.id);
         });
     });
 
-    // Button to open stats modal
-    let addStatsBtn = document.querySelector(".add-stats-btn");
+    // Open stats modal button
+    const addStatsBtn = document.querySelector(".add-stats-btn");
     if (addStatsBtn) {
         addStatsBtn.addEventListener("click", function () {
             openModal("addStatsModal");
         });
     }
+
+    // Game and player dropdown
+    const gameDropdown = document.getElementById("gameID");
+    const homePlayerDropdown = document.getElementById("homePlayerID");
+    const awayPlayerDropdown = document.getElementById("awayPlayerID");
+
+    // Fetch players for the selected game
+    window.fetchPlayersForGame = function (gameID) {
+        if (!gameID) {
+            homePlayerDropdown.innerHTML = '<option value="">Select Player</option>';
+            awayPlayerDropdown.innerHTML = '<option value="">Select Player</option>';
+            return;
+        }
+
+        fetch(`fetch_players.php?gameID=${gameID}`)
+            .then((response) => response.json())
+            .then((data) => {
+                homePlayerDropdown.innerHTML = '<option value="">Select Player</option>';
+                data.homePlayers.forEach((player) => {
+                    homePlayerDropdown.innerHTML += `<option value="${player.playerID}">${player.firstName} ${player.lastName}</option>`;
+                });
+
+                awayPlayerDropdown.innerHTML = '<option value="">Select Player</option>';
+                data.awayPlayers.forEach((player) => {
+                    awayPlayerDropdown.innerHTML += `<option value="${player.playerID}">${player.firstName} ${player.lastName}</option>`;
+                });
+            })
+            .catch((error) => {
+                console.error("Error fetching players:", error);
+                alert("Failed to load players. Please try again.");
+            });
+    };
+
+    // Define submitStatsForm globally
+    window.submitStatsForm = function () {
+        const formData = new FormData();
+        formData.append("gameID", gameDropdown.value);
+        formData.append("homePlayerID", homePlayerDropdown.value);
+        formData.append("awayPlayerID", awayPlayerDropdown.value);
+        formData.append("homePoints", document.getElementById("homePoints").value);
+        formData.append("homeAssists", document.getElementById("homeAssists").value);
+        formData.append("homeRebounds", document.getElementById("homeRebounds").value);
+        formData.append("homeSteals", document.getElementById("homeSteals").value);
+        formData.append("homeBlocks", document.getElementById("homeBlocks").value);
+        formData.append("homeTurnovers", document.getElementById("homeTurnovers").value);
+        formData.append("homeMinutesPlayed", document.getElementById("homeMinutesPlayed").value);
+        formData.append("awayPoints", document.getElementById("awayPoints").value);
+        formData.append("awayAssists", document.getElementById("awayAssists").value);
+        formData.append("awayRebounds", document.getElementById("awayRebounds").value);
+        formData.append("awaySteals", document.getElementById("awaySteals").value);
+        formData.append("awayBlocks", document.getElementById("awayBlocks").value);
+        formData.append("awayTurnovers", document.getElementById("awayTurnovers").value);
+        formData.append("awayMinutesPlayed", document.getElementById("awayMinutesPlayed").value);
+
+        fetch("insert_stats.php", {
+            method: "POST",
+            body: formData,
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                alert(data.message);
+                if (data.status === "success") {
+                    closeModal("addStatsModal");
+                    location.reload();
+                }
+            })
+            .catch((error) => {
+                console.error("Error submitting stats:", error);
+                alert("Failed to save stats. Please try again.");
+            });
+    };
 });
+
+// Helper functions
+function closeModal(modalID) {
+    const modal = document.getElementById(modalID);
+    if (modal) {
+        modal.style.display = "none";
+    } else {
+        console.warn(`Modal with ID '${modalID}' not found.`);
+    }
+}
+
+function openModal(modalID) {
+    const modal = document.getElementById(modalID);
+    if (modal) {
+        modal.style.display = "block";
+    } else {
+        console.warn(`Modal with ID '${modalID}' not found.`);
+    }
+}
