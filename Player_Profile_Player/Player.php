@@ -23,6 +23,36 @@ if (!$player) {
     exit;
 }
 
+function getCareerHighlights($pdo, $playerID) {
+    // SQL query to fetch the latest 3 records per category
+    $stmt = $pdo->prepare("
+        SELECT category, description, year 
+        FROM (
+            SELECT category, description, year, 
+                   ROW_NUMBER() OVER (PARTITION BY category ORDER BY year DESC) AS row_num
+            FROM career_highlights 
+            WHERE playerID = :playerID
+        ) AS ranked
+        WHERE row_num <= 3
+    ");
+    
+    $stmt->execute(['playerID' => $playerID]);
+    $highlights = $stmt->fetchAll();
+
+    // Group highlights by category
+    $groupedHighlights = [
+        'Award' => [],
+        'Team Achievement' => [],
+        'Team History' => []
+    ];
+
+    foreach ($highlights as $highlight) {
+        $groupedHighlights[$highlight['category']][] = $highlight;
+    }
+
+    return $groupedHighlights;
+}
+
 // Calculate age from birthdate
 $birthdate = new DateTime($player['birthdate']);
 $now = new DateTime();
@@ -33,6 +63,8 @@ $stmt = $pdo->prepare("SELECT playerID, firstName, lastName, jerseyNumber, posit
                         FROM players WHERE status = 'Active' AND playerID != :playerID AND teamID = 1");
 $stmt->execute(['playerID' => $playerID]);
 $otherPlayers = $stmt->fetchAll();
+
+$careerHighlights = getCareerHighlights($pdo, $playerID);
 ?>
 
 
@@ -92,54 +124,62 @@ $otherPlayers = $stmt->fetchAll();
         </section>
 
       <!-- Career Highlights Section -->
-      <section class="career-highlights">
-          <h3>Career Highlights</h3>
-          <div class="highlights-content">
-              <!-- Awards and Honors -->
-              <div class="highlight-group">
-                  <h4>Awards and Honors</h4>
-                  <ul>
-                      <li>Most Valuable Player (MVP) - 2022</li>
-                      <li>All-Star Selection - 3 Times</li>
-                      <li>Defensive Player of the Year - 2021</li>
-                  </ul>
-              </div>
+        <section class="career-highlights">
+            <h3>Career Highlights</h3>
+            <div class="highlights-content">
+                
+                <!-- Awards and Honors -->
+                <?php if (!empty($careerHighlights['Award'])): ?>
+                <div class="highlight-group">
+                    <h4>Awards and Honors</h4>
+                    <ul>
+                        <?php foreach ($careerHighlights['Award'] as $award): ?>
+                            <li><?php echo htmlspecialchars($award['description']); ?><?php echo $award['year'] ? " - " . htmlspecialchars($award['year']) : ""; ?></li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+                <?php endif; ?>
 
-              <!-- Team Achievements -->
-              <div class="highlight-group">
-                  <h4>Team Achievements</h4>
-                  <ul>
-                      <li>National Champions - 2022</li>
-                      <li>Regional Champions - 2021, 2023</li>
-                      <li>Best Offensive Team - 2022</li>
-                  </ul>
-              </div>
+                <!-- Team Achievements -->
+                <?php if (!empty($careerHighlights['Team Achievement'])): ?>
+                <div class="highlight-group">
+                    <h4>Team Achievements</h4>
+                    <ul>
+                        <?php foreach ($careerHighlights['Team Achievement'] as $achievement): ?>
+                            <li><?php echo htmlspecialchars($achievement['description']); ?><?php echo $achievement['year'] ? " - " . htmlspecialchars($achievement['year']) : ""; ?></li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+                <?php endif; ?>
 
-              <!-- Personal Records -->
-              <div class="highlight-group">
-                  <h4>Personal Records</h4>
-                  <ul>
-                      <li>Career-High Points in a Game: 55</li>
-                      <li>Triple-Doubles: 25</li>
-                      <li>Consecutive Games Scoring 30+: 10</li>
-                  </ul>
-              </div>
-          </div>
-      </section>
+                <!-- Team History -->
+                <?php if (!empty($careerHighlights['Team History'])): ?>
+                <div class="highlight-group">
+                    <h4>Team History</h4>
+                    <ul>
+                        <?php foreach ($careerHighlights['Team History'] as $history): ?>
+                            <li><?php echo htmlspecialchars($history['description']); ?><?php echo $history['year'] ? ": " . htmlspecialchars($history['year']) : ""; ?></li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+                <?php endif; ?>
 
-      <!-- More From the Roster Section -->
-      <section class="roster">
-            <h3>More From the Roster</h3>
-            <div class="roster-list">
-                <?php foreach ($otherPlayers as $otherPlayer): ?>
-                    <div class="roster-item">
-                        <img src="Vacant Player.png" alt="Player">
-                        <span>#<?php echo $otherPlayer['jerseyNumber']; ?> <?php echo $otherPlayer['position']; ?></span>
-                        <span><?php echo $otherPlayer['firstName'] . ' ' . $otherPlayer['lastName']; ?></span>
-                    </div>
-                <?php endforeach; ?>
             </div>
         </section>
+
+        <!-- More From the Roster Section -->
+        <section class="roster">
+                <h3>More From the Roster</h3>
+                <div class="roster-list">
+                    <?php foreach ($otherPlayers as $otherPlayer): ?>
+                        <div class="roster-item">
+                            <img src="Vacant Player.png" alt="Player">
+                            <span>#<?php echo $otherPlayer['jerseyNumber']; ?> <?php echo $otherPlayer['position']; ?></span>
+                            <span><?php echo $otherPlayer['firstName'] . ' ' . $otherPlayer['lastName']; ?></span>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            </section>
     </div>
 </body>
 </html>
