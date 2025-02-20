@@ -127,8 +127,8 @@ if ($gameID) {
       </div>
     </div>
 
-    <button onclick="openModal('addGameModal')">Add New Game</button>
-    <button type="button" onclick="openModal('addStatsModal')">Add Player Stats</button>
+    <button class="btn" onclick="openModal('addGameModal')">Add New Game</button>
+    <button class="btn" type="button" onclick="openModal('addStatsModal')">Add Player Stats</button>
 
     <!-- Add Game Modal -->
     <div id="addGameModal" class="modal">

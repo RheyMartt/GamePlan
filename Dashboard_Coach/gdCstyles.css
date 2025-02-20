@@ -360,6 +360,19 @@
         font-weight: bold;
         cursor: pointer;
     }
+
+    .btn {
+        bottom: 20px; 
+        right: 20px; 
+        display: inline-block;
+        background-color: #001F54;
+        color: #F6F4F0;
+        padding: 10px 15px;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+        border-radius: 5px;
+    }
     
 
     /* Responsive adjustments */
