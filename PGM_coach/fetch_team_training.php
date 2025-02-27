@@ -15,7 +15,8 @@ function getLatestTeamStats() {
                   ORDER BY g.gameID DESC
                   LIMIT 1
               )
-              AND p.teamID = 1";
+              AND p.teamID = 1 
+              ORDER BY p.playerID ASC";
 
     $stmt = $pdo->prepare($query);
     $stmt->execute();
@@ -31,6 +32,12 @@ function getValidFocusAreas() {
 }
 
 function identifyWeaknesses($stats, $validFocusAreas) {
+    if (!isset($stats) || !is_array($stats)) {
+        error_log("Error: stats is undefined or null in identifyWeaknesses()");
+        return null; 
+    }
+
+    // Extract stats
     $position = $stats['position']; 
     $fgPercentage = $stats['fieldGoalsPercentage'] ?? 0;
     $fgAttempts = $stats['fieldGoalsAttempted'] ?? 0;
@@ -39,8 +46,6 @@ function identifyWeaknesses($stats, $validFocusAreas) {
     $turnovers = $stats['turnovers'] ?? 0;
     $assists = $stats['assists'] ?? 0;
     $rebounds = $stats['rebounds'] ?? 0;
-    $offRebounds = $stats['offensiveRebounds'] ?? 0;
-    $defRebounds = $stats['defensiveRebounds'] ?? 0;
     $steals = $stats['steals'] ?? 0;
     $blocks = $stats['blocks'] ?? 0;
     $minutesPlayed = $stats['minutesPlayed'] ?? 0;
@@ -48,6 +53,20 @@ function identifyWeaknesses($stats, $validFocusAreas) {
     $plusMinus = $stats['plusMinus'] ?? 0;
 
     $weaknesses = [];
+
+    // If player has LOW minutes, focus on development areas
+    if ($minutesPlayed < 10) {
+        if ($fgAttempts >= 5 && $fgPercentage < 30 && in_array('Shooting', $validFocusAreas)) {
+            $weaknesses['Shooting'] = $fgPercentage;
+        }
+        if ($turnovers >= 5 && in_array('Ball Handling', $validFocusAreas)) {
+            $weaknesses['Ball Handling'] = $turnovers;
+        }
+        if (in_array('Conditioning', $validFocusAreas)) {
+            $weaknesses['Conditioning'] = $minutesPlayed; // Low minutes → Conditioning
+        }
+        return $weaknesses ? array_keys($weaknesses, min($weaknesses))[0] : null; 
+    }
 
     // Shot Selection vs. Finishing
     if ($fgAttempts >= 5 && $fgPercentage < 40) {
@@ -63,18 +82,23 @@ function identifyWeaknesses($stats, $validFocusAreas) {
         $weaknesses['Free Throws'] = $ftPercentage;
     }
 
-    // Passing & Ball Handling
-    if ($assists < 2 && $turnovers >= 3 && in_array('Passing', $validFocusAreas)) {
+    // Passing (Contextualized)
+    $assistToTurnoverRatio = ($turnovers > 0) ? $assists / $turnovers : $assists;
+    if ($assists < 2 && $turnovers >= 3 && $assistToTurnoverRatio < 1 && in_array('Passing', $validFocusAreas)) {
         $weaknesses['Passing'] = $assists;
     }
-    if ($turnovers > ($assists * 1.5) && $turnovers >= 3 && in_array('Decision Making', $validFocusAreas)) {
-        $weaknesses['Decision Making'] = $turnovers;
-    }
-    if ($turnovers >= 4 && in_array('Ball Handling', $validFocusAreas)) {
-        $weaknesses['Ball Handling'] = $turnovers;
+
+    // Decision Making & Ball Handling
+    if ($turnovers >= 4) {
+        if ($turnovers > ($assists * 2) && in_array('Decision Making', $validFocusAreas)) {
+            $weaknesses['Decision Making'] = $turnovers; // High turnovers & low assists = poor decisions
+        }
+        if (in_array('Ball Handling', $validFocusAreas)) {
+            $weaknesses['Ball Handling'] = $turnovers;
+        }
     }
 
-    // Rebounding
+    // Rebounding (Position-Specific)
     if ($rebounds < 3 && in_array($position, ['Center', 'Power Forward', 'Forward/Center']) && in_array('Rebounding', $validFocusAreas)) {
         $weaknesses['Rebounding'] = $rebounds;
     }
@@ -84,17 +108,12 @@ function identifyWeaknesses($stats, $validFocusAreas) {
         $weaknesses['Defense'] = $steals + $blocks;
     }
 
-    // Decision Making
-    if ($minutesPlayed >= 15 && $plusMinus < -5 && in_array('Decision Making', $validFocusAreas)) {
+    // Decision Making (Impact on Team)
+    if ($minutesPlayed >= 11 && $plusMinus < -5 && in_array('Decision Making', $validFocusAreas)) {
         $weaknesses['Decision Making'] = $plusMinus;
     }
 
-    // Conditioning
-    if ($minutesPlayed > 0 && $minutesPlayed < 10 && in_array('Conditioning', $validFocusAreas)) {
-        $weaknesses['Conditioning'] = $minutesPlayed;
-    }
-
-    // If no weaknesses match the database, pick the lowest available stat
+    // Final Check: If no weaknesses found, return the stat with the lowest value
     if (empty($weaknesses)) {
         $allStats = [
             'Shooting' => $fgPercentage,
@@ -106,16 +125,17 @@ function identifyWeaknesses($stats, $validFocusAreas) {
             'Ball Handling' => $turnovers
         ];
 
-        // Filter stats to match only valid training areas
         $filteredStats = array_intersect_key($allStats, array_flip($validFocusAreas));
+
+        // Exclude Decision Making as a fallback to prevent mislabeling
+        unset($filteredStats['Decision Making']);
 
         if (!empty($filteredStats)) {
             return array_keys($filteredStats, min($filteredStats))[0];
         }
-        return null; // No valid weakness found
+        return null;
     }
 
-    // Return the weakest identified focus area
     return array_keys($weaknesses, min($weaknesses))[0];
 }
 
@@ -141,7 +161,21 @@ foreach ($players as $player) {
                 "playerID" => $player['playerID'],
                 "firstName" => $player['firstName'],
                 "lastName" => $player['lastName'],
-                "trainingPlan" => $trainingPlan['focusArea']
+                "trainingPlan" => $trainingPlan['focusArea'],
+                "gameStats" => [
+                    "fieldGoalsPercentage" => $player['fieldGoalsPercentage'],
+                    "fieldGoalsAttempted" => $player['fieldGoalsAttempted'],
+                    "freeThrowPercentage" => $player['freeThrowPercentage'],
+                    "freeThrowsAttempted" => $player['freeThrowsAttempted'],
+                    "turnovers" => $player['turnovers'],
+                    "assists" => $player['assists'],
+                    "rebounds" => $player['rebounds'],
+                    "steals" => $player['steals'],
+                    "blocks" => $player['blocks'],
+                    "minutesPlayed" => $player['minutesPlayed'],
+                    "points" => $player['points'],
+                    "plusMinus" => $player['plusMinus']
+                ]
             ];
         }
     }
@@ -149,4 +183,5 @@ foreach ($players as $player) {
 
 header('Content-Type: application/json');
 echo json_encode($trainingSuggestions, JSON_PRETTY_PRINT);
+
 ?>
