@@ -155,7 +155,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
             margin-bottom: 20px;
         }
 
-        .form {
+        .form{
             width: 100%;
         }
 
@@ -173,6 +173,104 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
         }
 
         .form input {
+            width: 100%;
+            height: 45px;
+            padding: 10px;
+            border: 1px solid #001F54;
+            border-radius: 10px;
+            font-size: 16px;
+        }
+
+        .form button {
+            width: 100%;
+            height: 45px;
+            background-color: #F5C414;
+            border: none;
+            border-radius: 10px;
+            color: #001F54;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 18px;
+            margin-top: 20px;
+        }
+
+        .form button:hover {
+            background-color: #e0af10;
+        }
+
+        .signup-section {
+            margin-top: 20px;
+            color: #001F54;
+            font-size: 16px;
+        }
+
+        .signup-section button {
+            background: none;
+            border: none;
+            color: #F5C414;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            width: 90%;
+            max-width: 400px;
+            background-color: #F6F4F0;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            position: relative;
+        }
+
+        .close {
+            position: absolute;
+            right: 15px;
+            top: 15px;
+            font-size: 20px;
+            cursor: pointer;
+            color: #001F54;
+        }
+
+        .modal-header {
+            font-size: 24px;
+            font-weight: bold;
+            color: #001F54;
+            margin-bottom: 16px;
+        }
+
+        .form {
+            width: 100%;
+        }
+
+        .form .form-group {
+            margin-bottom: 16px;
+            text-align: left;
+        }
+
+        .form label {
+            display: block;
+            font-size: 14px;
+            color: #001F54;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .form input, .form select {
             width: 100%;
             height: 45px;
             padding: 10px;
@@ -271,7 +369,50 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
                     </div>
                     <button type="submit">LOGIN</button>
                 </form>
+
+            <div class="signup-section">
+                <label for="signup">Don't have an account?</label>
+                <button class="signup-section button" onclick="openModal()">SIGN UP</button>
             </div>
+        </div>
+    </div>
+
+    <div id="signupModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 class="modal-header">Sign Up</h2>
+            <form class="form">
+                <div class="form-group">
+                    <label for="role">Select Role</label>
+                    <select id="role" required>
+                        <option value="" disabled selected>Choose role</option>
+                        <option value="Player">Player</option>
+                        <option value="Coach">Coach</option>
+                        <option value="Analyst">Analyst</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="firstName">First Name</label>
+                    <input type="text" id="firstName" required>
+                </div>
+                <div class="form-group">
+                    <label for="lastName">Last Name</label>
+                    <input type="text" id="lastName" required>
+                </div>
+                <div class="form-group">
+                    <label for="mainRole">Main Role</label>
+                    <input type="text" id="mainRole" required>
+                </div>
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" required>
+                </div>
+                <button type="submit">Sign Up</button>
+            </form>
         </div>
     </div>
 
@@ -336,6 +477,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
 
             setInterval(changeImage, 3000);
         });
+
+        function openModal() {
+            document.getElementById("signupModal").style.display = "flex";
+        }
+
+        function closeModal() {
+            document.getElementById("signupModal").style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            let modal = document.getElementById("signupModal");
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
     </script>
 </body>
 </html>

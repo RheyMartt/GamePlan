@@ -161,6 +161,22 @@ document.addEventListener("DOMContentLoaded", function () {
                 alert("Failed to save stats. Please try again.");
             });
     };
+
+    document.getElementById("csvUploadForm").addEventListener("submit", function(e) {
+        e.preventDefault();
+        const formData = new FormData(this);
+        fetch('upload_game_stats.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById("uploadStatus").innerHTML = data.message;
+        })
+        .catch(error => {
+            document.getElementById("uploadStatus").innerHTML = "Error uploading file.";
+        });
+    });
 });
 
 // Helper functions

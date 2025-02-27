@@ -88,6 +88,7 @@ if ($gameID) {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>NU GAMEPLAN</title>
+  <link rel="icon" type="image/png" href="/gameplan/Dashboard_Coach/NU GAMEPLAN.png">
   <link rel="stylesheet" href="gdCstyles.css">    
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
@@ -127,8 +128,22 @@ if ($gameID) {
       </div>
     </div>
 
+    <button class="btn" onclick="openModal('csvUploadModal')">Upload Game Sheet</button>
     <button class="btn" onclick="openModal('addGameModal')">Add New Game</button>
-    <button class="btn" type="button" onclick="openModal('addStatsModal')">Add Player Stats</button>
+    <button class="btn" onclick="openModal('addStatsModal')">Add Player Stats</button>
+
+    <!-- CSV Upload Modal -->
+    <div id="csvUploadModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Upload Game Stats CSV</h2>
+            <form id="csvUploadForm" enctype="multipart/form-data">
+                <input type="file" id="csvFile" name="csvFile" accept=".csv" required>
+                <button type="submit">Upload</button>
+            </form>
+            <div id="uploadStatus"></div>
+        </div>
+    </div>
 
     <!-- Add Game Modal -->
     <div id="addGameModal" class="modal">
