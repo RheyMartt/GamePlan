@@ -176,7 +176,7 @@ if ($gameID) {
         </div>
     </div>
 
-    <!-- Add Game Modal -->
+    <!-- Add Game Modal 
     <div id="addGameModal" class="modal">
       <div class="modal-content">
         <span class="close" onclick="closeModal('addGameModal')">&times;</span>
@@ -227,17 +227,17 @@ if ($gameID) {
       </div>
     </div>
 
-    <!-- Add Player Stats Modal -->
+    <!- Add Player Stats Modal ->
     <div id="addStatsModal" class="modal">
     <div class="modal-content">
       <span class="close" onclick="closeModal('addStatsModal')">&times;</span>
       <h2>Add Player Stats</h2>
 
-      <!-- Select Game Dropdown -->
+      <!- Select Game Dropdown ->
       <label for="gameID">Select Game:</label>
       <select id="gameID" name="gameID" required onchange="fetchPlayersForGame(this.value)">
         <option value="">Select Game</option>
-        <?php
+        //**<?php
         try {
             $stmt = $pdo->prepare("SELECT gameID, gameDate, 
                                           (SELECT teamName FROM teams WHERE teams.teamID = games.awayTeamID) AS opponentName
@@ -255,12 +255,12 @@ if ($gameID) {
         ?>
       </select>
 
-      <!-- Home Team Player Section -->
+      <!- Home Team Player Section 
       <h3>NU Bulldogs (Home Team)</h3>
       <label for="homePlayerID">Select Player:</label>
       <select id="homePlayerID" name="homePlayerID" required>
         <option value="">Select Player</option>
-        <!-- Dynamically populated via JavaScript -->
+        <!- Dynamically populated via JavaScript 
       </select>
 
       <div id="homePlayerStats">
@@ -280,12 +280,12 @@ if ($gameID) {
         <label for="homePlusMinus">+/-:</label> <input type="number" id="homePlusMinus" name="homePlusMinus" required>
       </div>
 
-      <!-- Away Team Player Section -->
+      <!- Away Team Player Section 
       <h3>Away Team</h3>
       <label for="awayPlayerID">Select Player:</label>
       <select id="awayPlayerID" name="awayPlayerID" required>
         <option value="">Select Player</option>
-        <!-- Dynamically populated via JavaScript -->
+        <!- Dynamically populated via JavaScript 
       </select>
 
       <div id="awayPlayerStats">
@@ -307,7 +307,7 @@ if ($gameID) {
 
       <button type="button" onclick="submitStatsForm()">Save Stats</button>
     </div>
-  </div>
+  </div>-->
 
 
 

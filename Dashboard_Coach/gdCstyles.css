@@ -407,49 +407,92 @@
         width: 50%; /* Adjust width if needed */
     }
 
-    .group {
+    /* Center the modal properly */
+    .modal {
+        display: none;
+        justify-content: center;
+        align-items: center;
+        position: fixed;
+        top: 0;
+        left: 0;
         width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.6); /* Dark transparent background */
     }
 
-    .group .group-title {
-        margin-bottom: 16px;
-        text-align: left;
+    /* Style the modal content */
+    .modal-content {
+        background: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        width: 400px; /* Adjust modal width */
+        max-width: 90%;
+        animation: fadeIn 0.3s ease-in-out;
+        position: relative;
     }
 
-    .group label {
-        display: block;
+    /* Add smooth fade-in effect */
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Style form inputs */
+    .modal-content input,
+    .modal-content select {
+        width: 90%; /* Reduce width */
+        padding: 8px;
+        margin: 12px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
         font-size: 14px;
-        color: #001F54;
-        font-weight: bold;
-        margin-bottom: 8px;
+        display: block;
+        margin-left: auto;
+        margin-right: 80px;
     }
 
-    .group input, .group select {
-        width: 100%;
-        height: 45px;
-        padding: 10px;
-        border: 1px solid #001F54;
-        border-radius: 10px;
-        font-size: 16px;
-    }
-
-    .group button {
-        width: 100%;
-        height: 45px;
-        background-color: #F5C414;
-        border: none;
-        border-radius: 10px;
-        color: #001F54;
+    /* Style the close button */
+    .modal-content .close {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        font-size: 18px;
         font-weight: bold;
         cursor: pointer;
-        font-size: 18px;
-        margin-top: 20px;
+        color: #333;
+        transition: color 0.2s;
     }
 
-    .group button:hover {
-        background-color: #e0af10;
+    .modal-content .close:hover {
+        color: #ff0000;
     }
-    
+
+    /* Style the upload button */
+    .modal-content button {
+        background: #ffcc00;
+        border: none;
+        padding: 8px 12px;
+        font-size: 14px;
+        border-radius: 5px;
+        cursor: pointer;
+        width: 80%; /* Reduce button width */
+        transition: background 0.3s;
+        display: block;
+        margin: 10px auto 0 auto;
+    }
+
+    .modal-content button:hover {
+        background: #e6b800;
+    }
+
+
 
     /* Responsive adjustments */
     @media (max-width: 768px) {
