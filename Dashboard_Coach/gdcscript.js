@@ -179,6 +179,43 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
+document.addEventListener("DOMContentLoaded", function () {
+    const form = document.querySelector("form");
+    const fileInput = document.querySelector("input[type='file']");
+    const submitButton = document.querySelector("button[type='submit']");
+    const messageDiv = document.createElement("div");
+
+    form.appendChild(messageDiv);
+
+    form.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        if (!fileInput.files.length) {
+            messageDiv.innerHTML = "<p style='color: red;'>Please select a CSV file!</p>";
+            return;
+        }
+
+        const formData = new FormData(form);
+        submitButton.disabled = true;
+        messageDiv.innerHTML = "<p style='color: blue;'>Uploading...</p>";
+
+        fetch("upload_game_stats.php", {
+            method: "POST",
+            body: formData,
+        })
+        .then(response => response.text())
+        .then(data => {
+            messageDiv.innerHTML = `<p style='color: green;'>${data}</p>`;
+            submitButton.disabled = false;
+        })
+        .catch(error => {
+            messageDiv.innerHTML = "<p style='color: red;'>Upload failed. Try again.</p>";
+            submitButton.disabled = false;
+        });
+    });
+});
+
+
 // Helper functions
 function closeModal(modalID) {
     const modal = document.getElementById(modalID);
@@ -197,3 +234,5 @@ function openModal(modalID) {
         console.warn(`Modal with ID '${modalID}' not found.`);
     }
 }
+
+

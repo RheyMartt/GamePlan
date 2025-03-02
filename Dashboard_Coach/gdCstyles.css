@@ -345,6 +345,7 @@
         width: 100%;
         height: 100%;
         background-color: rgba(0, 0, 0, 0.5);
+        align-items: center;
     }
     
     .modal-content {
@@ -367,13 +368,18 @@
         bottom: 20px; 
         right: 20px; 
         display: inline-block;
-        background-color: #001F54;
-        color: #F6F4F0;
+        background-color: #F5C414;
+        color: #001F54;
         padding: 10px 15px;
         border: none;
         cursor: pointer;
         font-size: 16px;
         border-radius: 5px;
+    }
+
+    .btn:hover {
+        background-color: #001F54;
+        color: #F6F4F0;
     }
 
     .container-wrapper {
@@ -399,6 +405,49 @@
     
     .right-box {
         width: 50%; /* Adjust width if needed */
+    }
+
+    .group {
+        width: 100%;
+    }
+
+    .group .group-title {
+        margin-bottom: 16px;
+        text-align: left;
+    }
+
+    .group label {
+        display: block;
+        font-size: 14px;
+        color: #001F54;
+        font-weight: bold;
+        margin-bottom: 8px;
+    }
+
+    .group input, .group select {
+        width: 100%;
+        height: 45px;
+        padding: 10px;
+        border: 1px solid #001F54;
+        border-radius: 10px;
+        font-size: 16px;
+    }
+
+    .group button {
+        width: 100%;
+        height: 45px;
+        background-color: #F5C414;
+        border: none;
+        border-radius: 10px;
+        color: #001F54;
+        font-weight: bold;
+        cursor: pointer;
+        font-size: 18px;
+        margin-top: 20px;
+    }
+
+    .group button:hover {
+        background-color: #e0af10;
     }
     
 

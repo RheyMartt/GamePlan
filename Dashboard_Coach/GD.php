@@ -129,8 +129,8 @@ if ($gameID) {
     </div>
 
     <button class="btn" onclick="openModal('csvUploadModal')">Upload Game Sheet</button>
-    <button class="btn" onclick="openModal('addGameModal')">Add New Game</button>
-    <button class="btn" onclick="openModal('addStatsModal')">Add Player Stats</button>
+    <!--<button class="btn" onclick="openModal('addGameModal')">Add New Game</button>
+    <button class="btn" onclick="openModal('addStatsModal')">Add Player Stats</button>-->
 
     
 
@@ -139,10 +139,39 @@ if ($gameID) {
         <div class="modal-content">
             <span class="close" onclick="closeModal()">&times;</span>
             <h2>Upload Game Stats CSV</h2>
-            <form id="csvUploadForm" enctype="multipart/form-data">
-                <input type="file" id="csvFile" name="csvFile" accept=".csv" required>
-                <button type="submit">Upload</button>
-            </form>
+            <form method="POST" action="add_game.php" enctype="multipart/form-data">
+                  <label for="opponent">Opponent Team:</label>
+                  <select id="opponent" name="opponentID" required>
+                      <option value="">Select Opponent</option>
+                      <?php
+                      $opponents = $pdo->query("SELECT * FROM teams WHERE teamID != 1")->fetchAll();
+                      foreach ($opponents as $team) {
+                          echo "<option value='{$team['teamID']}'>{$team['teamName']}</option>";
+                      }
+                      ?>
+                  </select>
+
+                  <label for="gameDate">Game Date:</label>
+                  <input type="date" name="gameDate" required>
+
+                  <label for="gameTime">Game Time:</label>
+                  <input type="time" name="gameTime" required>
+
+                  <label for="gameLocation">Location:</label>
+                  <input type="text" name="gameLocation" required>
+
+                  <label for="gameType">Game Type:</label>
+                  <select name="gameType">
+                      <option value="Official">Official</option>
+                      <option value="Exhibition">Exhibition</option>
+                      <option value="Practice">Practice</option>
+                  </select>
+
+                  <h3>Upload CSV for Game Stats</h3>
+                  <input type="file" name="csvFile" accept=".csv" required>
+
+                  <button type="submit" name="addGame">Save Game & Upload CSV</button>
+              </form>
             <div id="uploadStatus"></div>
         </div>
     </div>
@@ -413,7 +442,6 @@ if ($gameID) {
             <thead>
                 <tr>
                     <th>Player Name</th>
-                    <th>Team</th>
                     <th>Position</th>
                     <th>Pts</th>
                     <th>Asts</th>
