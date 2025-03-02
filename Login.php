@@ -1,6 +1,10 @@
 <?php
-include 'connection.php'; // Connection file name
+include 'C:\\xampp\\htdocs\\GamePlan\\connection.php';// Connection file name
 session_start(); // Start the session
+
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 
 // Login
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'login') {
@@ -13,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
         exit;
     }
 
-    // Fetch user credentials from the database based on role
+    // Fetch user credentials from the database
     $stmt = $pdo->prepare("SELECT uc.username, uc.password, uc.role, 
                             p.playerID, p.firstName, p.lastName, p.position,
                             p.jerseyNumber, p.height, p.weight, p.birthdate,
@@ -27,11 +31,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     $user = $stmt->fetch();
 
     if ($user) {
-        // Compare the plain text password directly
+        // Compare passwords (without hashing)
         if ($password === $user['password']) {
-            // Store relevant user data in session
             $_SESSION['role'] = $user['role'];
-            
+
             if ($user['role'] == 'Player') {
                 $_SESSION['playerID'] = $user['playerID'];
                 echo json_encode([
@@ -67,6 +70,71 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
         }
     } else {
         echo json_encode(['success' => false, 'message' => 'Invalid username or password']);
+    }
+    exit;
+}
+
+//signup
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action']) && $_POST['action'] === 'signup') {
+    header("Content-Type: application/json");
+
+    // Database connection (Ensure $pdo is defined in connection.php)
+    if (!$pdo) {
+        echo json_encode(["status" => "error", "message" => "Database connection failed."]);
+        exit;
+    }
+
+    // Retrieve form data
+    $firstName = trim($_POST["firstName"] ?? '');
+    $lastName = trim($_POST["lastName"] ?? '');
+    $role = trim($_POST["role"] ?? '');
+    $specificRole = trim($_POST["specificRole"] ?? ''); // This will be stored as "role" in the database
+    $username = trim($_POST["username"] ?? '');
+    $password = $_POST["password"] ?? '';
+
+    if (empty($firstName) || empty($lastName) || empty($role) || empty($username) || empty($password)) {
+        echo json_encode(["status" => "error", "message" => "All fields are required."]);
+        exit;
+    }
+
+    // Determine the correct table & ID column
+    $table = "";
+    $id_column = "";
+    if ($role === "Player") {
+        $table = "players";
+        $id_column = "playerID";
+    } elseif ($role === "Coach") {
+        $table = "coaches";
+        $id_column = "coachID";
+    } elseif ($role === "Analyst") {
+        $table = "analysts";
+        $id_column = "analystID";
+    } else {
+        echo json_encode(["status" => "error", "message" => "Invalid role selected."]);
+        exit;
+    }
+
+    // Check if username exists
+    $stmt = $pdo->prepare("SELECT username FROM user_credentials WHERE username = ?");
+    $stmt->execute([$username]);
+    if ($stmt->rowCount() > 0) {
+        echo json_encode(["status" => "error", "message" => "Username already taken."]);
+        exit;
+    }
+
+    // Insert into the appropriate table (Mapping specificRole -> role)
+    $stmt = $pdo->prepare("INSERT INTO $table (firstName, lastName, role) VALUES (?, ?, ?)");
+    $stmt->execute([$firstName, $lastName, $specificRole]); // Store specificRole in "role" column
+
+    // Get the inserted ID
+    $referenceID = $pdo->lastInsertId();
+
+    // Insert into user_credentials
+    $stmt = $pdo->prepare("INSERT INTO user_credentials (username, password, role, referenceID) VALUES (?, ?, ?, ?)");
+    if ($stmt->execute([$username, $password, $role, $referenceID])) {
+        echo json_encode(["status" => "success", "message" => "Signup successful!"]);
+    } else {
+        echo json_encode(["status" => "error", "message" => "Error inserting credentials."]);
     }
     exit;
 }
@@ -381,10 +449,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
         <div class="modal-content">
             <span class="close" onclick="closeModal()">&times;</span>
             <h2 class="modal-header">Sign Up</h2>
-            <form class="form">
+            <form class="form" id="signup-form">
                 <div class="form-group">
                     <label for="role">Select Role</label>
-                    <select id="role" required>
+                    <select id="role" name="role" required>
                         <option value="" disabled selected>Choose role</option>
                         <option value="Player">Player</option>
                         <option value="Coach">Coach</option>
@@ -393,28 +461,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
                 </div>
                 <div class="form-group">
                     <label for="firstName">First Name</label>
-                    <input type="text" id="firstName" required>
+                    <input type="text" id="firstName" name="firstName" required>
                 </div>
                 <div class="form-group">
                     <label for="lastName">Last Name</label>
-                    <input type="text" id="lastName" required>
+                    <input type="text" id="lastName" name="lastName" required>
                 </div>
                 <div class="form-group">
-                    <label for="mainRole">Main Role</label>
-                    <input type="text" id="mainRole" required>
+                    <label for="specificRole">Specific Role</label>
+                    <input type="text" id="specificRole" name="specificRole" required>
                 </div>
                 <div class="form-group">
                     <label for="username">Username</label>
-                    <input type="text" id="username" required>
+                    <input type="text" id="username" name="username" required>
                 </div>
                 <div class="form-group">
                     <label for="password">Password</label>
-                    <input type="password" id="password" required>
+                    <input type="password" id="password" name="password" required>
                 </div>
                 <button type="submit">Sign Up</button>
             </form>
+            <div id="message-box"></div>
         </div>
     </div>
+
 
     <script>
         // Login Script (unchanged)
@@ -492,6 +562,46 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
                 closeModal();
             }
         }
+
+
+        // Signup Script
+        document.getElementById("role").addEventListener("change", function() {
+            document.getElementById("mainRole").value = this.value;
+        });
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const signupForm = document.getElementById("signup-form");
+            const messageBox = document.getElementById("message-box");
+
+            signupForm.addEventListener("submit", function (event) {
+                event.preventDefault(); // Prevent page reload
+
+                const formData = new FormData(signupForm);
+                formData.append("action", "signup"); // Add action to distinguish request
+
+                fetch("Login.php", {  // Change from "signup.php" to "Login.php"
+                    method: "POST",
+                    body: formData,
+                    headers: {
+                        "Accept": "application/json" // Ensure JSON response is expected
+                    }
+                })
+                .then(response => response.json())  // Expect a JSON response
+                .then(data => {
+                    if (data.status === "success") {
+                        messageBox.innerHTML = `<p class="success">${data.message}</p>`;
+                        signupForm.reset();
+                    } else {
+                        messageBox.innerHTML = `<p class="error">${data.message}</p>`;
+                    }
+                })
+                .catch(error => {
+                    messageBox.innerHTML = `<p class="error">An error occurred. Please try again.</p>`;
+                    console.error("Signup Error:", error);
+                });
+
+            });
+        });
     </script>
 </body>
 </html>
