@@ -110,32 +110,31 @@
     .dropdown:hover .dropdown-content {
         display: block;
     }
+    
+    .container-wrapper {
+        display: flex; /* Align children side by side */
+        gap: 20px; /* Add space between the two boxes */
+        justify-content: space-between; /* Distribute items evenly */
+        align-items: flex-start; /* Align items at the top */
+        margin-top: 20px; /* Add margin for spacing */
+      }
+      
+      .container {
+        width: 48%; /* Set equal width for both boxes */
+        background-color: white; /* Optional: Background color */
+        padding: 20px; /* Add padding inside the boxes */
+        border-radius: 10px; /* Optional: Rounded corners */
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Optional: Shadow effect */
+      }
+    
+    
 
-    /* Court Stats Section */
-    .court-stats {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
+    .left-box {
+        width: 45%; /* Adjust width if needed */
     }
-
-    .court {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        background-color: #F5C414; /* Background color for the court section */
-        padding: 20px; /* Adjust padding for better spacing */
-        border-radius: 10px; /* Rounded corners */
-        border: 2px solid #001F54; /* Dark blue border */
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
-        margin: 20px 0; /* Add space above and below the court section */
-    }
-
-    .court img {
-        max-width: 100%;
-        border-radius: 10px; /* Rounded corners */
-        margin-bottom: 20px; /* Space below the image */
+    
+    .right-box {
+        width: 50%; /* Adjust width if needed */
     }
 
     .game-details {
@@ -145,8 +144,10 @@
         border-radius: 10px;
         text-align: center;
         border: 2px solid #001F54; /* Dark blue border */
-        margin: 0 auto;
+        margin-left: 20px; /* Add margin for spacing */
+        margin-top: 60px;
         width: fit-content;
+        height: auto;
     }
 
     .game-details h1 {
@@ -190,7 +191,7 @@
 
     /* Top Performers */
     .topperformers-container {
-        margin: 20px auto; /* Centers the section */
+        margin-right: 20px; /* Centers the section */
         padding: 20px; /* Adjust padding for better spacing */
         background-color: #F5C414;
         border: 2px solid #001F54;
@@ -199,6 +200,7 @@
         max-width: 90%; /* Adjust width for responsiveness */
         width: 600px; /* Maximum width */
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+        height: auto;
     }
 
     .topperformersList {
@@ -372,6 +374,31 @@
         cursor: pointer;
         font-size: 16px;
         border-radius: 5px;
+    }
+
+    .container-wrapper {
+        display: flex; /* Align children side by side */
+        gap: 20px; /* Add space between the two boxes */
+        justify-content: space-between; /* Distribute items evenly */
+        align-items: flex-start; /* Align items at the top */
+        margin-top: 20px; /* Add margin for spacing */
+      }
+      
+      .container {
+        width: 48%; /* Set equal width for both boxes */
+        padding: 20px; /* Add padding inside the boxes */
+        border-radius: 10px; /* Optional: Rounded corners */
+    
+      }
+    
+    
+
+    .left-box {
+        width: 45%; /* Adjust width if needed */
+    }
+    
+    .right-box {
+        width: 50%; /* Adjust width if needed */
     }
     
 

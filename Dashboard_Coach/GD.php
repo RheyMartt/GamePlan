@@ -132,6 +132,8 @@ if ($gameID) {
     <button class="btn" onclick="openModal('addGameModal')">Add New Game</button>
     <button class="btn" onclick="openModal('addStatsModal')">Add Player Stats</button>
 
+    
+
     <!-- CSV Upload Modal -->
     <div id="csvUploadModal" class="modal">
         <div class="modal-content">
@@ -284,7 +286,9 @@ if ($gameID) {
 
     <!-- Game Details -->
     <?php if ($gameDetails): ?>
-      <div class="game-details">
+      <div class="container-wrapper">
+      <!-- Game Details -->
+      <div class="container left-box game-details">
         <h1>
           <span><?php echo $gameDetails['homeTeam']; ?></span>
           <span> vs </span>
@@ -324,25 +328,25 @@ if ($gameID) {
           </table>
         </div>
       </div>
-    </div>
 
-    <!-- Top Scorers Section -->
-    <div class="topperformers-container">
+      <!-- Top Scorers Section -->
+      <div class="container right-box topperformers-container">
         <h2>Top Performers</h2>
         <div class="topperformersList">
-        <ul>
-          <?php foreach ($topPerformers as $performer): ?>
-            <li>
-              <strong><?php echo "{$performer['firstName']} {$performer['lastName']}"; ?></strong><br>
-              Pts: <?php echo $performer['points']; ?> |
-              Rbs: <?php echo $performer['rebounds']; ?> |
-              Stls: <?php echo $performer['steals']; ?> |
-              Asts: <?php echo $performer['assists']; ?>
-            </li>
-          <?php endforeach; ?>
-        </ul>
+          <ul>
+            <?php foreach ($topPerformers as $performer): ?>
+              <li>
+                <strong><?php echo "{$performer['firstName']} {$performer['lastName']}"; ?></strong><br>
+                Pts: <?php echo $performer['points']; ?> |
+                Rbs: <?php echo $performer['rebounds']; ?> |
+                Stls: <?php echo $performer['steals']; ?> |
+                Asts: <?php echo $performer['assists']; ?>
+              </li>
+            <?php endforeach; ?>
+          </ul>
         </div>
       </div>
+    </div>
 
     <!-- NU Bulldogs Player Statistics -->
     <div class="player-stats-container">
