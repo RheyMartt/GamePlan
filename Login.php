@@ -454,7 +454,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action']) && $_POST['a
                     <label for="role">Select Role</label>
                     <select id="role" name="role" required>
                         <option value="" disabled selected>Choose role</option>
-                        <option value="Player">Player</option>
                         <option value="Coach">Coach</option>
                         <option value="Analyst">Analyst</option>
                     </select>

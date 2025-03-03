@@ -335,6 +335,7 @@ if ($gameID) {
                 <th>Q2</th>
                 <th>Q3</th>
                 <th>Q4</th>
+                <th>OT</th>
                 <th>Final</th>
               </tr>
             </thead>
@@ -344,6 +345,7 @@ if ($gameID) {
                 <td><?php echo $gameDetails['homeQuarterTwo']; ?></td>
                 <td><?php echo $gameDetails['homeQuarterThree']; ?></td>
                 <td><?php echo $gameDetails['homeQuarterFour']; ?></td>
+                <td><?php echo $gameDetails['homeOvertime']; ?></td>
                 <td><?php echo $gameDetails['homeFinalScore']; ?></td>
               </tr>
               <tr>
@@ -351,6 +353,7 @@ if ($gameID) {
                 <td><?php echo $gameDetails['awayQuarterTwo']; ?></td>
                 <td><?php echo $gameDetails['awayQuarterThree']; ?></td>
                 <td><?php echo $gameDetails['awayQuarterFour']; ?></td>
+                <td><?php echo $gameDetails['awayOvertime']; ?></td>
                 <td><?php echo $gameDetails['awayFinalScore']; ?></td>
               </tr>
             </tbody>
