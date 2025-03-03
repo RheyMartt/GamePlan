@@ -88,6 +88,7 @@ if ($gameID) {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>NU GAMEPLAN</title>
+  <link rel="icon" type="image/png" href="/gameplan/Dashboard_Coach/NU GAMEPLAN.png">
   <link rel="stylesheet" href="gdCstyles.css">    
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
@@ -127,10 +128,55 @@ if ($gameID) {
       </div>
     </div>
 
-    <button class="btn" onclick="openModal('addGameModal')">Add New Game</button>
-    <button class="btn" type="button" onclick="openModal('addStatsModal')">Add Player Stats</button>
+    <button class="btn" onclick="openModal('csvUploadModal')">Upload Game Sheet</button>
+    <!--<button class="btn" onclick="openModal('addGameModal')">Add New Game</button>
+    <button class="btn" onclick="openModal('addStatsModal')">Add Player Stats</button>-->
 
-    <!-- Add Game Modal -->
+    
+
+    <!-- CSV Upload Modal -->
+    <div id="csvUploadModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Upload Game Stats CSV</h2>
+            <form method="POST" action="add_game.php" enctype="multipart/form-data">
+                  <label for="opponent">Opponent Team:</label>
+                  <select id="opponent" name="opponentID" required>
+                      <option value="">Select Opponent</option>
+                      <?php
+                      $opponents = $pdo->query("SELECT * FROM teams WHERE teamID != 1")->fetchAll();
+                      foreach ($opponents as $team) {
+                          echo "<option value='{$team['teamID']}'>{$team['teamName']}</option>";
+                      }
+                      ?>
+                  </select>
+
+                  <label for="gameDate">Game Date:</label>
+                  <input type="date" name="gameDate" required>
+
+                  <label for="gameTime">Game Time:</label>
+                  <input type="time" name="gameTime" required>
+
+                  <label for="gameLocation">Location:</label>
+                  <input type="text" name="gameLocation" required>
+
+                  <label for="gameType">Game Type:</label>
+                  <select name="gameType">
+                      <option value="Official">Official</option>
+                      <option value="Exhibition">Exhibition</option>
+                      <option value="Practice">Practice</option>
+                  </select>
+
+                  <h3>Upload CSV for Game Stats</h3>
+                  <input type="file" name="csvFile" accept=".csv" required>
+
+                  <button type="submit" name="addGame">Save Game & Upload CSV</button>
+              </form>
+            <div id="uploadStatus"></div>
+        </div>
+    </div>
+
+    <!-- Add Game Modal 
     <div id="addGameModal" class="modal">
       <div class="modal-content">
         <span class="close" onclick="closeModal('addGameModal')">&times;</span>
@@ -181,17 +227,17 @@ if ($gameID) {
       </div>
     </div>
 
-    <!-- Add Player Stats Modal -->
+    <!- Add Player Stats Modal ->
     <div id="addStatsModal" class="modal">
     <div class="modal-content">
       <span class="close" onclick="closeModal('addStatsModal')">&times;</span>
       <h2>Add Player Stats</h2>
 
-      <!-- Select Game Dropdown -->
+      <!- Select Game Dropdown ->
       <label for="gameID">Select Game:</label>
       <select id="gameID" name="gameID" required onchange="fetchPlayersForGame(this.value)">
         <option value="">Select Game</option>
-        <?php
+        //**<?php
         try {
             $stmt = $pdo->prepare("SELECT gameID, gameDate, 
                                           (SELECT teamName FROM teams WHERE teams.teamID = games.awayTeamID) AS opponentName
@@ -209,12 +255,12 @@ if ($gameID) {
         ?>
       </select>
 
-      <!-- Home Team Player Section -->
+      <!- Home Team Player Section 
       <h3>NU Bulldogs (Home Team)</h3>
       <label for="homePlayerID">Select Player:</label>
       <select id="homePlayerID" name="homePlayerID" required>
         <option value="">Select Player</option>
-        <!-- Dynamically populated via JavaScript -->
+        <!- Dynamically populated via JavaScript 
       </select>
 
       <div id="homePlayerStats">
@@ -234,12 +280,12 @@ if ($gameID) {
         <label for="homePlusMinus">+/-:</label> <input type="number" id="homePlusMinus" name="homePlusMinus" required>
       </div>
 
-      <!-- Away Team Player Section -->
+      <!- Away Team Player Section 
       <h3>Away Team</h3>
       <label for="awayPlayerID">Select Player:</label>
       <select id="awayPlayerID" name="awayPlayerID" required>
         <option value="">Select Player</option>
-        <!-- Dynamically populated via JavaScript -->
+        <!- Dynamically populated via JavaScript 
       </select>
 
       <div id="awayPlayerStats">
@@ -261,7 +307,7 @@ if ($gameID) {
 
       <button type="button" onclick="submitStatsForm()">Save Stats</button>
     </div>
-  </div>
+  </div>-->
 
 
 
@@ -269,7 +315,9 @@ if ($gameID) {
 
     <!-- Game Details -->
     <?php if ($gameDetails): ?>
-      <div class="game-details">
+      <div class="container-wrapper">
+      <!-- Game Details -->
+      <div class="container left-box game-details">
         <h1>
           <span><?php echo $gameDetails['homeTeam']; ?></span>
           <span> vs </span>
@@ -287,6 +335,7 @@ if ($gameID) {
                 <th>Q2</th>
                 <th>Q3</th>
                 <th>Q4</th>
+                <th>OT</th>
                 <th>Final</th>
               </tr>
             </thead>
@@ -296,6 +345,7 @@ if ($gameID) {
                 <td><?php echo $gameDetails['homeQuarterTwo']; ?></td>
                 <td><?php echo $gameDetails['homeQuarterThree']; ?></td>
                 <td><?php echo $gameDetails['homeQuarterFour']; ?></td>
+                <td><?php echo $gameDetails['homeOvertime']; ?></td>
                 <td><?php echo $gameDetails['homeFinalScore']; ?></td>
               </tr>
               <tr>
@@ -303,31 +353,32 @@ if ($gameID) {
                 <td><?php echo $gameDetails['awayQuarterTwo']; ?></td>
                 <td><?php echo $gameDetails['awayQuarterThree']; ?></td>
                 <td><?php echo $gameDetails['awayQuarterFour']; ?></td>
+                <td><?php echo $gameDetails['awayOvertime']; ?></td>
                 <td><?php echo $gameDetails['awayFinalScore']; ?></td>
               </tr>
             </tbody>
           </table>
         </div>
       </div>
-    </div>
 
-    <!-- Top Scorers Section -->
-    <div class="topperformers-container">
+      <!-- Top Scorers Section -->
+      <div class="container right-box topperformers-container">
         <h2>Top Performers</h2>
         <div class="topperformersList">
-        <ul>
-          <?php foreach ($topPerformers as $performer): ?>
-            <li>
-              <strong><?php echo "{$performer['firstName']} {$performer['lastName']}"; ?></strong><br>
-              Pts: <?php echo $performer['points']; ?> |
-              Rbs: <?php echo $performer['rebounds']; ?> |
-              Stls: <?php echo $performer['steals']; ?> |
-              Asts: <?php echo $performer['assists']; ?>
-            </li>
-          <?php endforeach; ?>
-        </ul>
+          <ul>
+            <?php foreach ($topPerformers as $performer): ?>
+              <li>
+                <strong><?php echo "{$performer['firstName']} {$performer['lastName']}"; ?></strong><br>
+                Pts: <?php echo $performer['points']; ?> |
+                Rbs: <?php echo $performer['rebounds']; ?> |
+                Stls: <?php echo $performer['steals']; ?> |
+                Asts: <?php echo $performer['assists']; ?>
+              </li>
+            <?php endforeach; ?>
+          </ul>
         </div>
       </div>
+    </div>
 
     <!-- NU Bulldogs Player Statistics -->
     <div class="player-stats-container">
@@ -394,7 +445,6 @@ if ($gameID) {
             <thead>
                 <tr>
                     <th>Player Name</th>
-                    <th>Team</th>
                     <th>Position</th>
                     <th>Pts</th>
                     <th>Asts</th>

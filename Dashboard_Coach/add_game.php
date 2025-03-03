@@ -7,8 +7,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["addGame"])) {
     try {
         $stmt = $pdo->prepare("INSERT INTO games 
             (homeTeamID, awayTeamID, gameDate, gameTime, gameLocation, gameType, 
-             homeQuarterOne, homeQuarterTwo, homeQuarterThree, homeQuarterFour, homeFinalScore, 
-             awayQuarterOne, awayQuarterTwo, awayQuarterThree, awayQuarterFour, awayFinalScore) 
+             homeQuarterOne, homeQuarterTwo, homeQuarterThree, homeQuarterFour, homeOvertime, homeFinalScore, 
+             awayQuarterOne, awayQuarterTwo, awayQuarterThree, awayQuarterFour, awayOvertime, awayFinalScore) 
              VALUES 
             (:homeTeamID, :awayTeamID, :gameDate, :gameTime, :gameLocation, :gameType, 
              :homeQuarterOne, :homeQuarterTwo, :homeQuarterThree, :homeQuarterFour, :homeFinalScore, 
@@ -25,11 +25,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["addGame"])) {
             ':homeQuarterTwo' => $_POST['homeQuarterTwo'] ?? 0,
             ':homeQuarterThree' => $_POST['homeQuarterThree'] ?? 0,
             ':homeQuarterFour' => $_POST['homeQuarterFour'] ?? 0,
+            ':homeOvertime' => $_POST['homeOvertime'] ?? 0,
             ':homeFinalScore' => $_POST['homeFinalScore'] ?? 0,
             ':awayQuarterOne' => $_POST['awayQuarterOne'] ?? 0,
             ':awayQuarterTwo' => $_POST['awayQuarterTwo'] ?? 0,
             ':awayQuarterThree' => $_POST['awayQuarterThree'] ?? 0,
             ':awayQuarterFour' => $_POST['awayQuarterFour'] ?? 0,
+            ':awayOvertime' => $_POST['awayOvertime'] ?? 0,
             ':awayFinalScore' => $_POST['awayFinalScore'] ?? 0
         ]);
 

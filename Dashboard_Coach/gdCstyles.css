@@ -110,32 +110,31 @@
     .dropdown:hover .dropdown-content {
         display: block;
     }
+    
+    .container-wrapper {
+        display: flex; /* Align children side by side */
+        gap: 20px; /* Add space between the two boxes */
+        justify-content: space-between; /* Distribute items evenly */
+        align-items: flex-start; /* Align items at the top */
+        margin-top: 20px; /* Add margin for spacing */
+      }
+      
+      .container {
+        width: 48%; /* Set equal width for both boxes */
+        background-color: white; /* Optional: Background color */
+        padding: 20px; /* Add padding inside the boxes */
+        border-radius: 10px; /* Optional: Rounded corners */
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Optional: Shadow effect */
+      }
+    
+    
 
-    /* Court Stats Section */
-    .court-stats {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
+    .left-box {
+        width: 45%; /* Adjust width if needed */
     }
-
-    .court {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        background-color: #F5C414; /* Background color for the court section */
-        padding: 20px; /* Adjust padding for better spacing */
-        border-radius: 10px; /* Rounded corners */
-        border: 2px solid #001F54; /* Dark blue border */
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
-        margin: 20px 0; /* Add space above and below the court section */
-    }
-
-    .court img {
-        max-width: 100%;
-        border-radius: 10px; /* Rounded corners */
-        margin-bottom: 20px; /* Space below the image */
+    
+    .right-box {
+        width: 50%; /* Adjust width if needed */
     }
 
     .game-details {
@@ -145,8 +144,10 @@
         border-radius: 10px;
         text-align: center;
         border: 2px solid #001F54; /* Dark blue border */
-        margin: 0 auto;
+        margin-left: 20px; /* Add margin for spacing */
+        margin-top: 60px;
         width: fit-content;
+        height: auto;
     }
 
     .game-details h1 {
@@ -190,7 +191,7 @@
 
     /* Top Performers */
     .topperformers-container {
-        margin: 20px auto; /* Centers the section */
+        margin-right: 20px; /* Centers the section */
         padding: 20px; /* Adjust padding for better spacing */
         background-color: #F5C414;
         border: 2px solid #001F54;
@@ -199,6 +200,7 @@
         max-width: 90%; /* Adjust width for responsiveness */
         width: 600px; /* Maximum width */
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+        height: auto;
     }
 
     .topperformersList {
@@ -343,6 +345,7 @@
         width: 100%;
         height: 100%;
         background-color: rgba(0, 0, 0, 0.5);
+        align-items: center;
     }
     
     .modal-content {
@@ -365,15 +368,131 @@
         bottom: 20px; 
         right: 20px; 
         display: inline-block;
-        background-color: #001F54;
-        color: #F6F4F0;
+        background-color: #F5C414;
+        color: #001F54;
         padding: 10px 15px;
         border: none;
         cursor: pointer;
         font-size: 16px;
         border-radius: 5px;
     }
+
+    .btn:hover {
+        background-color: #001F54;
+        color: #F6F4F0;
+    }
+
+    .container-wrapper {
+        display: flex; /* Align children side by side */
+        gap: 20px; /* Add space between the two boxes */
+        justify-content: space-between; /* Distribute items evenly */
+        align-items: flex-start; /* Align items at the top */
+        margin-top: 20px; /* Add margin for spacing */
+      }
+      
+      .container {
+        width: 48%; /* Set equal width for both boxes */
+        padding: 20px; /* Add padding inside the boxes */
+        border-radius: 10px; /* Optional: Rounded corners */
     
+      }
+    
+    
+
+    .left-box {
+        width: 45%; /* Adjust width if needed */
+    }
+    
+    .right-box {
+        width: 50%; /* Adjust width if needed */
+    }
+
+    /* Center the modal properly */
+    .modal {
+        display: none;
+        justify-content: center;
+        align-items: center;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.6); /* Dark transparent background */
+    }
+
+    /* Style the modal content */
+    .modal-content {
+        background: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        width: 400px; /* Adjust modal width */
+        max-width: 90%;
+        animation: fadeIn 0.3s ease-in-out;
+        position: relative;
+    }
+
+    /* Add smooth fade-in effect */
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Style form inputs */
+    .modal-content input,
+    .modal-content select {
+        width: 90%; /* Reduce width */
+        padding: 8px;
+        margin: 12px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 14px;
+        display: block;
+        margin-left: auto;
+        margin-right: 80px;
+    }
+
+    /* Style the close button */
+    .modal-content .close {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        font-size: 18px;
+        font-weight: bold;
+        cursor: pointer;
+        color: #333;
+        transition: color 0.2s;
+    }
+
+    .modal-content .close:hover {
+        color: #ff0000;
+    }
+
+    /* Style the upload button */
+    .modal-content button {
+        background: #ffcc00;
+        border: none;
+        padding: 8px 12px;
+        font-size: 14px;
+        border-radius: 5px;
+        cursor: pointer;
+        width: 80%; /* Reduce button width */
+        transition: background 0.3s;
+        display: block;
+        margin: 10px auto 0 auto;
+    }
+
+    .modal-content button:hover {
+        background: #e6b800;
+    }
+
+
 
     /* Responsive adjustments */
     @media (max-width: 768px) {

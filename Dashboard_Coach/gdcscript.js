@@ -161,7 +161,60 @@ document.addEventListener("DOMContentLoaded", function () {
                 alert("Failed to save stats. Please try again.");
             });
     };
+
+    document.getElementById("csvUploadForm").addEventListener("submit", function(e) {
+        e.preventDefault();
+        const formData = new FormData(this);
+        fetch('upload_game_stats.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById("uploadStatus").innerHTML = data.message;
+        })
+        .catch(error => {
+            document.getElementById("uploadStatus").innerHTML = "Error uploading file.";
+        });
+    });
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+    const form = document.querySelector("form");
+    const fileInput = document.querySelector("input[type='file']");
+    const submitButton = document.querySelector("button[type='submit']");
+    const messageDiv = document.createElement("div");
+
+    form.appendChild(messageDiv);
+
+    form.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        if (!fileInput.files.length) {
+            messageDiv.innerHTML = "<p style='color: red;'>Please select a CSV file!</p>";
+            return;
+        }
+
+        const formData = new FormData(form);
+        submitButton.disabled = true;
+        messageDiv.innerHTML = "<p style='color: blue;'>Uploading...</p>";
+
+        fetch("upload_game_stats.php", {
+            method: "POST",
+            body: formData,
+        })
+        .then(response => response.text())
+        .then(data => {
+            messageDiv.innerHTML = `<p style='color: green;'>${data}</p>`;
+            submitButton.disabled = false;
+        })
+        .catch(error => {
+            messageDiv.innerHTML = "<p style='color: red;'>Upload failed. Try again.</p>";
+            submitButton.disabled = false;
+        });
+    });
+});
+
 
 // Helper functions
 function closeModal(modalID) {
@@ -181,3 +234,7 @@ function openModal(modalID) {
         console.warn(`Modal with ID '${modalID}' not found.`);
     }
 }
+
+
+
+

@@ -1,5 +1,5 @@
 <?php
-$host = ''; // Hostname or IP address
+$host = 'localhost'; // Hostname or IP address
 $db = 'nu_game_plan'; // Database name
 $user = 'root'; // MySQL username
 $port = 3306; // MySQL port
